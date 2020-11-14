@@ -1,10 +1,8 @@
 # SISGECOL
 
+ **_Primeira versão   Date: 01/06/2012  Author: Nelson Seixas_**
+
 - **Sistema de Gerenciamento de Colaboradores**
-
-**Primeira versão   Date: 01/06/2012  Author: Nelson Seixas**
-
-
 
 - Sistema feito pra gestão de solcitações de audiências e diligências
 
