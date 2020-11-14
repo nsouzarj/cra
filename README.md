@@ -12,11 +12,3 @@
 
 
 
- 
-    
-    
-=======
-# CRA    
-- Primeiro git do cra 
-- Fonte em constante elaboração
->>>>>>> 93bf764dd1c310fdb3c6ba69cf25f84cc8aff43c
