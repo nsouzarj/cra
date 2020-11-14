@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="SessionFactory">
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://172.16.48.11:5432/dbsolic</property>
+		<!-- <property name="hibernate.connection.url">jdbc:postgresql://10.0.0.102:5432/dbsolic</property> -->
+		<!-- <property name="hibernate.connection.url">jdbc:postgresql://192.168.0.78:5432/dbsolic</property> -->
+		<property name="hibernate.connection.username">postgres</property>
+		<property name="hibernate.connection.password">nso1810</property>
+		<property name="hibernate.connection.pool_size">400</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		
+		<!-- <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property> 
+			192.168.0.129 <property name="hibernate.c3p0.contextClassLoaderSource">library</property> 
+			<property name="hibernate.c3p0.com.mchange.v2.c3p0.management.ManagementCoordinator">com.mchange.v2.c3p0.management.NullManagementCoordinator</property> 
+			<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property> 
+			<property name="hibernate.c3p0.contextClassLoaderSource">library</property> 
+			<property name="hibernate.c3p0.max_statements">100</property> <property name="hibernate.c3p0.acquire_increment">5</property> 
+			<property name="hibernate.c3p0.contextClassLoaderSource">library</property> 
+			<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property> 
+			<property name="hibernate.c3p0.min_size">5</property> <property name="hibernate.c3p0.max_size">50</property> 
+			<property name="hibernate.c3p0.idle_test_period">100</property>
+			<property name="hibernate.c3p0.timeout">180</property> 
+		    <property name="hibernate.cache.use_second_level_cache">true</property> 
+			<property name="hibernate.cache.use_query_cache">true</property> 
+			<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property> 
+			<property name="hibernate.cache.provider_class">net.sf.hibernate.cache.OSCacheProvider 
+			</property> <property name="hibernate.transaction.auto_close_session">true</property> -->
+		
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>  
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+       
+		<property name="hibernate.connection.charSet">win1252</property>
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.format_sql">false</property>
+		<property name="hibernate.generate_statistics">false</property>
+		<property name="hibernate.use_sql_comments">false</property>
+		<!-- Classes -->
+		<mapping class="br.adv.cra.entity.Uf" />
+		<mapping class="br.adv.cra.entity.Processo" />
+		<mapping class="br.adv.cra.entity.StatusSolicitacao" />
+		<mapping class="br.adv.cra.entity.Banco" />
+		<mapping class="br.adv.cra.entity.Correspondente" />
+		<mapping class="br.adv.cra.entity.Endereco" />
+		<mapping class="br.adv.cra.entity.Renumeracao" />
+		<mapping class="br.adv.cra.entity.Usuario" />
+		<mapping class="br.adv.cra.entity.TipoSolicitacao" />
+		<mapping class="br.adv.cra.entity.ComarcaPossui" />
+		<mapping class="br.adv.cra.entity.Comarca" />
+		<mapping class="br.adv.cra.entity.Historico" />
+		<mapping class="br.adv.cra.entity.Solicitacao" />
+		<mapping class="br.adv.cra.entity.SolicitacaoAnexo" />
+		<mapping class="br.adv.cra.entity.Orgao" />
+		<mapping class="br.adv.cra.entity.SoliArquivo" />
+		<mapping class="br.adv.cra.entity.Enviosolicitacao" />
+		<mapping class="br.adv.cra.entity.Envio" />
+		<mapping class="br.adv.cra.entity.EmailCorrespondente" />
+		<mapping class="br.adv.cra.entity.ReciboPagamento" />
+		<mapping class="br.adv.cra.entity.BancaProcesso" />
+		<mapping class="br.adv.cra.entity.FormularioAudiencia" />
+		<mapping class="br.adv.cra.entity.AuditoriaInterna" />
+		<mapping class="br.adv.cra.entity.ProcessoCPPRO" />
+		<mapping class="br.adv.cra.entity.BancaProcesso" />
+		<mapping class="br.adv.cra.entity.LogSistema" />
+		<mapping class="br.adv.cra.entity.HistArqCpro" />
+		<mapping class="br.adv.cra.entity.HistArqCproRejeitado" />
+		<mapping class="br.adv.cra.entity.ArquivoAnexoCPROSalvo" />
+		<mapping class="br.adv.cra.entity.ArquivoColaborador" />
+		<mapping class="br.adv.cra.entity.GedFinanceiro" />
+	</session-factory>
+</hibernate-configuration>
