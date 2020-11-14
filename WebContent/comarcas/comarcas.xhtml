@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Comarcas Cadastradas</title>
+	<meta content='text/html' http-equiv='Content-Type'
+		charset="ISO-8859-1" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	overflow: auto;
+	font: arial;
+	height: 200px;
+	width: 100px;
+}
+</style>
+
+</h:head>
+<body>
+
+	<f:event listener="#{solicitacao.VerSessaoFinal}" type="preRenderView" />
+	<h:form id="f1">
+		<b:panel title="Cadastro de Comarcas" look="primary" toggleable="true">
+			<p:panelGrid columns="2" id="solicom">
+				<h:outputText value="Nome" />
+				<p:inputText value="#{comarcas.comarca.nome}" size="60"
+					onkeyup="this.value=this.value.toUpperCase()" />
+
+				<h:outputText value="UF" />
+				<p:selectOneMenu value="#{comarcas.codigouf}">
+					<f:selectItem itemValue="0" itemLabel="Selecione um Estado" />
+					<f:selectItems value="#{comarcas.ufs}" var="uf"
+						itemLabel="${uf.nome}" itemValue="${uf.iduf}" />
+				</p:selectOneMenu>
+
+			</p:panelGrid>
+
+			<h:outputText value="#{' '}" />
+
+			<p:commandButton value="Buscar"
+				action="#{comarcas.BuscaComarcaEstado}" ajax="true"
+				title="Clik aqui para sair da busca" update="tabela lista"
+				type="submit" icon="ui-icon-search">
+			</p:commandButton>
+
+			<p:commandButton value="Salvar" action="#{comarcas.SalvarComarca}"
+				ajax="true" type="submit" title="Clik aqui para salvar a comarca"
+				icon="ui-icon-disk" rendered="#{solicitacao.idusuario=='2'}" />
+			<h:outputText value="#{' '}" />
+
+			<p:commandButton value="Limpar" ajax="false" type="reset"
+				title="Clik aqui para limpar o campo"
+				action="#{comarcas.NovaComarca}" icon="ui-icon-refresh">
+				<f:setPropertyActionListener target="#{comarcas.altera_comarca}"
+					value="false" />
+			</p:commandButton>
+
+			<h:outputText value="#{' '}" />
+			<p:commandButton value="Sair" action="/menu.jsf" immediate="false"
+				ajax="false" type="submit" title="Clik aqui para sair da busca"
+				icon="ui-icon-arrowreturnthick-1-w">
+				<f:setPropertyActionListener value="false"
+					target="#{comarcas.altera_comarca}" />
+			</p:commandButton>
+		</b:panel>
+
+
+		<b:panel title="Lista de Comarcas" id="tabela" look="primary" toggleable="true">
+			<p:dataTable value="#{comarcas.listaporestado}" rows="20" var="c"
+				id="lista" paginator="true" resizableColumns="true">
+
+				<p:column sortBy="#{c.nome}">
+					<f:facet name="header">
+						<h:outputText value="COMARCA" />
+					</f:facet>
+					<h:outputText value="#{c.nome}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="UF" />
+					</f:facet>
+					<h:outputText value="#{c.uf.nome}" />
+				</p:column>
+				<p:column rendered="#{solicitacao.idusuario=='2'}">
+					<f:facet name="header">
+						<h:outputText value="Excluir" />
+					</f:facet>
+					<p:commandLink value="Excluir" action="#{comarcas.ExlcuiComarca}"
+						ajax="false" type="submit">
+						<f:setPropertyActionListener value="#{c.idcomarca}"
+							target="#{comarcas.codigocomarca}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Alterar" />
+					</f:facet>
+					<p:commandLink value="Alterar" action="#{comarcas.AlterarComarca}"
+						ajax="false" type="submit">
+						<f:setPropertyActionListener value="#{c.idcomarca}"
+							target="#{comarcas.codigocomarca}" />
+						<f:setPropertyActionListener value="true"
+							target="#{comarcas.altera_comarca}" />
+					</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+			<br />
+			<p:commandButton value="Exportar para o excel" ajax="false"
+				title="Click aqui para exportar para o formato Excel."
+				icon="ui-icon-document">
+				<p:dataExporter type="xls" target="lista" fileName="listaexcel"
+					excludeColumns="2" />
+			</p:commandButton>
+			<p:commandButton value="Exportar para o PDF" ajax="false"
+				title="Click aqui para exportar para o formato PDF."
+				icon="ui-icon-document">
+				<p:dataExporter type="pdf" target="lista" fileName="listapdf"
+					excludeColumns="2" />
+			</p:commandButton>
+		</b:panel>
+
+	</h:form>
+
+
+</body>
+</html>

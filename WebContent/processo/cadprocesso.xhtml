@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Cadastro de Processo Novo</title>
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<script src="#{request.contextPath}/javascript/jquery.js"></script>
+	<script src="#{request.contextPath}/javascript/jquery.ui.js"></script>
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+</style>
+	<script type="text/javascript">
+$(function() {        
+	$(document).tooltip(
+	{            
+	  track: true       
+	   });   
+	});
+</script>
+</h:head>
+<f:view encoding="ISO-8859-1" contentType="text/html;charset=ISO-8859-1" >
+  <f:event listener="#{solicitacao.robotbotao}" type="preRenderView" />
+	      <p:growl id="msg11" life="5500" showDetail="false" sticky="false"  /> 
+	   	<h:form acceptcharset="ISO-8859-1">
+		<p:panel menuTitle="Cadastrado de Processo"
+			header="Cadastro de Processo">
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputText value="Número do Processo" />
+				<p:inputText   id="txt1"   value="#{solicitacao.processo.numeroprocesso}"  size="30" required="true" requiredMessage="Campo vazio do processo" >
+				
+				</p:inputText>
+				<h:outputText value="Cliente" />
+				<p:inputText value="#{solicitacao.processo.parte}" size="80"
+					onkeyup="this.value=this.value.toUpperCase();" required="true" requiredMessage="Campo da parte do processo vazio" />
+				<h:outputText value="Adverso" />
+				<p:inputText value="#{solicitacao.processo.adverso}" size="80"
+					onkeyup="this.value=this.value.toUpperCase();" required="true" requiredMessage="Campo do adverso vazio do processo" />	
+				<h:outputText value="Cártorio" />
+				<p:inputText value="#{solicitacao.processo.cartorio}" size="30"
+					onkeyup="this.value=this.value.toUpperCase();" required="true" requiredMessage="Campo do cartório do processo"/>
+				<h:outputText value="Pasta" />	
+				<p:inputText value="#{solicitacao.processo.localizacao}" size="30"
+					onkeyup="this.value=this.value.toUpperCase();" required="true" requiredMessage="Campo da pasta vazia o do processo" />	
+				<h:outputText value="Num. Integração" />	
+                <p:inputText value="#{solicitacao.processo.numerointegracao}" size="30"
+					onkeyup="this.value=this.value.toUpperCase();"/>	
+				<h:outputText value="Eletrônico" />  		
+				<p:selectOneRadio value="#{solicitacao.processo.proceletronico}"  >
+				   <f:selectItem itemLabel="SIM" itemvalue="S"/>
+				    <f:selectItem itemLabel="NÃO" itemvalue="N"/>
+				 <p:ajax process="@this" />
+				</p:selectOneRadio>
+					
+				<h:outputText value="Assunto" />
+				<p:inputTextarea rows="5" cols="70" title="Assunto como indenizatória etc do processo"
+					value="#{solicitacao.processo.assunto}" autoResize="true" 
+					style="display:block; background:#FFFFFF; border-width: 1px;border-style: solid;border-color:#A6C9E2;padding:1px;margin-top:1px;width:750px;height:100px;overflow:scroll">
+
+				</p:inputTextarea>
+			</p:panelGrid>
+			<b:commandButton id="bt1" value="Confirmar" title="De um duplo clique aqui para confirma o salvamento do processo." 
+			action="#{solicitacao.NovoProcessoSolictacao}" ajax="false" look="success"
+			process="@this" icon="ui-icon-check" immediate="false" update="@all" />
+			
+		
+		<h:outputText value="#{' '}" />
+		<b:commandButton value="Sair"  title="De um click para sair do cadastro do processo" look="primary" onclick="bar1.show();"
+			ajax="false" icon="ui-icon-arrowreturnthick-1-w"  action="/processo/processocpj.jsf" immediate="true" />
+			
+			<p:notificationBar id="notifica" position="bottom" effect="slide"   
+				widgetVar="bar1" styleClass="bottom">
+				<h:outputText value="AGUARDE..."
+					style="color:red;font-size:18px;" />
+	         </p:notificationBar>
+	     
+			
+		</p:panel>
+		
+	</h:form>
+	  
+		<p:ajaxStatus
+			style="width:64px;height:64px;position:fixed;right:680px;bottom:300px">
+			<f:facet name="start">
+				<p:graphicImage value="/imagens/loading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	
+</f:view>
+</html>

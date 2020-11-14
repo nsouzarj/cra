@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Gráficos Analíticos</title>
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+	<link rel="shortcut icon" href="/imagens/faviconvelho.ico"
+		type="image/x-icon" />
+</h:head>
+
+<b:panel title="Gráficos de Análise" look="primary">
+	<div>
+		<h:form>
+			<b:panelGrid columns="2">
+				<h:outputText value="Data Inicial" />
+				<p:calendar id="datainicial" pattern="dd/MM/yyyy"
+					value="#{solicitacao.bdatainicial}" />
+				<h:outputText value="Data Final" />
+				<p:calendar id="datafinal" pattern="dd/MM/yyyy"
+					value="#{solicitacao.bdatafinal}" />
+				<b:commandButton value="Voltar" icon="ui-icon-print" action="/menu" look="primary"
+					title="Click aqui para buscar os dados" />
+			
+					
+				<b:selectOneMenu id="console" value="#{solicitacao.reltiporel}">
+					<f:selectItem itemLabel="Selecione um relatorio" itemValue="0" />
+					<f:selectItem itemLabel="Gráfico Anual Estado" itemValue="1" />
+					<f:selectItem itemLabel="Rel de Aproveitamento" itemValue="2" />
+					<f:selectItem itemLabel="Gráfico de Aproveitamento" itemValue="3" />
+					<p:ajax  process="@this" imediate="false" />
+				</b:selectOneMenu>
+
+
+				<b:commandButton value="Imprimir" icon="ui-icon-print" ajax="false" look="primary"
+					action="#{solicitacao.ImprimirDesempenho}"
+					title="Click aqui para imprimir o gráfico" />
+			</b:panelGrid>
+		</h:form>
+	</div>
+
+</b:panel>
+</html>

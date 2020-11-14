@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is not required if you don't need any extra configuration. -->
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <navigation-rule>
+  <from-view-id>/index.html</from-view-id>
+  <navigation-case>
+   <from-outcome>login</from-outcome>
+   <to-view-id>/login3.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/login3.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>menu</from-outcome>
+   <to-view-id>/menu.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/menu.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>solicitacao</from-outcome>
+   <to-view-id>/solicitacao/solicitacao.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>comarcas</from-outcome>
+   <to-view-id>/comarcas/comarcas.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>correspondente</from-outcome>
+   <to-view-id>/correspondente/correspondente.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>usuario</from-outcome>
+   <to-view-id>/usuario/usuario.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/solicitacao/solicitacao.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>novasolicitacao</from-outcome>
+   <to-view-id>/solicitacao/novasolicitacao.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>alterasolicitacao</from-outcome>
+   <to-view-id>/solicitacao/alterasolicitacao.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/correspondente/cadcorrespondente.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>correspondente</from-outcome>
+   <to-view-id>/correspondente/correspondente.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <!-- Write your navigation rules here. You are encouraged to use CDI for 
+		creating @Named managed beans. -->
+ <application/>
+ <lifecycle>
+  <phase-listener id="nocache">br.adv.cra.utilitarios.CacheControlPhaseListener</phase-listener>
+ </lifecycle>
+ <!--  
+	<factory>
+  <exception-handler-factory>
+     br.adv.cra.utilitarios.CustomExceptionHandlerFactory
+  </exception-handler-factory>
+	</factory>>
+	
+	-->
+</faces-config>

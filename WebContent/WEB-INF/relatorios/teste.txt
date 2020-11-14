@@ -1,0 +1,108 @@
+<----		
+				 <h:outputText value="Selecione o Grupo" rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15}" />
+				<p:selectOneMenu value="#{solicitacao.idgrupo}" immediate="false"
+					required="true" requiredMessage="Selecione o Grupo." rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15}" >
+					<f:selectItem itemValue="0"
+						itemLabel="Selecione um tipo de usuario" />
+					<f:selectItem itemValue="0" itemLabel="Grupo 0" />
+					<f:selectItem itemValue="1" itemLabel="Grupo 1" />
+					<f:selectItem itemValue="2" itemLabel="Grupo 2" />
+					<f:selectItem itemValue="3" itemLabel="Grupo 3" />
+					<f:selectItem itemValue="4" itemLabel="Grupo 4" />
+				    <f:selectItem itemValue="5" itemLabel="Grupo 5" />
+				    <p:ajax  update="@this" />
+				</p:selectOneMenu>
+				
+			--->
+			
+			
+			
+			
+			<h:outputText value="Proposta de Acordo:" />
+				<p:selectOneRadio
+					value="#{solicitacao.formularioAudiencia.contraproposta}">
+					<f:selectItem itemValue="true" itemLabel="Sim" />
+					<f:selectItem itemValue="false" itemLabel="Não" />
+					<p:ajax immediate="false" update="valor1" process="@this"  />
+				</p:selectOneRadio>
+				<h:outputText value="Valor:" />
+				
+				<p:inputText id="valor1" value="#{solicitacao.formularioAudiencia.valorproposta}" disabled="#{solicitacao.formularioAudiencia.contraproposta=='false'}" />
+				
+				
+				
+				<h:outputText value="Grupo:" />
+				<p:selectOneRadio
+					value="#{solicitacao.formularioAudiencia.nivel}" required="true" requiredMessage="Selecione um grupo." >
+					<f:selectItem itemValue="0" itemLabel="0" />
+					<f:selectItem itemValue="1" itemLabel="1" />
+					<f:selectItem itemValue="2" itemLabel="2" />
+					<f:selectItem itemValue="3" itemLabel="3" />
+					<f:selectItem itemValue="2" itemLabel="4" />
+					<f:ajax immediate="true" execute="@this" />
+				</p:selectOneRadio>
+				
+				    <h:outputText value="Informe o objeto da lide:" />
+			    <p:inputTextarea value="#{solicitacao.formularioAudiencia.objetodalide}"  rows="5" cols="70" required="true" requiredMessage="Favor informa a lide"/>
+			    
+			    
+			    	
+				<h:outputText value="Contraproposta:" />
+                <p:inputTextarea value="#{solicitacao.formularioAudiencia.informecontraproposta}"   required="true" requiredMessage="Favor informa a contra proposta."/>
+			
+			 
+			 
+			 /*************************/
+			 Campos a serem criados nas tabelas
+   tabela formulario
+   private String advogadoadverso;
+    private String numoabadverso;
+    private String telefoneadvadervoso;
+    private String emailadvadverso;
+     private double valorcontraproposta;
+    private String obrigacaoafazer;
+    
+    tabelas solictacao
+    private float valordaalcada;
+    private Integer grupo;
+	private boolean propostaacordo;
+	
+	
+	  <!-- 
+					<h:outputText value="Proposta de Acordo" rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}"/>
+					<h:outputText value="SIM" rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA' and solicitacao.unicasolicitacao.propostaacordo=='True'}"  />	
+					<h:outputText value="NÃO" rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA' and solicitacao.unicasolicitacao.propostaacordo=='False'}"  />	
+				
+				    <h:outputText value="Valor da alçada" rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA' and solicitacao.unicasolicitacao.propostaacordo=='True'}"  />	
+					 <h:outputText value="#{solicitacao.unicasolicitacao.valordaalcada}"  rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA' and solicitacao.unicasolicitacao.propostaacordo=='True'}"  >
+					
+					 <f:convertNumber currencySymbol="R$" type="currency" />
+					 </h:outputText>	
+					 	
+					<h:outputText value="Grupo" rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}"/>	
+					<h:outputText value="#{solicitacao.unicasolicitacao.grupo}" rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}"/>
+					 -->
+					 
+	<!--  	<h:outputText id="mudarprop"  value="Proposta de Acordo" rendered="#{solicitacao.alterarsolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao==1 or solicitacao.alterarsolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao==2 or solicitacao.alterarsolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao==3 or solicitacao.alterarsolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao==4 or solicitacao.alterarsolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao==5 or solicitacao.alterarsolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao==6 or solicitacao.alterarsolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao==15}" /> -->
+				
+		//Icones do primefaces
+		http://jquery-ui.googlecode.com/svn/tags/1.6rc5/tests/static/icons.html		
+		
+		//Suporte ao sistema usandoo teamviwer portable
+		http://www.cavalcanteramos.adv.br/Suporte/TeamViewerQS.exe			 	
+	
+
+
+
+				<h:outputText value="Advogado Ex Adverso Presente:" />
+				<p:selectOneRadio
+					value="#{solicitacao.formularioAudiencia.defesagenerica}">
+					<f:selectItem itemValue="true" itemLabel="Sim" /> 
+					<f:selectItem itemValue="false" itemLabel="Não" />
+					<f:ajax immediate="true" execute="@this" />
+				</p:selectOneRadio>			
+							
+		
+		14/01/2015
+		<h:inputText value="#{solicitacao.valordaalcada}" rendered="#{solicitacao.idproacordo=='true'}" id="alca2" >	
+		

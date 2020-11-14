@@ -1,0 +1,1114 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Solicitações Elaboradas</title>
+	<meta http-equiv="Content-Type"
+		content="text/html;enconding=UTF-8 width=device-width" />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+	<script src="#{request.contextPath}/javascript/jquery.js" />
+	<script src="#{request.contextPath}/javascript/jquery.ui.js" />
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.botao {
+	color: blue;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+	width: auto;
+}
+
+.ajustatela {
+	width: 100%;
+	height: 100%;
+}
+
+.tamanhocampo {
+	width: 350px;
+}
+
+.alinhamento {
+	position: left;
+	vertical-align: left;
+	width: auto;
+}
+
+.fontetabela {
+	font-family: sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	font-style: normal;
+}
+
+.vermelho td {
+	background-color: red;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.div {
+	padding-top: 10px;
+}
+
+.ui-paginator {
+	text-align: left !important;
+}
+
+.ui-paginator span {
+	text-align: left !important;
+}
+
+body {
+	background-image: url(caminho/sua/img/bg.jpg);
+	background-repeat: no-repeat;
+	-moz-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+</style>
+
+</h:head>
+
+<h:body>
+
+	<f:event listener="#{solicitacao.VerSessao}" type="preRenderView" />
+
+	<h:form target="_blank" style="font-size: 14px">
+		<p:growl id="msg11" life="4500" showDetail="false" sticky="false" />
+
+		<b:panel id="pnl3" title="Filtro de Solicitações" toggleable="true"
+			look="primary" styleClass="alinhamento"
+			toggleTitle="Clique aqui para abrir ou encolher a tela de busca.">
+
+			<p:panelGrid columns="2" id="gridf"
+				columnClasses="ajustatela ajustela" layout="grid">
+
+				<p:panelGrid columns="2" styleClass="semBorda ajustela "
+					style="border:none" layout="grid">
+
+					<h:outputText value="Número da Solicitação" />
+					<b:inputText value="#{solicitacao.bnumero}" />
+
+					<h:outputText value="Número do Processo" />
+					<b:inputText value="#{solicitacao.bprocesso}" />
+
+					<h:outputText value="Número de Integração" />
+					<b:inputText value="#{solicitacao.numerointegracao}" />
+
+					<h:outputText value="Colaborador Externo" />
+
+					<b:selectOneMenu value="#{solicitacao.bcorrespondente}">
+						<f:selectItem itemValue="0" itemLabel="Todos os Correspondente" />
+						<f:selectItems value="#{solicitacao.listacorrespondente}"
+							var="corr" itemLabel="#{corr.nome}"
+							itemValue="#{corr.idcorrespondente}" />
+						<p:ajax immediate="false" update="@this" process="@this" />
+					</b:selectOneMenu>
+					<h:outputText value="Busca por parte do nome(Colaborador)" />
+					<b:inputText value="#{solicitacao.buscacolab}"
+						onkeyup="this.value=this.value.toUpperCase();"
+						title="Coloque aqui as partes do nome e outro filtro para busca Ex: AMOEDO">
+						<p:ajax process="@this" />
+					</b:inputText>
+
+					<h:outputText value="Selecione a Banca" />
+					<b:selectOneMenu value="#{solicitacao.idbancabusca}"
+						immediate="false" id="banca">
+
+						<f:selectItem itemValue="0" itemLabel="Todas as Banca" />
+						<f:selectItems value="#{solicitacao.bancaProcessos}"
+							var="listabanca" itemLabel="#{listabanca.banca}"
+							itemValue="#{listabanca.idbanca}" />
+						<p:ajax update="se" process="@this" imediate="false" />
+					</b:selectOneMenu>
+
+
+					<h:outputText value="Selecione o Estado da Comarca" />
+					<b:selectOneMenu value="#{solicitacao.bestadocomarca}" id="se">
+						<f:selectItem itemValue="0" itemLabel="Todos os Estados" />
+						<f:selectItems value="#{solicitacao.listuf}" var="estcom"
+							itemLabel="#{estcom.nome}" itemValue="#{estcom.iduf}" />
+						<p:ajax update="comi" process="@this" event="change" />
+					</b:selectOneMenu>
+					<h:outputText value="Comarca" />
+					<b:selectOneMenu value="#{solicitacao.bcomarca}" id="comi">
+						<f:selectItem itemValue="0" itemLabel="Todas as Comarcas" />
+						<f:selectItems value="#{solicitacao.listaporestado}" var="com"
+							itemLabel="#{com.nome}" itemValue="#{com.idcomarca}" />
+
+						<p:ajax immediate="false" process="@this" />
+					</b:selectOneMenu>
+
+					<h:outputText value="Selecione o tipo" />
+					<p:selectOneRadio value="#{solicitacao.tiposolicitacaobusca}">
+						<f:selectItem itemValue="A" itemLabel="Audiência" />
+						<f:selectItem itemValue="D" itemLabel="Diligência" />
+						<f:selectItem itemValue="T" itemLabel="Todas" escape="true" />
+						<p:ajax immediate="true" execute="@this" />
+					</p:selectOneRadio>
+
+				</p:panelGrid>
+
+
+				<p:panelGrid columns="2" styleClass="semBorda ajustatela"
+					layout="grid">
+					<h:outputText value="Usuário" />
+					<b:selectOneMenu value="#{solicitacao.idusuario}"
+						styleClass="tamanhocampo alinhamento">
+						<f:selectItem itemValue="0" itemLabel="Todos os Usuários" />
+						<f:selectItems value="#{solicitacao.usuarios}" var="usu"
+							itemLabel="#{usu.nomecompleto}" itemValue="#{usu.idusuario}" />
+
+
+					</b:selectOneMenu>
+
+
+					<h:outputText value="Parte Contrária" styleClass="alinhamento" />
+					<b:inputText value="#{solicitacao.nomeautor}" size="60"
+						styleClass="alinhamento"
+						onkeyup="this.value=this.value.toUpperCase();" />
+
+
+					<h:outputText value="Cliente" />
+					<b:inputText value="#{solicitacao.nomereu}" size="60"
+						styleClass="tamanhocampo"
+						onkeyup="this.value=this.value.toUpperCase();" />
+
+
+					<h:outputText value="Selecione o Status" />
+					<b:selectOneMenu value="#{solicitacao.idstatusbuscasolicitacao}">
+						<f:selectItem itemValue="0" itemLabel="Todos" />
+						<f:selectItem itemValue="1" itemLabel="Aguardando Confirmação" />
+						<f:selectItem itemValue="5" itemLabel="Concluído" />
+						<f:selectItem itemValue="8" itemLabel="Cancelada" />
+						<f:selectItem itemValue="10" itemLabel="Reprovada Definitivamente" />
+						<f:selectItem itemValue="4" itemLabel="Em Produção" />
+						<f:selectItem itemValue="7" itemLabel="Finalizado" />
+						<f:selectItem itemValue="2" itemLabel="Não Confirmado" />
+						<f:selectItem itemValue="6" itemLabel="Reprovada Temporariamente" />
+						<f:selectItem itemValue="3" itemLabel="Rejeitado" />
+						<f:selectItem itemValue="9" itemLabel="Todas Menos as Canceladas" />
+
+						<p:ajax immediate="true" execute="@this" />
+					</b:selectOneMenu>
+
+					<h:outputText value="Orgão" />
+					<b:selectOneMenu value="#{solicitacao.idorgao}" id="gh2">
+						<f:selectItem itemValue="0" itemLabel="Todos os Juizados" />
+						<f:selectItems value="#{solicitacao.listaorgao}" var="lista"
+							itemLabel="#{lista.descricao}" itemValue="#{lista.idorgao}" />
+						<p:ajax render="@this" />
+					</b:selectOneMenu>
+
+					<p:panelGrid columns="2">
+
+
+						<b:radiobutton id="options1" value="#{solicitacao.tipo_periodo}"
+							itemLabel="Data de Elaboração" itemValue="1" />
+						<b:radiobutton id="options2" value="#{solicitacao.tipo_periodo}"
+							itemLabel="Data do Prazo" itemValue="2" />
+
+						<h:outputText value="#{' '}" />
+					</p:panelGrid>
+
+					<p:panelGrid columns="2" styleClass="ajustatela">
+						<b:datepicker label="Data Inicial"
+							value="#{solicitacao.bdatainicial}" ajax="true"
+							mode="toggle-icon" disabled="false" />
+
+						<b:datepicker label="Data Final" value="#{solicitacao.bdatafinal}"
+							ajax="true" mode="toggle-icon" disabled="false" />
+
+					</p:panelGrid>
+
+				</p:panelGrid>
+
+			</p:panelGrid>
+			<h:outputText value=" " />
+			<div align="left" class="div">
+				<b:commandButton ajax="false" value="Pesquisa de Solicitações"
+					id="btpesquisar" look="primary" icon="ui-icon-search"
+					title="Clique aqui para busca uma solicitação."
+					action="#{solicitacao.BuscaSolicitacao}">
+					<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+						value="false" />
+					<f:setPropertyActionListener
+						target="#{solicitacao.buscatodasoclitacoes}" value="true" />
+					<f:setPropertyActionListener
+						target="#{solicitacao.solicitacaoDao.novabusca}" value="true" />
+					<p:ajax update="result1" process="@all"></p:ajax>
+				</b:commandButton>
+
+				<h:outputText value="#{' '}" />
+				<b:commandButton value="Limpar a Pesquisa" ajax="true"
+					update="result1 pnl3" process="result1" id="btlimpar"
+					action="#{solicitacao.LimparCamposSolicitacoes}"
+					icon="ui-icon-refresh">
+					<f:setPropertyActionListener
+						target="#{solicitacao.buscatodasoclitacoes}" value="false" />
+					<f:setPropertyActionListener
+						target="#{solicitacao.solicitacaoDao.novabusca}" value="false" />
+
+				</b:commandButton>
+
+				<h:outputText value="#{' '}" />
+
+				<b:commandButton value="Nova Solicitação" id="btnova" look="success"
+					ajax="false" action="#{solicitacao.NovaSoli}">
+
+					<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+						value="false" />
+
+				</b:commandButton>
+
+				<h:outputText value="#{' '}" />
+
+				<b:commandButton value="Exportar para o excel" ajax="false"
+					rendered="true" id="btexcel" icon="ui-icon-document"
+					title="Clique aqui para exportar para o formato Excel.">
+					<p:dataExporter type="xls" target="solicitacoes"
+						fileName="listasolicitacao.xls" pageOnly="false"
+						encoding="ISO-8859-1" />
+				</b:commandButton>
+				<h:outputText value="#{' '}" />
+				<b:commandButton value="Imprimir Faturamento" icon="ui-icon-print"
+					look="info" ajax="false"
+					rendered="#{solicitacao.usuario.tipo eq 1}" id="btfaturamento"
+					process="@this" action="#{solicitacao.ImprimirPdf}">
+				</b:commandButton>
+				<h:outputText value="#{' '}" />
+				<b:commandButton icon="ui-icon-document"
+					rendered="#{solicitacao.usuario.tipo==1}" ajax="true"
+					value="Doc Rejeitados" id="btrejeitados" onclick="reg.show();">
+
+				</b:commandButton>
+				<h:outputText value="#{' '}" />
+				<b:commandButton value="Fechar a Pesquisa" look="warning"
+					icon="ui-icon-arrowreturnthick-1-w"
+					actionListener="#{solicitacao.VerSessao}" action="/menu.jsf"
+					id="btfechar" ajax="false" onclick="window.close();"
+					title="Clique aqui para sair da tela de busca.">
+					<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+						value="false" />
+					<f:setPropertyActionListener
+						target="#{solicitacao.buscatodasoclitacoes}" value="false" />
+					<p:ajax immediate="true" process="@this" />
+				</b:commandButton>
+
+			</div>
+
+			<p:tooltip for="btnova"
+				value="Clique aqui para elaborar uma nova solicitação"
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btlimpar" value="Clique aqui para limpar a busca."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btpesquisar" value="Clique aqui para fazer a busca."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btexcel"
+				value="Clique aqui para exportar para o excel." showEffect="slide"
+				hideEffect="slide" />
+			<p:tooltip for="btfechar"
+				value="Clique aqui para fechar a tela de pesquisa."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btfaturamento"
+				value="Clique aqui para imprimir o faturamento do correspondente."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btrejeitados"
+				value="Clique aqui para ver os arquivos rejeitados do GED do CPPRO."
+				showEffect="slide" hideEffect="slide" />
+			<h:outputText value="#{' '}" />
+
+
+
+			<p:dialog id="arqrejeitados" showEffect="explode"
+				header="Arquivos Rejeitados." resizable="true" modal="true"
+				widgetVar="reg" appendToBody="btrejeitados">
+				<p:scrollPanel style="width:auto;height:800px" mode="native">
+					<p:panel>
+						<p:panelGrid columns="2" styleClass="semBorda">
+							<h:outputText value="Data Inicial :" />
+							<p:calendar navigator="true" pattern="dd/MM/yyyy"
+								value="#{solicitacao.datainirej}" size="11"
+								title="Seleciona a data inicial da busca." />
+							<h:outputText value="Data Final   :" />
+							<p:calendar navigator="true" pattern="dd/MM/yyyy"
+								value="#{solicitacao.datafinrej}" size="11"
+								title="Selecione a data final da bsuca." />
+						</p:panelGrid>
+						<p:commandButton
+							title="|Clique aqui para fazer a busca dos arquivos rejetados no GED do CPPRO."
+							ajax="true" global="true" value="Buscar" icon=" ui-icon-search"
+							action="#{solicitacao.listarejeitados()}"
+							update="rejeitadosdevez" />
+					</p:panel>
+					<p:dataTable id="rejeitadosdevez" var="rej"
+						style="font-family: arial;" value="#{solicitacao.rejeitados}"
+						sortOrder="ascending" draggableColumns="true"
+						paginatorPosition="top" rows="20" sortBy="#{rej.rejeitadoem}"
+						resizableColumns="true" rowIndexVar="testeee"
+						emptyMessage="Não existe dados na busca" paginator="true"
+						scrollable="false"
+						rowStyleClass="#{rej.statusSolicitacao.status eq 'Rejeitado' ? 'vermelho': null}">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="IdSolicitacao" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.idsolicitacao}" />
+						</p:column>
+						<p:column width="160">
+							<f:facet name="header">
+								<h:outputText value="Processo" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.numeroprocesso}" />
+						</p:column>
+
+						<p:column width="90">
+							<f:facet name="header">
+								<h:outputText value="Pasta" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.pasta}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Documento" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.documento}" />
+						</p:column>
+
+						<p:column sortBy="#{rej.anexadopor}" width="270">
+							<f:facet name="header">
+								<h:outputText value="Anexado Por" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.anexadopor}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Anexado Em" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.datanexado}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+							</h:outputText>
+						</p:column>
+
+						<p:column width="350">
+							<f:facet name="header">
+								<h:outputText value="Rejeitado Por" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.quemrejeitou}" />
+
+						</p:column>
+						<p:column sortBy="#{rej.rejeitadoem}">
+							<f:facet name="header">
+								<h:outputText value="Data Rej." styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.rejeitadoem}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Motivo" styleClass="fontetabela" />
+							</f:facet>
+							<h:outputText value="#{rej.motivo}"
+								style="text-align: justify; cursor: crosshair;"
+								title="#{rej.motivo}" />
+
+						</p:column>
+					</p:dataTable>
+				</p:scrollPanel>
+				<h:outputText value=" " />
+				<p:commandButton value="Exportar para o excel" ajax="false"
+					style="color:blue;color-background:blue;" rendered="true"
+					id="btexcelrej" icon="ui-icon-document"
+					title="Clique aqui para exportar para o formato Excel.">
+					<p:dataExporter type="xls" target="rejeitadosdevez"
+						fileName="arqrejeitados.xls" pageOnly="false"
+						encoding="ISO-8859-1" />
+				</p:commandButton>
+			</p:dialog>
+
+
+			<p:notificationBar id="notifica" position="bottom" effect="slide"
+				widgetVar="bar1" styleClass="bottom">
+				<h:outputText value="AGUARDE..." style="color:red;font-size:18px;" />
+			</p:notificationBar>
+
+
+
+		</b:panel>
+
+		<b:panel title="Resultado da Busca das Solicitações"
+			toggleable="false" id="result1" look="primary">
+			<h:outputText
+				value="Total de Solicitações elaboradas: #{solicitacao.solicitacoes.size()}"
+				id="quant" />
+			<p:scrollPanel style="width:auto;height:auto" mode="native">
+
+				<p:dataTable liveScroll="true" value="#{solicitacao.solicitacoes}"
+					var="soli" widgetVar="teste" draggableColumns="true"
+					id="solicitacoes" sortBy="#{soli.idsolicitacao}"
+					sortOrder="DESCENDING" paginatorPosition="top" rows="20"
+					emptyMessage="Não existe solicitações na busca" paginator="true"
+					resizableColumns="true" rowIndexVar="solis" scrollable="false"
+					selection="#{solicitacao.solicitacao}"
+					rowKey="#{soli.idsolicitacao}" selectionMode="single"
+					rowStyleClass="#{soli.statusSolicitacao.status eq 'Rejeitado' ? 'vermelho': null}">
+					<p:column exportable="false">
+						<f:facet name="header">
+							<h:outputText value="Formulário" />
+						</f:facet>
+						<p:rowToggler
+							rendered="#{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}" />
+					</p:column>
+					<p:rowExpansion>
+						<p:panelGrid columns="2" style="width:auto;">
+							<h:outputText value="Correspondente: " />
+
+							<h:outputText
+								value="#{soli.renumeracao.tipoSolicitacaoCorrespondente.correspondente.nome}" />
+							<h:outputText value="Advogado Ex Adverso: " />
+							<h:outputText value="#{soli.formularioAudiencia.advogadoadverso}" />
+							<h:outputText value="Email do Ex Adverso: " />
+							<h:outputText value="#{soli.formularioAudiencia.emailadvadverso}" />
+							<h:outputText value="Telefone do Advogado Ex Adverso: " />
+							<h:outputText
+								value="#{soli.formularioAudiencia.telefoneadvadervoso}" />
+
+							<h:outputText value="Aij Designada:" />
+							<h:outputText value="SIM"
+								rendered="#{soli.formularioAudiencia.aijdesiginada=='true'}" />
+							<h:outputText value="Data da Aij Designada:"
+								rendered="#{soli.formularioAudiencia.aijdesiginada=='true'}" />
+							<h:outputText value="#{soli.formularioAudiencia.dataaij}"
+								rendered="#{soli.formularioAudiencia.aijdesiginada=='true'}">
+								<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
+							</h:outputText>
+							<h:outputText value="NÃO"
+								rendered="#{soli.formularioAudiencia.aijdesiginada=='false'}" />
+
+
+							<h:outputText value="Valor da Alçada: " />
+							<h:outputText value="#{soli.valordaalcada}">
+								<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+
+							<h:outputText value="Acordo Realizado: " />
+							<h:outputText value="NÃO"
+								rendered="#{soli.formularioAudiencia.acordorealizado=='false'}" />
+							<h:outputText value="SIM"
+								rendered="#{soli.formularioAudiencia.acordorealizado=='true'}" />
+
+
+							<h:outputText value="Valor do Acordo"
+								rendered="#{soli.formularioAudiencia.acordorealizado=='true'}" />
+							<h:outputText value="#{soli.formularioAudiencia.valoracordo}"
+								rendered="#{soli.formularioAudiencia.acordorealizado=='true'}">
+								<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+
+							<h:outputText value="Valor da Contra Proposta: "
+								rendered="#{soli.formularioAudiencia.acordorealizado=='false'}" />
+							<h:outputText
+								value="#{soli.formularioAudiencia.valorcontraproposta}"
+								rendered="#{soli.formularioAudiencia.acordorealizado=='false'}">
+								<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+
+							<h:outputText value="Obrigação de Fazer"
+								rendered="#{soli.formularioAudiencia.acordorealizado=='false'}" />
+							<h:outputText value="#{soli.formularioAudiencia.obrigacaoafazer}"
+								rendered="#{soli.formularioAudiencia.acordorealizado=='false'}" />
+
+						</p:panelGrid>
+					</p:rowExpansion>
+
+					<p:column sortBy="#{soli.idsolicitacao}" headerText="Numero"
+						style="background-color:#cce6ff">
+						<f:facet name="header">
+							<h:outputText value="ID Solicitação" />
+						</f:facet>
+						<p:commandLink immediate="true" ajax="false"
+							action="#{solicitacao.BuscaUnicaAlteracao}" type="submit"
+							value="#{soli.idsolicitacao}"
+							title="Clique aqui para ver o dados da solicitação">
+							<f:setPropertyActionListener value="#{soli.idsolicitacao}"
+								target="#{solicitacao.bnumero}" />
+							<f:setPropertyActionListener value="#{soli.idsolicitacao}"
+								target="#{solicitacao.idsolicitacaobusca}" />
+							<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+								value="false" />
+
+							
+						</p:commandLink>
+					</p:column>
+					<p:column headerText="ALTERAR">
+						<f:facet name="header">
+							<h:outputText value="ALTERAR" />
+						</f:facet>
+						<p:commandLink immediate="true" ajax="false"
+							action="#{solicitacao.AlteraSolicatacaoFeita}" type="submit"
+							value="ALTERAR"
+							title="Clique aqui para ver o dados da solicitação">
+							<f:setPropertyActionListener value="#{soli.idsolicitacao}"
+								target="#{solicitacao.bnumero}" />
+							<f:setPropertyActionListener value="#{soli.idsolicitacao}"
+								target="#{solicitacao.idsolicitacaobusca}" />
+							<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+								value="false" />
+
+
+							<f:setPropertyActionListener
+								target="#{solicitacao.nova_soli_salva}" value="false" />
+							<f:setPropertyActionListener
+								target="#{solicitacao.datarealizacao}"
+								value="#{soli.dataprazo}" />
+							<f:setPropertyActionListener
+								target="#{solicitacao.horaaudiencia}"
+								value="#{soli.horaudiencia}" />
+
+							<f:setPropertyActionListener target="#{solicitacao.instrucoes}"
+								value="#{soli.instrucoes}" />
+							<f:setPropertyActionListener target="#{solicitacao.idbancabusca}"
+								value="#{soli.bancaProcesso.idbanca}" />
+							<f:setPropertyActionListener target="#{solicitacao.idorgao}"
+								value="#{soli.processo.orgao.idorgao}" />
+								
+								<f:setPropertyActionListener target="#{solicitacao.numorgao}"
+								value="#{soli.processo.numorgao}" />
+								
+
+							<f:setPropertyActionListener
+								target="#{solicitacao.tiposolictacao}"
+								value="#{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao}" />
+
+
+
+
+						
+						</p:commandLink>
+					</p:column>
+
+
+
+					<p:column sortBy="#{soli.processo.proceletronico}">
+						<f:facet name="header">
+							<h:outputText value="Proc. Eletrônico" />
+						</f:facet>
+						<h:outputText value="SIM"
+							rendered="#{soli.processo.proceletronico eq 'E' }" />
+						<h:outputText value="NÃO"
+							rendered="#{soli.processo.proceletronico != 'E' }" />
+					</p:column>
+					<p:column sortBy="#{soli.processo.numeroprocesso}" width="200"
+						headerText="Processo">
+						<f:facet name="header">
+							<h:outputText value="Processo" />
+						</f:facet>
+						<h:outputText value="#{soli.processo.numeroprocesso}" />
+					</p:column>
+					<p:column sortBy="#{soli.processo.parte}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Autor" />
+						</f:facet>
+						<h:outputText value="#{soli.processo.parte}" />
+					</p:column>
+					<p:column sortBy="#{soli.processo.adverso}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Réu" />
+						</f:facet>
+						<h:outputText value="#{soli.processo.adverso}" />
+					</p:column>
+
+					<p:column headerText="Comarca" sortBy="#{soli.comarca.nome}"
+						width="400">
+						<f:facet name="header">
+							<h:outputText value="Comarca" />
+						</f:facet>
+						<h:outputText rendered="true" value="#{soli.comarca.nome}">
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Est. Comarca"
+						sortBy="#{soli.comarca.uf.sigla}" width="100">
+						<f:facet name="header">
+							<h:outputText value="Est. Comarca" />
+						</f:facet>
+						<h:outputText rendered="true" value="#{soli.comarca.uf.sigla}">
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Solicitação"
+						sortBy="#{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie}"
+						width="200">
+						<f:facet name="header">
+							<h:outputText value="Solicitação" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie} - #{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}">
+						</h:outputText>
+					</p:column>
+
+
+					<p:column headerText="Envio de"
+						sortBy="#{soli.enviosolicitacao.tipoenvio}" width="200">
+						<f:facet name="header">
+							<h:outputText value="Envio de" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{soli.enviosolicitacao.tipoenvio}">
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.valor}"
+						rendered="#{solicitacao.usuario.tipo eq 1}" width="100">
+						<f:facet name="header">
+							<h:outputText value="Valor (R$)" />
+						</f:facet>
+						<h:outputText value="#{soli.valor}">
+							<f:convertNumber type="number" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.renumeracao.valor}" rendered="false"
+						width="130">
+						<f:facet name="header">
+							<h:outputText value="Valor Original (R$)" />
+						</f:facet>
+						<h:outputText value="#{soli.renumeracao.valor}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.datasolictacao}" width="130">
+						<f:facet name="header">
+							<h:outputText value="Data/Hora Soli." />
+						</f:facet>
+						<h:outputText value="#{soli.datasolictacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.dataprazo}">
+						<f:facet name="header">
+							<h:outputText value="Data do Prazo" />
+						</f:facet>
+						<h:outputText value="#{soli.dataprazo}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.horaudiencia}">
+						<f:facet name="header">
+							<h:outputText value="Hora do Prazo" />
+						</f:facet>
+						<h:outputText value="#{soli.horaudiencia}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.dataconclusao}">
+						<f:facet name="header">
+							<h:outputText value="Data da Conlusão" />
+						</f:facet>
+						<h:outputText value="#{soli.dataconclusao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.statusSolicitacao.status}" width="100">
+						<f:facet name="header">
+							<h:outputText value="Status" />
+						</f:facet>
+						<h:outputText value="#{soli.statusSolicitacao.status}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.complemento}" width="350">
+						<f:facet name="header">
+							<h:outputText value="Motivo" />
+						</f:facet>
+						<h:outputText value="#{soli.complemento}" />
+					</p:column>
+
+
+
+
+					<p:column
+						sortBy="#{soli.renumeracao.tipoSolicitacaoCorrespondente.correspondente.nome}"
+						width="400">
+						<f:facet name="header">
+							<h:outputText value="Colaborador" />
+						</f:facet>
+						<h:outputText
+							value="#{soli.renumeracao.tipoSolicitacaoCorrespondente.correspondente.nome}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.usuario.nomecompleto}" width="270">
+						<f:facet name="header">
+							<h:outputText value="Solicitante" />
+						</f:facet>
+						<h:outputText value="#{soli.usuario.nomecompleto}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.bancaProcesso.banca}" width="270">
+						<f:facet name="header">
+							<h:outputText value="Banca" />
+						</f:facet>
+						<h:outputText value="#{soli.bancaProcesso.banca}" />
+					</p:column>
+
+					<p:column exportable="false" width="200">
+						<f:facet name="header">
+							<h:outputText value="Históricos e Arquivos  " />
+						</f:facet>
+						<p:commandLink id="link3" ajax="false" immediate="false"
+							value="Clique aqui para ver a histórico"
+							onclick="arqhist.show();bar3.show()">
+							<f:setPropertyActionListener
+								target="#{solicitacao.idsolicitacaobusca}"
+								value="#{soli.idsolicitacao}" />
+							<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+								value="true" />
+							<p:ajax render="solifeitas histr" />
+						</p:commandLink>
+					</p:column>
+					<p:column exportable="true">
+						<f:facet name="header">
+							<h:outputText value="Aud. Antecipada Lide" />
+						</f:facet>
+						<h:outputText value="Sim" rendered="#{soli.lide =='S'}" />
+
+						<h:outputText value="Não" rendered="#{soli.lide =='N'}" />
+
+					</p:column>
+
+					<p:column exportable="false">
+						<f:facet name="header">
+							<h:outputText value="Formulário de Audiência" />
+						</f:facet>
+						<p:commandButton
+							rendered="#{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA' and soli.formularioAudiencia != null}"
+							id="link6" ajax="false" immediate="true" type="submit"
+							action="#{solicitacao.ImprimeFormAud}" value="Imprimir PDF">
+							<f:setPropertyActionListener target="#{solicitacao.bnumero}"
+								value="#{soli.idsolicitacao}" />
+							<p:ajax listener="#{solicitacao.ImprimeFormAud}" process="@this" />
+						</p:commandButton>
+					</p:column>
+
+
+
+					<p:column sortBy="#{soli.formularioAudiencia.nomeadvogado}">
+						<f:facet name="header">
+							<h:outputText value="Nome do Audiencista" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.nomeadvogado}"
+							width="70">
+
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.numoab}" width="70">
+						<f:facet name="header">
+							<h:outputText value="Nuum. OAB do Audiencista" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.numoab}">
+
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.telefoneadvogado}"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="Telefone do Audiencista" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.telefoneadvogado}">
+
+						</h:outputText>
+					</p:column>
+
+
+					<p:column sortBy="#{soli.formularioAudiencia.advogadoadverso}">
+						<f:facet name="header">
+							<h:outputText value="Nome do Adv Ex adverso" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.advogadoadverso}"
+							width="70">
+
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.numoabadverso}"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="Nuum. OAB do Adv Ex Adverso" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.numoabadverso}">
+
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.telefoneadvadervoso}"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="Telefone do Adv Ex Adverso" />
+						</f:facet>
+						<h:outputText
+							value="#{soli.formularioAudiencia.telefoneadvadervoso}">
+
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{soli.formularioAudiencia.emailadvadverso}"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="Email do adv Exa adverso" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.emailadvadverso}">
+
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.aijdesiginada}"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="AIJ Desig." />
+						</f:facet>
+						<h:outputText value="SIM"
+							rendered="#{soli.formularioAudiencia.aijdesiginada eq 'true'}" />
+						<h:outputText value="NÃO"
+							rendered="#{soli.formularioAudiencia.aijdesiginada eq 'false'}" />
+
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.dataaij}" width="90">
+						<f:facet name="header">
+							<h:outputText value="Data da AIJ Desig." />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.dataaij}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+
+					</p:column>
+
+
+					<p:column sortBy="#{soli.formularioAudiencia.contraproposta}"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="Contraproposta" />
+						</f:facet>
+						<h:outputText value="SIM"
+							rendered="#{soli.formularioAudiencia.contraproposta eq 'true'}" />
+						<h:outputText value="NÃO"
+							rendered="#{soli.formularioAudiencia.contraproposta eq 'false'}" />
+
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.valorproposta}"
+						width="90">
+						<f:facet name="header">
+							<h:outputText value="Valor da Contraproposta" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.valorproposta}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.contraproposta}"
+						width="160">
+						<f:facet name="header">
+							<h:outputText value="Proposta de Acordo" />
+						</f:facet>
+						<h:outputText value="SIM"
+							rendered="#{soli.formularioAudiencia.contraproposta eq 'true'}" />
+						<h:outputText value="NÂO"
+							rendered="#{soli.formularioAudiencia.contraproposta eq 'false'}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.valordaalcada}" width="160">
+						<f:facet name="header">
+							<h:outputText value="Valor da Alçada" />
+						</f:facet>
+						<h:outputText value="#{soli.valordaalcada}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.acordorealizado}"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="Houve Acordo" />
+						</f:facet>
+						<h:outputText value="SIM"
+							rendered="#{soli.formularioAudiencia.acordorealizado eq 'true'}" />
+						<h:outputText value="NÃO"
+							rendered="#{soli.formularioAudiencia.acordorealizado eq 'false'}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.formularioAudiencia.valoracordo}"
+						width="160">
+						<f:facet name="header">
+							<h:outputText value="Valor do Acordo" />
+						</f:facet>
+						<h:outputText value="#{soli.formularioAudiencia.valoracordo}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.propostaacordo}" width="160">
+						<f:facet name="header">
+							<h:outputText value="Proposta de Acordo (CRA)" />
+						</f:facet>
+						<h:outputText value="SIM"
+							rendered="#{soli.propostaacordo eq 'true'}" />
+						<h:outputText value="NÂO"
+							rendered="#{soli.propostaacordo eq 'false'}" />
+
+					</p:column>
+
+
+					<p:column sortBy="#{soli.grupo}" width="70">
+						<f:facet name="header">
+							<h:outputText value="Grupo CRA" />
+						</f:facet>
+						<h:outputText value="#{soli.grupo}">
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{soli.tratposaudiencia}" width="100">
+						<f:facet name="header">
+							<h:outputText value="Auditoria Interna" />
+						</f:facet>
+						<h:outputText value="#{soli.tratposaudiencia}">
+						</h:outputText>
+					</p:column>
+
+				</p:dataTable>
+
+			</p:scrollPanel>
+
+			<p:dialog id="dialogo" widgetVar="arqhist" hideEffect="explode"
+				showEffect="explode"
+				header="Arquivos Anexados e Histórico da Solicitação."
+				resizable="true" visible="#{solicitacao.mostrajanela}" modal="true"
+				appendToBody="link3">
+
+
+				<p:dataTable id="solifeitas" value="#{solicitacao.listaarquivos}"
+					var="arq1" emptyMessage="Nao existe arquivos da solicitação"
+					lazy="false">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data" />
+						</f:facet>
+						<h:outputText
+							value="#{arq1.solicitacaoPossuiArquivo.solicitacaoAnexo.datasolicitacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Arquivo" />
+						</f:facet>
+						<h:commandLink id="baixar" rendered="true" ajax="false"
+							immediate="true"
+							value="#{arq1.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+							action="#{solicitacao.BaixarArquivo(arq1.solicitacaoPossuiArquivo.solicitacaoAnexo.operacao)}">
+							<f:setPropertyActionListener
+								value="#{arq1.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+								for="baixar" target="#{solicitacao.arquivoparabaixar}" />
+						</h:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Operação" />
+						</f:facet>
+						<h:outputText id="oper"
+							value="#{arq1.solicitacaoPossuiArquivo.solicitacaoAnexo.operacao}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:dataTable value="#{solicitacao.listahistorico}" var="hist1"
+					emptyMessage="Não existe histórico da solicitação" id="histr"
+					lazy="false">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data" />
+						</f:facet>
+						<h:outputText value="#{hist1.datahistorico}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+								timeZone="#{solicitacao.timeZone}" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Status da Solicitacao" />
+						</f:facet>
+						<h:outputText value="#{hist1.statusSolicitacao.status}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+								timeZone="#{solicitacao.timeZone}" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Usuário" />
+						</f:facet>
+						<h:outputText value="#{hist1.usuario.login}" />
+
+					</p:column>
+				</p:dataTable>
+
+
+				<p:commandButton ajax="true" id="teste2" immediate="false"
+					type="submit"
+					title="Clique aqui para sair da consulta de arquivos." value="Sair"
+					onclick="arqhist.hide();" />
+
+			</p:dialog>
+			<p:notificationBar id="barar" position="botton" effect="slide"
+				widgetVar="bar3" styleClass="bottom">
+				<h:outputText value="AGUARDE A BUSCA ...."
+					style="color:red;font-size:16px;" />
+			</p:notificationBar>
+		</b:panel>
+
+		<p:ajaxStatus
+			style="width:64px;height:64px;position:fixed;right:680px;bottom:300px">
+			<f:facet name="start">
+				<p:graphicImage value="/imagens/loading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	</h:form>
+</h:body>
+
+</html>

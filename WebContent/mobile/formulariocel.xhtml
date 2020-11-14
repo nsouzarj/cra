@@ -1,0 +1,212 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<link type="text/css" rel="stylesheet"
+	href="#{request.contextPath}/themes/mobile/cra.css" />
+<h:head>
+	<title>Form. Audi</title>
+	<meta http-equiv="Content-Type"
+		content="text/html;enconding=ISO-8859-1" />
+
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+</style>
+
+
+</h:head>
+<f:view encoding="ISO-8859-1" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="Teste" mini="true">
+		<pm:view>
+			<pm:header title="FORMULÁRIO DE AUDIENCIA" fixed="true" />
+			<pm:content>
+				<h:form>
+					<p:messages id="msg10" />
+					<p:panelGrid columns="2">
+						<h:outputText value="Id da Solicitação:" />
+						<h:outputText
+							value="#{solicitacao.unicasolicitacao.idsolicitacao}" />
+						<h:outputText value="Processo:" />
+						<h:outputText
+							value="#{solicitacao.unicasolicitacao.processo.numeroprocesso}" />
+						<h:outputText value="Autor:" />
+						<h:outputText
+							value="#{solicitacao.unicasolicitacao.processo.parte}" />
+						<h:outputText value="Réu:" />
+						<h:outputText
+							value="#{solicitacao.unicasolicitacao.processo.adverso}" />
+
+						<h:outputText value="Nome  do Colaborador:" />
+						<h:outputText
+							value="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.correspondente.nome}" />
+						<h:outputText value="Nome  do Audiencista:" />
+
+						<p:inputText
+							value="#{solicitacao.formularioAudiencia.nomeadvogado}" size="80"
+							onkeyup="this.value=this.value.toUpperCase();" required="true"
+							requiredMessage="Favor informa o nome do advogado." />
+						<h:outputText value="OAB do Audiencista:" />
+						<p:inputText value="#{solicitacao.formularioAudiencia.numoab}"
+							size="40" required="true"
+							requiredMessage="Favor informa a OAB do advogado." />
+
+						<h:outputText value="Telefone do Audiencista:" />
+						<p:inputMask mask="(99)9999-9999"
+							value="#{solicitacao.formularioAudiencia.telefoneadvogado}"
+							size="13" required="true"
+							requiredMessage="Favor informa o telefone do advogado.">
+
+						</p:inputMask>
+
+						<h:outputText value="Nome  do Advogado Ex Adverso:" />
+						<p:inputText
+							value="#{solicitacao.formularioAudiencia.advogadoadverso}"
+							size="80" onkeyup="this.value=this.value.toUpperCase();"
+							required="true"
+							requiredMessage="Favor informa o nome do advogado advogado." />
+						<h:outputText value="OAB do Advogado Ex Adverso:" />
+						<p:inputText
+							value="#{solicitacao.formularioAudiencia.numoabadverso}"
+							size="40" required="true"
+							requiredMessage="Favor informa a OAB do advogado." />
+						<h:outputText value="Telefone do Advogado Ex Adverso:" />
+
+						<p:inputMask mask="(99)9999-9999"
+							value="#{solicitacao.formularioAudiencia.telefoneadvadervoso}"
+							size="13" required="true"
+							requiredMessage="Favor informa o telefone do advogado adverso.">
+
+						</p:inputMask>
+
+						<h:outputText value="Email do Advogado Ex Adverso:" />
+						<p:inputText
+							value="#{solicitacao.formularioAudiencia.emailadvadverso}"
+							validatorMessage="Informe um email válido" size="90"
+							onkeyup="this.value=this.value.toLowerCase();">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+						<h:outputText value="Defesa Genérica:" />
+						<p:selectOneRadio
+							value="#{solicitacao.formularioAudiencia.defesagenerica}">
+							<f:selectItem itemValue="true" itemLabel="Sim" />
+							<f:selectItem itemValue="false" itemLabel="Não" />
+							<f:ajax immediate="true" execute="@this" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Aij Designada:" />
+						<p:selectOneRadio
+							value="#{solicitacao.formularioAudiencia.aijdesiginada}">
+							<f:selectItem itemValue="true" itemLabel="Sim" />
+							<f:selectItem itemValue="false" itemLabel="Não" />
+							<p:ajax immediate="false" update="data1" process="@this" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Data da Aij Designada:" />
+						<p:calendar id="data1" pattern="dd/MM/yyyy"
+							value="#{solicitacao.formularioAudiencia.dataaij}" mindate=""
+							size="12"
+							disabled="#{solicitacao.formularioAudiencia.aijdesiginada=='false'}" />
+
+						<h:outputText value="Acordo realizado:" />
+						<p:selectOneRadio
+							value="#{solicitacao.formularioAudiencia.acordorealizado}">
+							<f:selectItem itemValue="true" itemLabel="Sim" />
+							<f:selectItem itemValue="false" itemLabel="Não" />
+							<p:ajax immediate="false" update="valor2 f1 f2 f4"
+								process="@this" />
+
+						</p:selectOneRadio>
+
+
+						<h:outputText value="Valor do Acordo:" />
+						<pe:inputNumber id="valor2"
+							value="#{solicitacao.formularioAudiencia.valoracordo}"
+							thousandSeparator="." decimalSeparator="," minValue="0"
+							maxValue="99999.99" emptyValue="zero" decimalPlaces="2"
+							symbol="R$"
+							disabled="#{solicitacao.formularioAudiencia.acordorealizado=='false'}" />
+
+
+						<h:outputText value="Contra Proposta"
+							disabled="#{solicitacao.formularioAudiencia.acordorealizado=='false'}"
+							id="f1" />
+						<pe:inputNumber id="f2"
+							value="#{solicitacao.formularioAudiencia.valorcontraproposta}"
+							thousandSeparator="." decimalSeparator="," minValue="0"
+							maxValue="99999.99" emptyValue="zero" decimalPlaces="2"
+							symbol="R$"
+							disabled="#{solicitacao.formularioAudiencia.acordorealizado=='true'}" />
+
+						<h:outputText value="Obrigação de Fazer Requerida" />
+						<p:inputTextarea
+							value="#{solicitacao.formularioAudiencia.obrigacaoafazer}"
+							disabled="#{solicitacao.formularioAudiencia.acordorealizado=='true'}"
+							id="f4" rows="5" cols="70" />
+						<h:outputText
+							value="Estratégia de defesa e os docs foram suficientes para a boa defesa:" />
+						<p:inputTextarea
+							value="#{solicitacao.formularioAudiencia.estrategiadefesa}"
+							rows="5" cols="70" required="true"
+							requiredMessage="Favor informa a estrategia da defesa" />
+						<h:outputText
+							value="Informe se houve algum acontecimento em audiência relevante a lide que não fora consignado em ata:" />
+						<p:inputTextarea
+							value="#{solicitacao.formularioAudiencia.informeacontecimento}"
+							rows="5" cols="70" required="true"
+							requiredMessage="Favor informa se houve algum acontecimento" />
+					</p:panelGrid>
+
+					<p:commandButton value="Salvar o Formulário"
+						action="#{solicitacao.SalvarFormularioCel}" ajax="true"
+						update="msg10" />
+
+
+					<p:commandButton value="Voltar"
+						action="/mobile/dadosolicitacaocel.jsf" ajax="true" update="@all"
+						immediate="true" />
+				</h:form>
+				<p:ajaxStatus
+					style="width:64px;height:64px;position:fixed;right:640px;bottom:300px">
+					<f:facet name="start">
+						<p:graphicImage value="/imagens/loading.gif" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+
+				</p:ajaxStatus>
+			</pm:content>
+
+		</pm:view>
+	</pm:page>
+</f:view>
+
+</html>

@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelFormulario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d670fd2-6b83-48f3-b12f-1fde56ef39d3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="268"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NEW_DATAADAPTER.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="ID_SOLICITACAO" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[19139]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+  solicitacao.idsolicitacao,
+  formularioaudiencia.contraproposta,
+  formularioaudiencia.dataformulario,
+  formularioaudiencia.defesagenerica,
+  formularioaudiencia.estrategiadefesa,
+  formularioaudiencia.informeacontecimento,
+  formularioaudiencia.nomeadvogado,
+  formularioaudiencia.emailadvogado,
+  formularioaudiencia.advogadoadverso,
+  formularioaudiencia.emailadvadverso,
+  formularioaudiencia.numoab,
+  formularioaudiencia.objetodalide,
+  formularioaudiencia.telefoneadvogado,
+  formularioaudiencia.telefoneadvadervoso,
+  formularioaudiencia.valorproposta,
+  formularioaudiencia.nivel,
+  formularioaudiencia.dataaij,
+  formularioaudiencia.aijdesiginada,
+  formularioaudiencia.informecontraproposta,
+  formularioaudiencia.acordorealizado,
+  formularioaudiencia.valoracordo,
+  formularioaudiencia.telefonecel1,
+  formularioaudiencia.telefonecel2,
+  renumeracao.idcorrespondente,
+  renumeracao.idsolicitacao,
+  correspondente.nome,
+  processo.numeroprocesso,
+  processo.parte,
+  processo.adverso
+FROM
+  public.solicitacao,
+  public.formularioaudiencia,
+  public.renumeracao,
+  public.correspondente,
+  public.processo
+WHERE
+  solicitacao.idformulario = formularioaudiencia.idformulario AND
+  renumeracao.idrenumeracao = solicitacao.idrenumeracao AND
+  correspondente.idcorrespondente = renumeracao.idcorrespondente AND
+  processo.idprocesso = solicitacao.idprocesso and
+  solicitacao.idsolicitacao=$P{ID_SOLICITACAO}]]>
+	</queryString>
+	<field name="idsolicitacao" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="idsolicitacao"/>
+	</field>
+	<field name="contraproposta" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="contraproposta"/>
+	</field>
+	<field name="dataformulario" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="dataformulario"/>
+	</field>
+	<field name="defesagenerica" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="defesagenerica"/>
+	</field>
+	<field name="estrategiadefesa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="estrategiadefesa"/>
+	</field>
+	<field name="informeacontecimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="informeacontecimento"/>
+	</field>
+	<field name="nomeadvogado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomeadvogado"/>
+	</field>
+	<field name="emailadvogado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="emailadvogado"/>
+	</field>
+	<field name="advogadoadverso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="advogadoadverso"/>
+	</field>
+	<field name="emailadvadverso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="emailadvadverso"/>
+	</field>
+	<field name="numoab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numoab"/>
+	</field>
+	<field name="objetodalide" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="objetodalide"/>
+	</field>
+	<field name="telefoneadvogado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefoneadvogado"/>
+	</field>
+	<field name="telefoneadvadervoso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefoneadvadervoso"/>
+	</field>
+	<field name="valorproposta" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valorproposta"/>
+	</field>
+	<field name="nivel" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nivel"/>
+	</field>
+	<field name="dataaij" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="dataaij"/>
+	</field>
+	<field name="aijdesiginada" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="aijdesiginada"/>
+	</field>
+	<field name="informecontraproposta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="informecontraproposta"/>
+	</field>
+	<field name="acordorealizado" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="acordorealizado"/>
+	</field>
+	<field name="valoracordo" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="valoracordo"/>
+	</field>
+	<field name="telefonecel1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefonecel1"/>
+	</field>
+	<field name="telefonecel2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefonecel2"/>
+	</field>
+	<field name="idcorrespondente" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="idcorrespondente"/>
+	</field>
+	<field name="COLUMN_25" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="idsolicitacao"/>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+	</field>
+	<field name="numeroprocesso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="numeroprocesso"/>
+	</field>
+	<field name="parte" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="parte"/>
+	</field>
+	<field name="adverso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="adverso"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="124" splitType="Stretch">
+			<image>
+				<reportElement x="192" y="0" width="338" height="82" uuid="06ecf27c-b2b7-48eb-8a0e-6da28361bbd0"/>
+				<imageExpression><![CDATA["C:\\relaweb\\imagem1.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="159" y="79" width="197" height="20" uuid="bbc5a294-a127-443e-91ce-bd7c4e2c818a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Formulário de Audiência]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="99" width="76" height="20" uuid="122d7863-e1bd-4769-b561-83cae637d80a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idsolicitacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="99" width="60" height="20" uuid="33b47444-2f56-4c51-81e2-35d18bafd599"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitação:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="123" width="555" height="1" uuid="685dedaf-66b2-401d-803e-dec504276849"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="a64c4bc7-454d-41c7-881d-22041fabb92f"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="124" uuid="9ad8a50e-c769-4412-9612-f1c3d7b2dd71"/>
+			</line>
+			<line>
+				<reportElement x="554" y="0" width="1" height="124" uuid="60d8bf81-70a0-4577-9cf6-40edc64fefe7"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="596" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="3" width="100" height="20" uuid="d52820cf-b1c0-48be-a52e-a5015d4d6b5c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número do Processo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="3" width="202" height="20" uuid="4d9eff11-2665-44e0-a05e-d56bd82ec04e"/>
+				<textFieldExpression><![CDATA[$F{numeroprocesso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="27" width="42" height="20" uuid="59a57df8-e893-44f4-8447-9bca04794f6b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="52" y="27" width="478" height="20" uuid="556bd7d4-e25f-4af6-8be6-d02f6d5a9e61"/>
+				<textFieldExpression><![CDATA[$F{parte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="50" width="42" height="20" uuid="db8ffd33-f7c3-464c-b822-a770488892cc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Réu:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="52" y="50" width="478" height="20" uuid="552d924f-af67-40c1-a2b6-a73df7f4dfb6"/>
+				<textFieldExpression><![CDATA[$F{adverso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="72" width="120" height="20" uuid="b97f82a1-8de9-4eb6-a251-23d476e1a0fb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Audiencista:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="72" width="413" height="20" uuid="217cc083-315e-4b8c-a770-776e2b3dd037"/>
+				<textFieldExpression><![CDATA[$F{nomeadvogado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="94" width="120" height="20" uuid="ee29211f-6e8d-43cd-852f-d33c093e455d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone do Audiencista:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="138" y="94" width="109" height="20" uuid="2f205d32-fd4c-40a0-a69d-6441a8267922"/>
+				<textFieldExpression><![CDATA[$F{telefoneadvogado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="201" width="100" height="20" uuid="92c13626-6551-418d-9510-d3698b3c80ae"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Defesa Genérica:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="120" y="201" width="100" height="20" uuid="0c4ff3ea-ab4c-4dfa-b433-fa59983e093a"/>
+				<textFieldExpression><![CDATA[($F{defesagenerica}.equals(true)?"Sim":"Não")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="223" width="100" height="20" uuid="dfb1f5e8-0792-42fc-acf0-05f4f3230a24"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proposta de Acordo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="223" width="100" height="20" uuid="9f0a7cca-1e66-4cf0-b285-ded5cc1c3d46"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor da Proposta:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="363" y="223" width="75" height="20" uuid="3c7b0586-e0f9-477b-bbb3-0523c5f9bb93"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valorproposta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="269" width="100" height="20" uuid="7e41ad32-cf1d-4157-b9d9-bbc1272751b8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AIJ Designada:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="269" width="100" height="20" uuid="40a123b8-72d8-4dc8-8243-f3b333e85781"/>
+				<textFieldExpression><![CDATA[($F{aijdesiginada}.equals(true) ?"Sim":"Não")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="263" y="269" width="57" height="20" uuid="9d744c13-2635-4590-b48f-a02fdca45764"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data da AIJ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="337" y="269" width="57" height="20" uuid="6b0f3256-16a5-4290-bac4-187af7e7cda5">
+					<printWhenExpression><![CDATA[$F{dataaij}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{dataaij}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="371" width="533" height="49" uuid="cf2e0f94-a13a-4219-970c-fede6b0376f1">
+					<printWhenExpression><![CDATA[$F{objetodalide}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{objetodalide}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="354" width="149" height="20" uuid="5314a9ce-bee2-4326-a952-bfaab1cd98f0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe o Objeto da Lide:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="223" width="100" height="20" uuid="88780846-8484-49c0-89d0-b382fc8dd412"/>
+				<textFieldExpression><![CDATA[($F{contraproposta}.equals(true)?"Sim":"Não")]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="595" width="554" height="1" uuid="c779a617-3aab-4465-a1d2-7e3a0c0d473a"/>
+			</line>
+			<line>
+				<reportElement x="554" y="2" width="1" height="593" uuid="a4272377-0626-477b-a967-8e104dd8176f"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="595" uuid="08777ba2-b196-4286-9a54-616f2bb453d0"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="518" width="149" height="20" uuid="e9726a49-0081-449d-911f-e7998649cba0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe o acontecimento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="540" width="533" height="48" uuid="9b683396-1fbd-4635-ab60-10ff1a94c528">
+					<printWhenExpression><![CDATA[$F{informeacontecimento}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{informeacontecimento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="436" width="168" height="20" uuid="31278d41-dfff-4988-946c-96fd6508302a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe a estratégia de defesa:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="456" width="533" height="58" uuid="616e6f06-00dd-45f8-a62e-3351dd0ab455">
+					<printWhenExpression><![CDATA[$F{estrategiadefesa}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{estrategiadefesa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="292" width="149" height="20" uuid="91b56a1e-261c-483f-ab19-b2a85a53a58e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe a contra proposta:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="306" width="533" height="42" uuid="adf91a31-3bce-4c02-8224-ee1ef1289122">
+					<printWhenExpression><![CDATA[$F{informecontraproposta}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{informecontraproposta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="268" width="43" height="20" uuid="5a4d06c3-5058-471b-968a-d429aad44e25"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nível:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="468" y="268" width="75" height="20" uuid="93bbdcb9-897e-43d1-b95b-58d03d241895"/>
+				<textFieldExpression><![CDATA[$F{nivel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="247" width="100" height="20" uuid="d20098e7-0f32-420b-8caa-4b272904f562"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acordo Realizado:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="247" width="100" height="20" uuid="d3b177cc-b31e-431e-873d-297c425ad37b"/>
+				<textFieldExpression><![CDATA[($F{acordorealizado}.equals(true)?"Sim":"Não")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="273" y="248" width="90" height="20" uuid="2dce40f8-9250-4f05-9b34-9989db72b643"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor do Acordo:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="363" y="248" width="75" height="19" uuid="ce52c836-7927-4940-bf5a-6fd15906957e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valoracordo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="261" y="94" width="119" height="20" uuid="f0b60c84-0bd0-407a-a38e-de1ddb910e37"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular do Audiencista:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="385" y="94" width="100" height="20" uuid="76a2e6af-1c37-47b4-a383-9debdd857569">
+					<printWhenExpression><![CDATA[$F{telefonecel1} != null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{telefonecel1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="139" width="110" height="22" uuid="9afe032c-5331-4c6f-8ec5-15d3a6039557"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Ex Adverso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="140" width="410" height="20" uuid="f0a1e766-b599-4b24-bf12-3268a929f434"/>
+				<textFieldExpression><![CDATA[$F{advogadoadverso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="161" width="100" height="20" uuid="198f602b-886f-4a02-9554-b83a533f4818"/>
+				<textFieldExpression><![CDATA[$F{telefoneadvadervoso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="161" width="120" height="20" uuid="b6140788-a601-43ef-bae8-a7abb27c9709"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone do Ex Adverso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="161" width="110" height="20" uuid="c7a8f2f2-cb50-4bfc-89ce-fda21243500f">
+					<printWhenExpression><![CDATA[$F{telefonecel2}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{telefonecel2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="261" y="161" width="119" height="20" uuid="d02b0a69-e016-418d-b8fa-3006a6f094a7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular do Ex Adverso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="181" width="400" height="19" uuid="62f04080-202e-4037-887e-5a5c98b2a23c"/>
+				<textFieldExpression><![CDATA[$F{emailadvadverso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="180" width="110" height="20" uuid="8a713778-a89b-4f5f-849a-48354ab14631"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-Mail do Ex Adverso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="132" y="114" width="408" height="19" uuid="4cd6c048-b431-4897-a9a4-ec12f4cd8476">
+					<printWhenExpression><![CDATA[$F{emailadvogado}!=null]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{emailadvogado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="114" width="120" height="19" uuid="0369713f-c1a4-42a9-a8e6-0e758f80cd55"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-Mail do Audiencista:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

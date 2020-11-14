@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:l="http://java.sun.com/jsf/composite/log-ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<meta content='text/html' http-equiv='Content-Type' />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<script src="#{request.contextPath}/javascript/funcoesutil.js" />
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	overflow: auto;
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+</style>
+</h:head>
+<f:view encoding="ISO-8859-1">
+	<f:event listener="#{solicitacao.VerSessaoFinal}" type="preRenderView" />
+	<b:panel title="Mudar Senha" look="primary">
+		<h:form id="forma1">
+			<p:growl id="msg2" life="2000" showDetail="true" sticky="false" />
+			<p:panelGrid columns="2">
+				<h:outputText value="login:" />
+				<h:outputText value="#{usuarios.logado.login}" />
+				<h:outputText value="Nome Completo" />
+				<h:outputText value="#{usuarios.logado.nomecompleto}" />
+				<h:outputText value="Senha:" />
+				<p:password value="${usuarios.logado.senha}" size="20"
+					required="true" immediate="false"
+					requiredMessage="Favor colocar a senha."
+					onkeyup="this.value=this.value.toLowerCase();"
+					goodLabel="Boa senha">
+					<p:ajax process="@this" />
+				</p:password>
+				<h:outputText value="Confirma Senha:" />
+				<p:password value="${usuarios.senha}" size="20" immediate="false"
+					required="true" requiredMessage="Favor repetir a senha."
+					onkeyup="this.value=this.value.toLowerCase();"
+					goodLabel="Boa senha">
+					<p:ajax process="@this" />
+				</p:password>
+
+			</p:panelGrid>
+			<b:commandButton value="Salvar" ajax="false" process="@this" look="primary"
+				type="submit" action="#{usuarios.AlterarSenha}"
+				title="Click aqui para salvar a alteracão" icon="ui-icon-disk">
+				<f:ajax render="@this forma1 msg3" />
+			</b:commandButton>
+			<h:outputText value="#{' '}" />
+			<b:commandButton value="Sair" ajax="false"  look="primary" onclick="bar3.show();"
+				action="/menu.jsf"  immediate="true"
+				title="Click aqui para sair da tela de usuário"
+				icon="ui-icon-arrowreturnthick-1-w">
+				
+			</b:commandButton>
+			<p:messages id="msg3"></p:messages>
+		</h:form>
+		<p:notificationBar id="notifica2" position="botton" effect="slide"
+				widgetVar="bar3" styleClass="bottom">
+				<h:outputText value="AGUARDE..."
+					style="color:red;font-size:16px;" />
+			</p:notificationBar>
+
+	</b:panel>
+
+</f:view>
+</html>

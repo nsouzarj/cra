@@ -1,0 +1,493 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+
+	<title>Relatórios</title>
+
+	<meta content='text/html' http-equiv='Content-Type' />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	overflow: auto;
+	font: arial;
+	height: 200px;
+	width: 100px;
+}
+
+#painel1 {
+	overflow: auto;
+	font: arial;
+	font-size: 70%;
+}
+
+#teste {
+	overflow: auto;
+	font: arial;
+	font-size: 70%;
+}
+
+.vermelho td {
+	background-color: red;
+	font-weight: bold;
+	color: #ffffff;
+}
+</style>
+
+
+
+
+
+</h:head>
+
+<f:view encoding="ISO-8859-1" contentType="text/html">
+
+	<f:event listener="#{solicitacao.VerSessao}" type="preRenderView" />
+	<h:form>
+
+		<p:growl id="growl" showDetail="true" life="4000" />
+
+
+
+
+		<b:panel id="dlgh1" title="RELATÓRIO DE PENDÊNCIA" toggleable="true" look="primary"
+			toggleSpeed="1000" widgetVar="cd">
+
+
+
+
+
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputText value="Usuário" />
+
+				<p:selectOneMenu value="#{solicitacao.idusuario}">
+					<f:selectItem itemValue="0" itemLabel="TODOS OS USUÁRIOS" />
+					<f:selectItems value="#{solicitacao.usuarios}" var="usu"
+						itemLabel="#{usu.nomecompleto}" itemValue="#{usu.idusuario}" />
+
+				</p:selectOneMenu>
+
+
+
+
+
+				<p:commandButton value="Sair" action="/menu.jsf" id="btsair"
+					icon="ui-icon-arrowreturnthick-1-w" ajax="false" immediate="false"
+					title="Clique aqui para Sair das solicitações.">
+				</p:commandButton>
+
+
+
+				<p:commandButton value="Pesquisar" id="btpesquisar" ajax="false"
+					update="@all" onclick="bar3.show()"
+					title="Clique aqui para busca uma solicitação."
+					action="#{solicitacao.ChamaRela}" icon="ui-icon-search">
+
+					<f:setPropertyActionListener
+						target="#{solicitacao.buscatodasoclitacoes}" value="true" />
+					<f:setPropertyActionListener
+						target="#{solicitacao.solicitacaoDao.novabusca}" value="true" />
+
+				</p:commandButton>
+			</p:panelGrid>
+
+			<br />
+			<b:panel title="AUDIÊNCIAS PENDENTES" toggleable="true" id="result1" look="primary">
+				<h:outputText
+					value="Existem #{solicitacao.alertaboxAudiencia.size()} Audiências pendentes." />
+				<h:outputText value="#{' '}" />
+
+				<br />
+				<br />
+
+				<p:dataTable liveScroll="true"
+					value="#{solicitacao.alertaboxAudiencia}" var="so"
+					widgetVar="testex" draggableColumns="true" id="alterarau"
+					sortOrder="descending"
+					emptyMessage="Não existem solicitações na busca" paginator="true"
+					paginatorPosition="bottom" rows="6" resizableColumns="true"
+					rowIndexVar="solis"
+					rowStyleClass="#{so.statusSolicitacao.status eq 'Em Produção' ? 'vermelho': null}">
+
+
+					<p:column sortBy="#{so.idsolicitacao}" headerText="Numero">
+						<f:facet name="header">
+							<h:outputText value="ID Solicitação" />
+						</f:facet>
+						<h:outputText value="#{so.idsolicitacao}" />
+					</p:column>
+
+
+
+					<p:column sortBy="#{so.usuario.login}" headerText="Usuário">
+						<f:facet name="header">
+							<h:outputText value="Usuário" />
+						</f:facet>
+						<h:outputText value="#{so.usuario.login}" />
+					</p:column>
+
+
+
+					<p:column headerText="Tipo"
+						sortBy="#{so.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie}"
+						width="200">
+						<f:facet name="header">
+							<h:outputText value="Tipo" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{so.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie} - #{so.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}">
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{so.statusSolicitacao.status}" width="100">
+						<f:facet name="header">
+							<h:outputText value="Status" />
+						</f:facet>
+						<h:outputText value="#{so.statusSolicitacao.status}" />
+					</p:column>
+
+					<p:column sortBy="${so.datasolictacao}">
+						<f:facet name="header">
+							<h:outputText value="Data Solicitação" />
+						</f:facet>
+						<h:outputText value="${so.datasolictacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{so.dataprazo}">
+						<f:facet name="header">
+							<h:outputText value="Data do prazo" />
+						</f:facet>
+						<h:outputText value="#{so.dataprazo}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+
+					<p:column sortBy="#{so.horaudiencia}">
+						<f:facet name="header">
+							<h:outputText value="Hora do Prazo" />
+						</f:facet>
+						<h:outputText value="#{so.horaudiencia}" />
+					</p:column>
+
+					<p:column headerText="Comarca" sortBy="#{so.comarca.nome}"
+						width="400">
+						<f:facet name="header">
+							<h:outputText value="Comarca" />
+						</f:facet>
+						<h:outputText rendered="true" value="#{so.processo.comarca.nome}">
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{so.processo.parte}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Autor" />
+						</f:facet>
+						<h:outputText value="#{so.processo.parte}" />
+					</p:column>
+
+					<p:column sortBy="#{so.processo.adverso}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Réu" />
+						</f:facet>
+						<h:outputText value="#{so.processo.adverso}" />
+					</p:column>
+
+					<p:column sortBy="#{so.processo.numeroprocesso}"
+						headerText="Processo">
+						<f:facet name="header">
+							<h:outputText value="Processo" />
+						</f:facet>
+						<h:outputText value="#{so.processo.numeroprocesso}" />
+					</p:column>
+
+
+					<p:column
+						sortBy="${so.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}"
+						width="300">
+						<f:facet name="header">
+							<h:outputText value="Solicitação" />
+						</f:facet>
+						<h:outputText
+							value="${so.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}" />
+					</p:column>
+
+					<h:outputText value="Status" />
+
+
+					<p:column headerText="Orgão"
+						sortBy="#{so.processo.orgao.descricao}" width="200">
+						<f:facet name="header">
+							<h:outputText value="Orgão" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{so.processo.orgao.descricao}">
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Número" sortBy="#{so.processo.orgao.idorgao}">
+						<f:facet name="header">
+							<h:outputText value="Número" />
+						</f:facet>
+						<h:outputText rendered="true" value="#{so.processo.numorgao}">
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{so.renumeracao.valor}" rendered="false"
+						width="70">
+						<f:facet name="header">
+							<h:outputText value="Valor" />
+						</f:facet>
+						<h:outputText value="#{so.renumeracao.valor}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{soli.valor}"
+						rendered="#{solicitacao.usuario.tipo eq 1}" width="70">
+						<f:facet name="header">
+							<h:outputText value="Valor" />
+						</f:facet>
+						<h:outputText value="#{so.valor}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+
+
+
+
+				</p:dataTable>
+
+				<p:commandButton value="Exportar para o excel" ajax="false"
+					rendered="true" id="btexcel"
+					title="Clique aqui para exportar para o formato Excel."
+					icon="ui-icon-document">
+
+					<p:dataExporter type="xls" target="alterarau"
+						fileName="listaRelatorioAudiencia" pageOnly="false"
+						encoding="ISO-8859-1" />
+				</p:commandButton>
+
+
+			</b:panel>
+
+
+			<h:outputText value="#{' '}" />
+			<br />
+
+			<b:panel title="DILIGÊNCIAS PENDENTES" toggleable="true"
+				id="result2" look="primary">
+
+				<h:outputText
+					value="Existem #{solicitacao.alertaDiligencia.size()} Diligências pendentes." />
+				<h:outputText value="#{' '}" />
+
+
+				<br />
+				<br />
+				<p:dataTable liveScroll="true"
+					value="#{solicitacao.alertaDiligencia}" var="soli"
+					widgetVar="teste" draggableColumns="true" id="alterar"
+					sortOrder="descending"
+					emptyMessage="Não existe solicitações na busca" paginator="true"
+					paginatorPosition="bottom" rows="6" resizableColumns="true"
+					rowIndexVar="solisx">
+
+					<p:column sortBy="#{soli.solicitacao.idsolicitacao}"
+						headerText="Numero">
+						<f:facet name="header">
+							<h:outputText value="ID Solicitação" />
+						</f:facet>
+						<h:outputText value="#{soli.solicitacao.idsolicitacao}" />
+					</p:column>
+
+
+					<p:column sortBy="#{soli.usuario.login}" headerText="Usuário">
+						<f:facet name="header">
+							<h:outputText value="Usuário" />
+						</f:facet>
+						<h:outputText value="#{soli.usuario.login}" />
+					</p:column>
+
+
+
+					<p:column headerText="Tipo"
+						sortBy="#{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie}"
+						width="200">
+						<f:facet name="header">
+							<h:outputText value="Tipo" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie} - #{soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}">
+						</h:outputText>
+
+
+					</p:column>
+					<p:column sortBy="#{soli.solicitacao.statusSolicitacao.status}"
+						width="100">
+						<f:facet name="header">
+							<h:outputText value="Status" />
+						</f:facet>
+						<h:outputText value="#{soli.solicitacao.statusSolicitacao.status}" />
+					</p:column>
+
+					<p:column sortBy="${soli.solicitacao.datasolictacao}">
+						<f:facet name="header">
+							<h:outputText value="Data Solicitação" />
+						</f:facet>
+						<h:outputText value="${soli.solicitacao.datasolictacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Comarca"
+						sortBy="#{soli.solicitacao.comarca.nome}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Comarca" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{soli.solicitacao.processo.comarca.nome}">
+						</h:outputText>
+					</p:column>
+
+					<p:column sortBy="#{soli.solicitacao.processo.parte}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Autor" />
+						</f:facet>
+						<h:outputText value="#{soli.solicitacao.processo.parte}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.solicitacao.processo.adverso}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Réu" />
+						</f:facet>
+						<h:outputText value="#{soli.solicitacao.processo.adverso}" />
+					</p:column>
+
+					<p:column sortBy="#{soli.solicitacao.processo.numeroprocesso}"
+						headerText="Processo">
+						<f:facet name="header">
+							<h:outputText value="Processo" />
+						</f:facet>
+						<h:outputText value="#{soli.solicitacao.processo.numeroprocesso}" />
+					</p:column>
+
+
+					<p:column
+						sortBy="${soli.solicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}"
+						width="300">
+						<f:facet name="header">
+							<h:outputText value="Solicitação" />
+						</f:facet>
+						<h:outputText
+							value="${soli.solicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}" />
+					</p:column>
+
+					<h:outputText value="Status" />
+					<p:selectOneMenu value="#{solicitacao.bstatus}">
+						<f:selectItem itemValue="0" itemLabel="Selecione um status" />
+						<f:selectItems value="#{solicitacao.statussolicitacoes}" var="sta"
+							itemLabel="#{sta.status}" itemValue="${sta.idstatus}" />
+						<p:ajax immediate="true" update="@this" process="@this" />
+					</p:selectOneMenu>
+
+
+					<p:column headerText="Orgão"
+						sortBy="#{soli.solicitacao.processo.orgao.descricao}" width="200">
+						<f:facet name="header">
+							<h:outputText value="Orgão" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{soli.solicitacao.processo.orgao.descricao}">
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Número"
+						sortBy="#{soli.solicitacao.processo.orgao.idorgao}">
+						<f:facet name="header">
+							<h:outputText value="Número" />
+						</f:facet>
+						<h:outputText rendered="true"
+							value="#{soli.solicitacao.processo.numorgao}">
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{soli.solicitacao.renumeracao.valor}"
+						rendered="false" width="70">
+						<f:facet name="header">
+							<h:outputText value="Valor" />
+						</f:facet>
+						<h:outputText value="#{soli.solicitacao.renumeracao.valor}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{soli.valor}"
+						rendered="#{solicitacao.solicitacao.usuario.tipo eq 1}" width="70">
+						<f:facet name="header">
+							<h:outputText value="Valor" />
+						</f:facet>
+						<h:outputText value="#{soli.solicitacao.solicitacao.valor}">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</p:column>
+
+					<p:commandLink id="link3" ajax="false" immediate="false"
+						value="Clique aqui para ver a histórico"
+						onclick="arqhist.show();bar3.show()">
+						<f:setPropertyActionListener
+							target="#{solicitacao.idsolicitacaobusca}"
+							value="#{soli.idsolicitacao}" />
+						<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+							value="true" />
+						<f:ajax render="solifeitas histr" />
+					</p:commandLink>
+				</p:dataTable>
+
+
+				<p:commandButton value="Exportar para o excel" ajax="false"
+					rendered="true" id="btexcel2"
+					title="Clique aqui para exportar para o formato Excel."
+					icon="ui-icon-document">
+					<p:dataExporter type="xls" target="alterar"
+						fileName="listaRelatorioDiligencia" pageOnly="false"
+						encoding="ISO-8859-1" />
+				</p:commandButton>
+
+
+
+
+
+			</b:panel>
+
+		</b:panel>
+		<p:ajaxStatus
+			style="width:64px;height:64px;position:fixed;right:680px;bottom:300px">
+			<f:facet name="start">
+				<p:graphicImage value="/imagens/loading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
+	</h:form>
+
+
+</f:view>
+
+</html>
+
+
+
+

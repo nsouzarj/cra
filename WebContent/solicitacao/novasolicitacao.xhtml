@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<script src="#{request.contextPath}/javascript/funcoesutil.js"
+		type="text/javascript" />
+	<title>Nova Solicitação</title>
+	<meta http-equiv="Content-Type"
+		content="text/html;enconding=UTF-8 width=device-width, initial-scale=1.1" />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+
+.piscando {
+	text-decoration: blink !important;
+	font-color: red;
+}
+
+.bordasem {
+	border: none !important;
+}
+</style>
+
+
+	<script type="text/javascript">
+		$(window).load(function() {
+			$('.modalPseudoClass').modal('show');
+		});
+	</script>
+
+</h:head>
+<h:body>
+	<f:event listener="#{solicitacao.VerSessao}" type="preRenderView" />
+
+	<h:form id="tela1" rendered="true" style="font-size: 15px"
+		acceptcharset="ISO-8859-1" lang="pt_BR">
+		<b:panel title="Dados do Processo Selecionado" id="painel1"
+			collapsible="true" look="primary">
+
+
+			<p:panelGrid columns="4">
+				<h:outputText value="Número do Processo" />
+
+				<p:commandLink immediate="false" process="@this" ajax="false"
+					action="#{solicitacao.CosultaProcessoSite}" target="_blank"
+					value="#{solicitacao.processo.numeroprocesso}" type="button"
+					title="Click aqui para consulta no tribunal.">
+					<f:setPropertyActionListener
+						target="#{solicitacao.processonotribunal}"
+						value="#{solicitacao.processo.numeroprocesso}" />
+				</p:commandLink>
+				<h:outputText value="Autor" />
+				<h:outputText value="#{solicitacao.processo.parte}" size="60" />
+				<h:outputText value="Réu" />
+				<h:outputText value="#{solicitacao.processo.adverso}" size="60" />
+				<h:outputText value="Assunto" />
+				<h:outputText value="#{solicitacao.processo.assunto}" size="60" />
+				<h:outputText value="Cadastro" />
+				<h:outputText value="${solicitacao.processo.cartorio}" />
+				<h:outputText value="Localização" />
+				<h:outputText value="${solicitacao.processo.localizacao}" />
+				<h:outputText value="Selecione uma Pessoa" />
+				<b:selectOneMenu value="#{solicitacao.idbanca}" id="banca"
+					immediate="true" style="color: blue">
+
+					<f:selectItem itemValue="0" itemLabel="Selecione uma banca" />
+					<f:selectItems value="#{solicitacao.bancaProcessos}"
+						var="listabanca" itemLabel="#{listabanca.banca}"
+						itemValue="#{listabanca.idbanca}" />
+					<p:ajax process="@this" event="change" partialSubmit="true" />
+				</b:selectOneMenu>
+
+				<h:outputText value="Selecione o Estado da Comarca" />
+				<b:selectOneMenu value="#{solicitacao.bestadocomarca}" id="comax"
+					style="color:blue">
+					<f:selectItem itemValue="0" itemLabel="Selecione um Estado" />
+					<f:selectItems value="#{solicitacao.listuf}" var="estcom"
+						itemLabel="#{estcom.nome}" itemValue="#{estcom.iduf}" />
+					<p:ajax update="org1" process="@this org1" event="change"
+						imediate="true" />
+				</b:selectOneMenu>
+				<h:outputText value="Selecione a Comarca" />
+				<b:selectOneMenu value="#{solicitacao.idcomarca}" id="org1"
+					style="color: blue" disabled="#{solicitacao.bestadocomarca==0}">
+					<f:selectItem itemValue="0" itemLabel="Selecione uma comarca" />
+					<f:selectItems value="#{solicitacao.listaporestado}" var="listacom"
+						itemLabel="#{listacom.nome}" itemValue="#{listacom.idcomarca}" />
+					<p:ajax process="@this  gh2 banca " update="gh2 selecao1"
+						event="change" />
+				</b:selectOneMenu>
+
+				<h:outputText value="Selecione um Orgão" />
+				<b:selectOneMenu value="#{solicitacao.idorgao}" style="color: blue"
+					id="gh2" disabled="#{solicitacao.idcomarca==0}">
+					<f:selectItem itemValue="0" itemLabel="Selecione um Juizado" />
+					<f:selectItems value="#{solicitacao.listaorgao}" var="lista"
+						itemLabel="#{lista.descricao}" itemValue="#{lista.idorgao}" />
+					<p:ajax immediate="true" process="@this org1" event="change" />
+				</b:selectOneMenu>
+				<h:outputText value="Número do Orgão" />
+				<p:inputText value="#{solicitacao.idnumerocomarca}" size="3"
+					immediate="false" required="#{solicitacao.idnumerocomarca != '0'}"
+					requiredMessage="Coloque o número do orgão.">
+					<p:ajax update="@this" process="@this" immediate="false"
+						event="change" />
+				</p:inputText>
+				<h:outputText value="Data de Solicitação" />
+
+				<p:calendar label="Data da Solicitacao" mindate="" size="12"
+					readonlyInput="true" disabled="true" required="true"
+					disabledWeekends="true" readonly="true" immediate="false"
+					requiredMessage="Selecione uma data da solicitação."
+					value="#{solicitacao.datasolicitacao}" timeOnly="true"
+					pattern="dd/MM/yyyy" />
+				<h:outputText value="Usuario logado:" />
+				<h:outputText value="#{solicitacao.usuario.login}" />
+
+
+			</p:panelGrid>
+			<h:outputText value="" />
+			<h:outputText value="" />
+			<h:outputText value="" />
+
+		</b:panel>
+		<b:panel title="Informações da Solicitação" id="painel2"
+			collapsible="true" look="primary">
+
+
+
+			<h:outputText value="Dados do Colaborador" />
+			<p:panelGrid columns="2" id="ds" style="margin-top:1px;">
+				<h:panelGroup style="margin-top:1px;" id="gp1">
+					<p:panelGrid columns="2" id="pnl6"
+						style="border-width:0px;margin-top:1px; width:450px">
+						<h:outputText value="Selecione o Correspondente" />
+						<b:selectOneMenu value="#{solicitacao.idcorrespondente}"
+							style="color: blue" id="selecao1" ajax="false"
+							disabled="#{solicitacao.idcomarca==0}">
+							<f:selectItem itemValue="0"
+								itemLabel="Selecione um correspondente" />
+							<f:selectItems value="#{solicitacao.comarcasolicitacao}"
+								var="listacor"
+								itemLabel="#{listacor.comarcaCorrespondente.correspondente.nome}"
+								itemValue="#{listacor.comarcaCorrespondente.correspondente.idcorrespondente}">
+							</f:selectItems>
+
+							<p:ajax process="@this selecao2" update="selecao2"
+								partialSubmit="true" listener="#{solicitacao.trazemails}" />
+						</b:selectOneMenu>
+
+						<h:outputText value="Selecione o email de envio da solicitação" />
+						<b:selectOneMenu value="#{solicitacao.emaildeenvio}" id="selecao2"
+							style="color: blue">
+							<f:selectItem itemValue=""
+								itemLabel="Selecione um email para o envio" />
+							<f:selectItems value="#{solicitacao.emailCorrespondentes}"
+								var="listaemail" itemLabel="#{listaemail.email}"
+								itemValue="#{listaemail.email}">
+							</f:selectItems>
+							<p:ajax process="@this" event="change" />
+						</b:selectOneMenu>
+						<h:outputText value="Selecione o tipo de Solicitação" />
+						<b:selectOneMenu value="#{solicitacao.tiposolictacao}" id="gh3"
+							style="color: blue">
+							<f:selectItem itemValue="0"
+								itemLabel="Selecione um Tipo de Solicitação" />
+
+							<f:selectItems value="#{solicitacao.tipoSolicitacaos}" id="ts1"
+								var="listatiposoli"
+								itemLabel="#{listatiposoli.especie} - #{listatiposoli.tipo}"
+								itemValue="#{listatiposoli.idtiposolicitacao}">
+
+							</f:selectItems>
+
+							<p:ajax immediate="true" process="@this"
+								update="pnl6 selecao1  horaaud horaud1 lenvio customRadioenviode Registar "
+								listener="#{solicitacao.BuscarTipode}" />
+
+							<p:ajax process="@this customRadioenviode" update="@this"
+								immediate="false" listener="#{solicitacao.DoisDiasNovaSoli}" />
+
+
+						</b:selectOneMenu>
+
+						<h:outputText value="Proposta de Acordo"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}" />
+
+						<b:selectOneMenu value="#{solicitacao.idproacordo}"
+							style="color: blue" immediate="false" required="true"
+							requiredMessage="Selecione o Grupo."
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}">
+							<f:selectItem itemValue="0" itemLabel="Selecione  acordo" />
+							<f:selectItem itemValue="false" itemLabel="NÃO" />
+							<f:selectItem itemValue="true" itemLabel="SIM" />
+
+							<p:ajax update="@this selecao1 pnl6" />
+						</b:selectOneMenu>
+
+						<h:outputText value="Alçada Ofertada"
+							rendered="#{solicitacao.idproacordo=='true'}" id="alca1" />
+
+						<pe:inputNumber value="#{solicitacao.valordaalcada}"
+							thousandSeparator="." decimalSeparator="," minValue="0"
+							maxValue="999999.99" emptyValue="zero" decimalPlaces="2"
+							symbol="R$" rendered="#{solicitacao.idproacordo=='true'}"
+							id="alca2" />
+
+						<h:outputText value="Selecione o Grupo"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}" />
+						<b:selectOneMenu value="#{solicitacao.idgrupo}" immediate="false"
+							style="color: blue" required="true"
+							requiredMessage="Selecione o Grupo."
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}">
+							<f:selectItem itemValue="0"
+								itemLabel="Selecione um tipo de usuario" />
+							<f:selectItem itemValue="0" itemLabel="Grupo 0" />
+							<f:selectItem itemValue="1" itemLabel="Grupo 1" />
+							<f:selectItem itemValue="2" itemLabel="Grupo 2" />
+							<f:selectItem itemValue="3" itemLabel="Grupo 3" />
+							<f:selectItem itemValue="4" itemLabel="Grupo 4" />
+							<p:ajax update="@this" />
+						</b:selectOneMenu>
+						<h:outputText value="Data Prevista da Realização" />
+						<p:calendar label="Data da Solicitacao" size="12" required="true"
+							rendered="true" disabledWeekends="true" id="cal2"
+							mindate="#{solicitacao.dataminimasolictacao}" immediate="false"
+							requiredMessage="Selecione uma data do prazo para a solicitação."
+							value="#{solicitacao.datarealizacao}" pattern="dd/MM/yyyy">
+							<f:ajax render="@this cal2" execute="@this" />
+						</p:calendar>
+						<h:outputText value="Julg. Antecipado da lide"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}" />
+						<b:selectOneMenu id="options" value="#{solicitacao.lide}"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}">
+							<f:selectItem itemLabel="Sim" itemValue="S" />
+							<f:selectItem itemLabel="Não" itemValue="N" />
+							<p:ajax process="@this" />
+						</b:selectOneMenu>
+
+						<h:outputText id="horaaud" value="Hora da Audiencia:"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or 
+                                               solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or
+                                               solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}" />
+
+						<p:inputMask mask="99:99" id="horaud1" maxlength="6" size="6"
+							onchange="return VerificaHora(this);"
+							value="#{solicitacao.horaaudiencia}"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}">
+						</p:inputMask>
+
+						<h:outputText value="Envio de:" id="lenvio"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}" />
+						<b:selectOneMenu id="customRadioenviode" style="color: blue"
+							value="#{solicitacao.enviodesolicitacao}" label="Envia Preposto?"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}">
+
+							<f:selectItem itemValue="0" itemLabel="Selecione o Envio" />
+
+							<f:selectItems value="#{solicitacao.enviosolicitacaos}"
+								var="list" itemLabel="#{list.tipoenvio}"
+								itemValue="#{list.idenviosolicitacao}" />
+
+							<p:ajax process="@this" />
+						</b:selectOneMenu>
+					</p:panelGrid>
+					<h:outputText value=" " />
+					<h:outputText
+						style="color:red; text-transform: uppercase; font-weight: bold;"
+						id="qt1"
+						value="Quantidade de Audiências feitas : #{solicitacao.buscatotalfeitas}"
+						rendered="#{solicitacao.buscatotalfeitas==3}"
+						title="Considerando que ja tenha 3 audiências não será computador o valor desta para o colaborador externo nessa audiência." />
+				</h:panelGroup>
+				<h:panelGroup style="border: 1px solid #FCFDFD">
+					<h:panelGrid columns="1"
+						style="border: 1px solid #FCFDFD;width:650px">
+						<h:outputText value="Instruções da Solicitação"
+							style="border: 1px solid #FCFDFD" />
+						<p:inputTextarea rows="5" cols="70"
+							value="#{solicitacao.instrucoes}" autoResize="true"
+							style="display:block; background:#FFFFFF; border-width: 1px;border-style: solid;border-color:#A6C9E2;padding:1px;margin-top:1px;width:600px;height:100px;overflow:scroll">
+							<p:ajax update="@this" global="false" />
+						</p:inputTextarea>
+
+						<p:panelGrid columns="1" styleClass="semBorda"
+							rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or
+                                                                                       solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15 or solicitacao.tiposolictacao==20}">
+							<h:outputText value="ROL DE DOCUMENTOS PARA AUDIÊNCIA"
+								style="font-weight:bold;color:red" />
+
+							<h:outputText
+								value="I)Defesa  &#160;  II)Docs Pertinentes  &#160;   III)Procuração e Atos  &#160;   IV)Subs e Carta de Preposto   &#160;    V)FOA"
+								style="font-weight:bold;color:red" scape="true" />
+							<h:outputText valeu="" />
+
+
+							<p:outputLabel
+								value="** O PROCESSO É ELETRÔNICO, NÃO ESQUEÇA DE PROTOLOCAR A DEFESA ELETRÔNICA **"
+								rendered="#{solicitacao.processo.proceletronico eq 'E'}"
+								style="font-weight:bold;color: blue; text-decoration:blink" />
+							<h:outputText valeu="" />
+
+						</p:panelGrid>
+
+						<h:outputText value="Arquivos da Solicitação"
+							style="border: 1px solid #FCFDFD" />
+						<h:outputText value=" " />
+
+
+
+
+						<p:dataTable id="arquivosentrada"
+							value="#{solicitacao.listasaida}" var="doc"
+							emptyMessage="Não existe arquivos na solicitação">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Arquivo" />
+								</f:facet>
+								<h:outputText
+									value="#{doc.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}" />
+							</p:column>
+						</p:dataTable>
+
+						<b:commandButton ajax="false" value="Carregar Arquivos"
+							look="primary" action="#salvarq"
+							onclick="$('.modalPseudoClass').modal();return false;">
+
+							<p:ajax process="@this salvarq" update="salvarq arq hhh"></p:ajax>
+						</b:commandButton>
+
+						<b:modal title="Carregar Arquivos" id="salvarq" size="moda-lg"
+							rendered="#{solicitacao.liberaarqsoli}"
+							styleClass="modalPseudoClass">
+							<p:panelGrid columns="1" styleClass="bordasem" id="hhh">
+								<h:outputText value="A Solicitação foi salva com sucesso !!"
+									style="color:blue" />
+								<h:outputText value="E-Mail enviado com sucesso.."
+									style="color:blue" />
+								<h:outputText
+									value="ID da solicitação: #{solicitacao.idsolicitacaobusca}" />
+								<p:dataTable id="arquivomodal" value="#{solicitacao.listasaida}"
+									var="doc" emptyMessage="Não existe arquivos na solicitação">
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Arquivo" />
+										</f:facet>
+										<h:outputText
+											value="#{doc.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Usuário" />
+										</f:facet>
+										<h:outputText
+											value="#{doc.solicitacaoPossuiArquivo.solicitacaoAnexo.usuario.login}" />
+									</p:column>
+									
+								</p:dataTable>
+
+							</p:panelGrid>
+							<p:fileUpload id="arq"
+								fileUploadListener="#{solicitacao.EnviarArquivos}"
+								label="Selecionar" cancelLabel="Cancelar" multiple="true"
+								dragDropSupport="true" update="arquivosentrada arquivomodal"
+								uploadLabel="Salvar Arquivo.">
+
+							</p:fileUpload>
+							<f:facet name="footer">
+								<b:button value="Ok" look="primary" dismiss="modal" />
+							</f:facet>
+						</b:modal>
+
+
+					</h:panelGrid>
+
+				</h:panelGroup>
+
+			</p:panelGrid>
+
+
+			<p:commandButton id="Registar" value="Registrar" ajax="true"
+				icon="ui-icon-disk" type="submit" immediate="false"
+				actionListener="#{solicitacao.DoisDiasNovaSoli}" process="@this"
+				onclick="cd.show();">
+			</p:commandButton>
+
+
+
+			<b:commandButton id="SairDILI" value="Sair" type="submit" look="info"
+				icon="ui-icon-arrowreturnthick-1-w" immediate="true"
+				action="#{solicitacao.SairAlteranovasoli}" onclick="window.close();"
+				rendered="#{solicitacao.tiposolictacao==12 or solicitacao.tiposolictacao==8 or solicitacao.tiposolictacao==11 or
+                                                                                       solicitacao.tiposolictacao==7 or solicitacao.tiposolictacao==9 or solicitacao.tiposolictacao==10 or
+                                                                                         solicitacao.tiposolictacao==13 or solicitacao.tiposolictacao==14}">
+				<p:ajax immediate="true" listener="#{solicitacao.Sairprocessocpj}"
+					process="@this" />
+
+				<f:setPropertyActionListener target="#{solicitacao.nova_soli_salva}"
+					value="false" />
+			</b:commandButton>
+
+			<b:commandButton id="SairSAIR" value="Sair" type="submit"
+				onclick="window.close();" look="succes" process="@this"
+				icon="ui-icon-arrowreturnthick-1-w" immediate="true"
+				action="#{solicitacao.SairAlteranovasoli}" ajax="false"
+				rendered="#{solicitacao.tiposolictacao==0}">
+
+				<f:setPropertyActionListener target="#{solicitacao.nova_soli_salva}"
+					value="false" />
+			</b:commandButton>
+
+			<p:commandButton id="Sair" value="Sair" ajax="true" type="submit"
+				icon="ui-icon-arrowreturnthick-1-w" immediate="true"
+				onclick="rol.show();" update="msg10"
+				rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or                                                                                    solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15}">
+			</p:commandButton>
+
+
+			<p:tooltip for="Sair" value="Click aqui para sair."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="Registar"
+				value="Click aqui para registar a nova solictação."
+				showEffect="slide" hideEffect="slide" />
+
+			<p:notificationBar id="notifica" position="bottom" effect="slide"
+				widgetVar="bar1" styleClass="bottom">
+				<h:outputText value="AGUARDE..." style="color:red;font-size:18px;" />
+			</p:notificationBar>
+
+
+
+			<p:confirmDialog message="Deseja salvar a nova solicitação?"
+				appendToBody="Registar" modal="true" id="dlgh1" rendered="true"
+				header="Salvar a nova solicitação." severity="alert" widgetVar="cd">
+
+				<p:panel rendered="#{solicitacao.recebe eq 'verdadeiro'}">
+					<p:panelGrid columns="1" styleClass="semBorda" style="width:450px">
+						<h:outputText value="#{solicitacao.textosolic}"
+							style="font-weight:bold;color:red"
+							rendered="#{solicitacao.recebe eq 'verdadeiro'}" />
+						<!--  <h:outputText value="Essa solicitação pode ser registrada"
+                                               style="font-weight:bold;color: blue; text-decoration:blink"
+                                               rendered="#{solicitacao.recebe eq 'falso'}" /> -->
+					</p:panelGrid>
+				</p:panel>
+
+				<p:panel>
+					<p:commandButton value="Sim" immediate="false" icon="ui-icon-check"
+						action="#{solicitacao.Cadastrarsolicitacao}" ajax="false"
+						onclick="cd.hide();"
+						disabled="#{solicitacao.recebe eq 'verdadeiro'}">
+
+						<p:ajax update="msg10" process="@this" immediate="false" />
+
+					</p:commandButton>
+
+					<p:commandButton value="Não" onclick="cd.hide();" ajax="true"
+						icon="ui-icon-cancel" type="submit" />
+
+				</p:panel>
+			</p:confirmDialog>
+
+			<p:confirmDialog
+				message="TODA DOCUMENTAÇÃO DO ROL DE DOCUMENTOS PARA AUDIÊNCIA FOI INSERIDA?"
+				appendToBody="Registar" modal="true" id="docrol"
+				rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or
+                           solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15}"
+				header="DOCS DA SOLICITAÇÃO." severity="alert" widgetVar="rol">
+
+				<p:panel>
+					<p:panelGrid columns="1" styleClass="semBorda"
+						rendered="#{solicitacao.tiposolictacao==1 or solicitacao.tiposolictacao==2 or solicitacao.tiposolictacao==3 or
+                           solicitacao.tiposolictacao==4 or solicitacao.tiposolictacao==5 or solicitacao.tiposolictacao==6 or solicitacao.tiposolictacao==15}">
+
+						<h:outputText value="ROL DE DOCUMENTOS PARA AUDIÊNCIA"
+							style="font-weight:bold;color:red" />
+						<h:outputText
+							value="I)Defesa  &#160;  II)Docs Pertinentes  &#160;   III)Procuração e Atos  &#160;   IV)Subs e Carta de Preposto   &#160;    V)FOA"
+							style="font-weight:bold;color:red" scape="true" />
+						<h:outputText valeu="" />
+					</p:panelGrid>
+
+				</p:panel>
+				<p:panel>
+					<b:commandButton value="Sim" immediate="true" icon="ui-icon-check"
+						onclick="window.close();" look="primary"
+						action="#{solicitacao.SairAlteranovasoli}" ajax="false" />
+					<b:commandButton value="Não" ajax="false" icon="ui-icon-cancel"
+						look="primay" immediate="true"
+						action="#{solicitacao.sairnovasoli}" />
+				</p:panel>
+			</p:confirmDialog>
+
+		</b:panel>
+		<p:growl id="msg10" life="4500" showDetail="false" sticky="false" />
+
+	</h:form>
+
+
+	<p:ajaxStatus
+		style="width:64px;height:64px;position:fixed;right:680px;bottom:300px">
+		<f:facet name="start">
+			<p:graphicImage value="/imagens/loading.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+</h:body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="amostrapercentual" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="19bc9c78-fd63-4eec-9ab6-2f56dba57958">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NEW_DATAADAPTER.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="176"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="818"/>
+	<subDataset name="Dataset1" uuid="fdf7f04f-62fc-4d1c-ab64-c02e6742424d">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="DATA_FINAL" class="java.lang.String"/>
+	<parameter name="DATA_INICIAL" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT  substring(tbrela.nome,1,15) as nome, sum(quantidade+rejeitada)
+as quant, sum(rejeitada) as rejeitada,ROUND((100-(sum(rejeitada)*100)/(sum(quantidade+rejeitada))),2) as perct
+from tbrela
+where quantidade > 0 
+group by substring(tbrela.nome,1,15)																			
+																					
+order by perct desc]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+	</field>
+	<field name="quant" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="quant"/>
+	</field>
+	<field name="rejeitada" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="rejeitada"/>
+	</field>
+	<field name="perct" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="perct"/>
+	</field>
+	<variable name="perct_SUM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{perct}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="6" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="163" y="10" width="240" height="30" uuid="34bcbc9c-b416-4c1b-81c3-9573756c80d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Listagem de Desempenho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="50" width="63" height="20" uuid="1689f286-14a1-4fa3-b5c9-ca84e877c06a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Período de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="303" y="50" width="100" height="20" uuid="e1868733-f524-41d4-9511-499f6da8d9a4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_FINAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="293" y="50" width="7" height="20" uuid="51d30610-76b4-479a-a684-d916cb9d69c3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="231" y="50" width="62" height="20" uuid="1b37289d-0c66-4550-990f-bc455b7e32ec"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_INICIAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="554" height="22" uuid="4f01e0e3-1a75-422a-a3f3-3cab862148a4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="61cfbeda-7eed-4989-b763-f38bcf9d2a4c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2e333692-488c-4aaf-87ef-c81cf412e19b"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[COLABORADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="2" width="60" height="20" uuid="8742b4ae-ff18-4cb7-a277-70a968570275">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb59b5ee-f24f-43dc-8f12-9c1c1d86e0a5"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="2" width="72" height="20" uuid="5452c317-7887-44de-a839-daedc76446ed">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="797c6f64-f406-4a88-8cf9-2a082a32e23f"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[REPROVADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="2" width="74" height="20" uuid="1ed463e2-8b55-4e6b-ae29-2fa2d08ba98d"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PERC. APROV.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="270" height="20" uuid="f2ce4595-d544-4e02-9420-f8d1f4a7825d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2e333692-488c-4aaf-87ef-c81cf412e19b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="72" height="20" uuid="d2973694-29ac-4d01-82ce-178adb08efd2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9066b91d-ab5d-429b-9396-8a41fc7336e0"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{rejeitada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="462" y="0" width="92" height="20" uuid="a20adbb5-9ba7-4c40-94d1-83b14f62cc2a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4f32ee73-6c14-4f67-ac2b-cfd5afee0a1a"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{perct}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="60" height="20" uuid="ab8df5be-e5f6-43c4-93ad-77ee64736dda">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1a142959-7a87-46fd-9c4a-a7224b13c40d"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{quant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="14" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="554" height="1" uuid="c2da161e-e478-4d30-8be1-3d6bca8b254e"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="11" splitType="Stretch"/>
+	</summary>
+</jasperReport>

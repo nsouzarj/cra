@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="analisedados" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c43f3a6-5c22-4e78-90ec-826978c2a943">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NEW_DATAADAPTER.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="219"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="776"/>
+	<parameter name="DATA_INICIAL" class="java.lang.String"/>
+	<parameter name="DATA_FINAL" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT  substring(tbrela.nome,1,15) as nome, sum(quantidade+rejeitada)
+as quant, sum(rejeitada) as rejeitada,ROUND((100-(sum(rejeitada)*100)/(sum(quantidade+rejeitada))),2) as perct
+from tbrela
+where quantidade > 0 and rejeitada > 0
+group by substring(tbrela.nome,1,15)																			
+																					
+order by perct desc
+																					
+LIMIT 15]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+	</field>
+	<field name="quant" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="quant"/>
+	</field>
+	<field name="rejeitada" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="rejeitada"/>
+	</field>
+	<field name="perct" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="perct"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="415">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+			<staticText>
+				<reportElement x="217" y="9" width="400" height="30" isPrintInFirstWholeBand="true" uuid="aca5f262-c48d-4ea7-8ccc-c93e27b3bbc6"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRÁFICO DE APROVEITAMENTO NEGATIVO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="368" y="40" width="62" height="20" uuid="eb525bb1-2d9e-448a-aa48-94ed8e770fe2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_INICIAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="305" y="40" width="63" height="20" uuid="57325ab7-e07e-4dd7-8a28-2c7abab6e8f5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Período de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="440" y="40" width="100" height="20" uuid="d9c86e3b-8fd0-450b-8e93-7a438ea17d89"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_FINAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="40" width="7" height="20" uuid="616393dc-36cf-4334-b692-b746546c3601"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<bar3DChart>
+				<chart evaluationTime="Report">
+					<reportElement x="10" y="82" width="760" height="330" uuid="1e70815f-ec4c-4c4a-8cb5-a65330c0a307"/>
+					<chartTitle/>
+					<chartSubtitle>
+						<font size="8"/>
+					</chartSubtitle>
+					<chartLegend>
+						<font size="8"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nome}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{perct}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{quant}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+			<staticText>
+				<reportElement x="289" y="60" width="227" height="20" uuid="120ede3c-97a1-4912-a064-e63970c01bad"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Ranking de Empenho  posição 15 primeiros]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

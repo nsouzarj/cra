@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2019-02-11T15:40:46 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relaeempenho1" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="86a7747b-27e8-4d49-bf25-4267bae10f30">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="DATA_INICIAL" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="DATA_FINAL" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT 
+
+  uf.nome,
+  --tiposolicitacao.especie,
+ count(solicitacao.idsolicitacao) total,
+  statussolicitacao.status,
+  to_char(sum(solicitacao.valor),'"R$" L999G999G999D99' ) as
+  valortotal, to_char(sum (solicitacao.valor)/count(solicitacao.idsolicitacao),'"R$" L999G999G999D99') as media  --,  DATE_PART('MONTH',solicitacao.datasolictacao) AS mes 
+FROM 
+ correspondente, 
+  comarca, 
+  renumeracao, 
+  solicitacao, 
+  tiposolicitacao,
+  statussolicitacao,
+  uf
+WHERE 
+  correspondente.idcorrespondente = renumeracao.idcorrespondente AND
+  renumeracao.idrenumeracao = solicitacao.idrenumeracao AND
+  tiposolicitacao.idtiposolicitacao=renumeracao.idsolicitacao AND
+  tiposolicitacao.especie  IN ('DILIGENCIA','AUDIENCIA') AND
+  statussolicitacao.idstatus=solicitacao.idstatus AND
+  solicitacao.idstatus = 7  AND
+  solicitacao.idcomarca =comarca.idcomarca AND
+  uf.iduf=comarca.uf_iduf AND
+  solicitacao.datasolictacao >= to_date($P{DATA_INICIAL},'DD/mm/YYYY') and
+  solicitacao.datasolictacao <= to_date($P{DATA_FINAL},'DD/mm/YYYY')  and
+  correspondente.idcorrespondente  <> 226  and
+    correspondente.idcorrespondente  <> 78 and
+  correspondente.ativo=true 
+GROUP BY --correspondente.idcorrespondente, 
+
+    uf.nome
+
+
+ORDER BY total desc]]>
+	</queryString>
+	<field name="nome" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="valortotal" class="java.lang.String"/>
+	<field name="media" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="255" y="2" width="300" height="30" uuid="9f51e1f9-4d05-4b60-93ed-6233d2decbbe"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Relatório de Desempenho]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="7" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="9" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="382" splitType="Stretch">
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="130" y="10" width="550" height="360" uuid="544f7d45-4af9-4cbb-b072-92b6fa63a3be"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset maxCount="2" minPercentage="100.0">
+					<pieSeries>
+						<keyExpression><![CDATA[$F{nome}]]></keyExpression>
+						<valueExpression><![CDATA[$F{valortotal}]]></valueExpression>
+						<labelExpression><![CDATA[$F{nome}]]></labelExpression>
+						<sectionHyperlink>
+							<hyperlinkWhenExpression><![CDATA[$F{nome}]]></hyperlinkWhenExpression>
+							<hyperlinkTooltipExpression><![CDATA[Nome]]></hyperlinkTooltipExpression>
+						</sectionHyperlink>
+					</pieSeries>
+					<pieSeries>
+						<keyExpression><![CDATA[$F{total}]]></keyExpression>
+						<valueExpression><![CDATA[30]]></valueExpression>
+						<labelExpression><![CDATA[Teste]]></labelExpression>
+					</pieSeries>
+					<pieSeries>
+						<keyExpression><![CDATA[$F{valortotal}]]></keyExpression>
+						<valueExpression><![CDATA[30]]></valueExpression>
+						<labelExpression><![CDATA[Teste]]></labelExpression>
+					</pieSeries>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="9" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="12" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:l="http://java.sun.com/jsf/composite/log-ui"
+	xmlns:b="http://bootsfaces.net/ui">
+	<h:head>
+		<title>Menu Principal</title>
+
+		<meta http-equiv='Content-Type ' charset="LATIN1"
+			content="text/html;IE=EmulateIE8" />
+		<!-- Aqui da um refresh a cada 20 minutos -->
+		<meta http-equiv="refresh" content="1200" />
+		<link rel="icon" type="image/x-icon"
+			href="#{request.contextPath}/imagens/favicon.ico" />
+
+		<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+		<link rel="shortcut icon" href="/imagens/faviconvelho.ico"
+			type="image/x-icon" />
+
+		<style type="text/css">
+.ui-menu {
+	min-width: 250px;
+	background-color: #0066ff !important;
+}
+
+.ui-megamenu {
+	background-color:  #0077e6f !important;
+	color: blue !important;
+	font-size: 17px !important;
+	font-color: red !important;
+}
+
+#menubarra {
+	background-color: #00396E;
+}
+</style>
+
+
+		<f:metadata>
+			<f:event listener="#{solicitacao.testaConfirmacao}"
+				type="preRenderView" />
+			<f:event listener="#{solicitacao.VerSessao}" type="preRenderView" />
+		</f:metadata>
+
+	</h:head>
+
+	<f:view encoding="ISO-8859-1">
+	  <f:event listener="#{solicitacao.robotbotao}" type="preRenderView" />
+		<f:facet name="primeiro">
+			<meta http-equiv='Content-Type' charset="LATIN1"
+				content="text/html;IE=EmulateIE8" />
+		</f:facet>
+		
+
+		<div>
+		 
+			<h:form>
+			
+				<p:megaMenu autoDisplay="false" styleClass="ui-megamenu">
+					<p:submenu label="Cadastros">
+						<p:column>
+							<p:submenu label="" style="font-size:15px">
+								<p:menuitem value="Alterar Senha" ajax="true"
+									action="#{usuarios.trazlogado()}" immediate="false"
+									url="/usuario/trocasenha.jsf" target="_blank"
+									style="font-size:12px">
+								</p:menuitem>
+								<p:menuitem value="Usuários" ajax="true"
+									rendered="${usuarios.nivelusuario eq 1}" immediate="false"
+									url="/usuario/usuario.jsf" style="font-size:12px" />
+								<p:menuitem value="Colaboradores" ajax="true"
+									rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 2 or usuarios.nivelusuario eq 4 }"
+									immediate="false" url="/correspondente/correspondente.jsf"
+									style="font-size:12px">
+									<f:setPropertyActionListener
+										target="#{corresponde.tiposusuario}"
+										value="#{usuarios.usuario.tipo}" />
+								</p:menuitem>
+								<p:menuitem value="Comarcas" ajax="true" immediate="false"
+									url="/comarcas/comarcas.jsf" style="font-size:12px"
+									rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 2}" />
+								<p:menuitem value="Orgãos" ajax="true" immediate="false"
+									url="/comarcas/orgao.jsf" style="font-size:12px"
+									rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 2}" />
+								<p:menuitem value="Banca" ajax="true" immediate="false"
+									url="/processo/bancaprocesso.jsf" style="font-size:12px"
+									rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 2}" />
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+
+					<p:submenu label="Financeiro"
+						rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 1}">
+						<p:column>
+							<p:submenu label="" style="font-size:15px">
+
+								<p:menuitem value="Baixa de Pagamento" ajax="true"
+									immediate="false" url="/financeiro/financeiro.jsf"
+									target="_blank" style="font-size:12px" />
+								<p:menuitem value="Demostrativo Geral" ajax="true" rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 2}" 
+									immediate="false" url="/financeiro/democolaborador.jsf"
+									target="_blank" style="font-size:12px" />
+
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+
+					<p:submenu label="Solicitação"
+						rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 2 or usuarios.nivelusuario eq 4 }">
+						<p:column>
+							<p:submenu label="" style="font-size:15px">
+
+								<p:menuitem value="Busca Solicitações" ajax="true"
+									immediate="false" url="/solicitacao/solicitacao.jsf"
+									target="_blank" style="font-size:12px" />
+
+								<p:menuitem value="Relatórios Pendentes" ajax="true"
+									immediate="false" url="/solicitacao/relatorios.jsf"
+									target="_blank" style="font-size:12px"
+									rendered="#{usuarios.nivelusuario eq 1}" />
+
+								<p:menuitem value="Relatório de Auditoria de Audiencias"
+									ajax="true" immediate="false"
+									url="/solicitacao/relauditoria.jsf" target="_blank"
+									style="font-size:12px" rendered="#{usuarios.nivelusuario eq 1}" />
+
+								<p:menuitem value="Importador de Planilha do CPPRO" ajax="true"
+									immediate="false" url="/processo/importadorcppro.jsf"
+									target="_blank" style="font-size:12px" disabled="true"
+									rendered="#{usuarios.nivelusuario eq 1 or usuarios.nivelusuario eq 2 or usuarios.nivelusuario eq 4}" />
+
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+					<p:submenu label="Utilitários"
+						rendered="#{usuarios.nivelusuario eq 1}">
+						<p:column>
+							<p:submenu label="">
+								<p:menuitem value="Alterar Status da Solicitação" rendered="false"
+									style="font-size:12px;" ajax="true" />
+
+								<p:menuitem value="Liberar Processo" style="font-size:12px;" rendered="false"
+									ajax="true" />
+                                <p:menuitem value="Ranking de Colaboradores"  rendered="false" style="font-size:12px;" ajax="true"  /> 
+                                <p:menuitem value="Gráfico de Desempenho" style="font-size:12px;" ajax="true"  url="/graficos/grafico1.jsf"  />
+                                
+
+							</p:submenu>
+
+						</p:column>
+
+					</p:submenu>
+					<p:menuitem value="Sair do Sistema"  ajax="false"  
+						tyle="font-size:15px" action="#{usuarios.SairSistema}" >
+						
+					</p:menuitem>	
+
+				</p:megaMenu>
+			</h:form>
+		</div>
+	</f:view>
+	<center>
+		<p:panel
+			style="padding:70px;display:block;border-width: 0px;border-style: none;border-color:#A6C9E2;padding:0px;margin-top:0px;width:400px;height:70px;overflow:visible"></p:panel>
+		<p:graphicImage value="/imagens/novaimg2.jpg" width="800" style="padding:70px"
+			height="200"  />
+
+	</center>
+</ui:composition>
+
+
+
+

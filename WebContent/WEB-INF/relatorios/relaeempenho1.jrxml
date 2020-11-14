@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relaeempenho1" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="86a7747b-27e8-4d49-bf25-4267bae10f30">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NEW_DATAADAPTER.xml"/>
+	<parameter name="DATA_INICIAL" class="java.lang.String"/>
+	<parameter name="DATA_FINAL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+
+  uf.sigla,
+  --tiposolicitacao.especie,
+ count(solicitacao.idsolicitacao) total,
+  statussolicitacao.status,
+  to_char(sum(solicitacao.valor),'"R$" L999G999G999D99' ) as
+  valortotal, to_char(sum (solicitacao.valor)/count(solicitacao.idsolicitacao),'"R$" L999G999G999D99') as media  --,  DATE_PART('MONTH',solicitacao.datasolictacao) AS mes 
+FROM 
+ correspondente, 
+  comarca, 
+  renumeracao, 
+  solicitacao, 
+  tiposolicitacao,
+  statussolicitacao,
+  uf
+WHERE 
+  correspondente.idcorrespondente = renumeracao.idcorrespondente AND
+  renumeracao.idrenumeracao = solicitacao.idrenumeracao AND
+  tiposolicitacao.idtiposolicitacao=renumeracao.idsolicitacao AND
+  tiposolicitacao.especie  IN ('DILIGENCIA','AUDIENCIA') AND
+  statussolicitacao.idstatus=solicitacao.idstatus AND
+  solicitacao.idstatus = 7  AND
+  solicitacao.idcomarca =comarca.idcomarca AND
+  uf.iduf=comarca.uf_iduf AND
+  solicitacao.datasolictacao >= to_date($P{DATA_INICIAL},'DD/mm/YYYY') and
+  solicitacao.datasolictacao <= to_date($P{DATA_FINAL},'DD/mm/YYYY')  and
+  correspondente.idcorrespondente  <> 226  and
+    correspondente.idcorrespondente  <> 78 and
+  correspondente.ativo=true 
+GROUP BY --correspondente.idcorrespondente, 
+ uf.sigla,
+   -- tiposolicitacao.especie,
+    statussolicitacao.status
+
+
+ORDER BY total desc]]>
+	</queryString>
+	<field name="sigla" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="valortotal" class="java.lang.String"/>
+	<field name="media" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="382" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="40" width="780" height="330" uuid="c5fa7f02-6f84-4cfe-aef1-e69d868b9be8"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{sigla}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{status}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+						<labelExpression><![CDATA[$F{sigla}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<staticText>
+				<reportElement x="210" y="4" width="280" height="22" uuid="3896ae6d-6eb3-4a8c-8017-25122a9301cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Solicitações feitas por Estado - período]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="496" y="4" width="90" height="22" uuid="a0b27c66-8db7-416c-9907-72ecb25519d7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_INICIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="603" y="4" width="90" height="22" uuid="62dfafc0-ad27-4433-8ae0-237d0eef378e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_FINAL}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="29" width="780" height="1" uuid="2de1c419-0ee0-4a74-8896-b1bb8619d941"/>
+			</line>
+			<staticText>
+				<reportElement x="587" y="4" width="10" height="22" uuid="0b13108e-7b2b-4fb3-9d32-b88dd2b19341"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

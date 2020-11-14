@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>CRA-Login</title>
+		<meta content='text/html' http-equiv='Content-Type'
+			charset="ISO-8859-1" />
+
+		<link rel="icon" type="image/x-icon"
+			href="#{request.contextPath}/imagens/favicon.ico" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/themes/redmond/skin.css"/>
+
+		<style type="text/css">
+.ui-widget {
+	font-size: 80% !important;
+}
+
+.themeMenu {
+	font: bold !important;
+	height: 200px !important;
+	width: 100px !important;
+}
+</style>
+
+
+		<script>
+
+
+</script>
+
+	</h:head>
+	<h:outputText
+		value="Copyright(2011): INFLYOUT - Nelson Seixas de Souza CPF:435693902-68"
+		style="color:white" />
+
+	<f:view encoding="ISO-8859-1">
+		<f:event listener="#{usuarios.growlativar}" type="preRenderView" />
+		<!--  <p:growl id="growl" showDetail="false"  /> -->
+
+		<ui:debug hotkey="e" />
+		<center>
+			<h:graphicImage value="/imagens/imagemnova1.jpg" width="500"
+				ismap="true" usemap="www.cavalcanteramos.adv.br" />
+			<h:form id="teste4">
+				<h:outputText value="&#13;" />
+				<p:panelGrid columns="2" id="teste3">
+
+					<f:facet name="header"> Login de Acesso o Sistema </f:facet>
+
+					<p:panelGrid width="300" columns="2" id="teste1">
+
+						<h:outputText value="Usuário:" />
+						<h:inputText value="#{usuarios.loginacesso}" id="usu"
+							autocomplete="false" />
+
+						<h:outputText value="Senha:" />
+						<h:inputSecret value="#{usuarios.senha}" autocomplete="false" />
+					</p:panelGrid>
+					<f:facet name="footer">
+						<h:commandButton type="sumbit"
+							title="Click aqui para entrar no sistema" value="Entrar"
+							action="#{usuarios.PegaUsuario}" immediate="false">
+							<f:setPropertyActionListener target="#{corresponde.nivelusuario}"
+								value="#{usuarios.usuario.tipo}"></f:setPropertyActionListener>
+						</h:commandButton>
+						<h:outputText value="" />
+						<h:commandButton type="button" disabled="true"
+							title="O sistema de recuperação de senha esta temporariamente desabilitado."
+							value="Recuperar Senha" />
+					</f:facet>
+				</p:panelGrid>
+			</h:form>
+		</center>
+		<center>
+			<p:messages id="msg1" autoUpdate="true" closable="true"
+				showDetail="true" />
+		</center>
+		<h:outputText value="" />
+
+
+		<p:ajaxStatus
+			style="width:64px;height:64px;position:fixed;right:680px;bottom:300px"
+			id="mostra">
+			<f:facet name="start">
+				<p:graphicImage value="/imagens/loading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	</f:view>
+
+</ui:composition>
+

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Orgãos Cadastrado</title>
+	<meta content='text/html' http-equiv='Content-Type'
+		charset="ISO-8859-1" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	overflow: auto;
+	font: arial;
+	height: 200px;
+	width: 100px;
+}
+</style>
+
+</h:head>
+<body>
+	<h:form>
+
+		<f:event listener="#{solicitacao.VerSessaoFinal}" type="preRenderView" />
+		<b:panel title="Orgão Cadastrado" look="primary">
+			<p:panelGrid columns="2">
+				<h:outputText value="id orgao" />
+				<h:outputText value="#{orgaos.orgao.idorgao}" />
+				<h:outputText value="Descrição do Orgão" />
+				<p:inputText value="#{orgaos.orgao.descricao}" size="100"
+					onkeyup="this.value=this.value.toUpperCase()" />
+			</p:panelGrid>
+
+			<p:commandButton value="Salvar"
+				title="Click aqui para salvar um novo orgão." ajax="false"
+				type="submit" action="#{orgaos.Salvarorgao}" icon="ui-icon-disk" />
+
+			<h:outputText value="#{' '}" />
+			<p:commandButton value="Limpar" type="submit"
+				action="#{orgaos.Limpar}" title="Click aqui para limpar os campos."
+				ajax="false" icon="ui-icon-refresh">
+				<f:setPropertyActionListener target="#{orgaos.altera_orgao}"
+					value="false" />
+			</p:commandButton>
+			<h:outputText value="#{' '}" />
+			<b:commandButton value="Sair" ajax="false" immediate="true" look="primary"
+				title="Click aqui para sair da tela de orgãos." action="/menu.jsf"
+				icon="ui-icon-arrowreturnthick-1-w" />
+		</b:panel>
+
+		<b:panel title="Listagem de Orgãos Cadastrados" look="primary">
+			<p:dataTable value="#{orgaos.orgaos}" id="org" var="lst"
+				paginator="true" rows="10" resizableColumns="no"
+				emptyMessage="Orgão não encontrado">
+				<p:column sortBy="#{lst.idorgao}" width="60">
+					<f:facet name="header">
+						<h:outputText value="Id Orgão" />
+					</f:facet>
+					<h:outputText value="#{lst.idorgao}" />
+				</p:column>
+
+				<p:column sortBy="#{lst.descricao}" width="200">
+					<f:facet name="header">
+						<h:outputText value="Descrição do Orgão" />
+					</f:facet>
+					<h:outputText value="#{lst.descricao}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Alterar" />
+					</f:facet>
+
+
+					<p:commandLink value="Alterar" ajax="false"
+						title="Click aqui para alterar o orgão." type="submit"
+						action="#{orgaos.Trazorgao}">
+						<f:setPropertyActionListener target="#{orgaos.codorgao}"
+							value="#{lst.idorgao}" />
+						<f:setPropertyActionListener target="#{orgaos.altera_orgao}"
+							value="true" />
+
+
+
+
+
+
+
+
+
+
+					</p:commandLink>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Excluir" />
+					</f:facet>
+					<p:commandLink value="Excluir" ajax="false" type="submit"
+						title="Click aqui para excluir o orgão."
+						action="#{orgaos.Excluir}">
+						<f:setPropertyActionListener target="#{orgaos.codorgao}"
+							value="#{lst.idorgao}" />
+					</p:commandLink>
+				</p:column>
+
+
+
+			</p:dataTable>
+
+
+		</b:panel>
+
+
+
+
+	</h:form>
+
+</body>
+
+
+</html>

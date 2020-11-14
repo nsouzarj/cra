@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#index.html" PATH="/index.html"
+  SHAPE="80,80,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#index.html:0" NAME="item" PATH="/index.html" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login::#login3.xhtml" NAME="output"
+    PATH="/login3.xhtml" TARGET="rules:#login3.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#login3.xhtml" PATH="/login3.xhtml"
+  SHAPE="160,208,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login3.xhtml:0" NAME="item"
+   PATH="/login3.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="menu::#menu.xhtml" NAME="output"
+    PATH="/menu.xhtml" TARGET="rules:#menu.xhtml" TITLE="menu" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#menu.xhtml" PATH="/menu.xhtml"
+  SHAPE="288,64,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#menu.xhtml:0" NAME="item" PATH="/menu.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="solicitacao::#solicitacao#solicitacao.xhtml"
+    NAME="output" PATH="/solicitacao/solicitacao.xhtml"
+    TARGET="rules:#solicitacao#solicitacao.xhtml" TITLE="solicitacao" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="comarcas::#comarcas#comarcas.xhtml"
+    NAME="output1" PATH="/comarcas/comarcas.xhtml"
+    TARGET="rules:#comarcas#comarcas.xhtml" TITLE="comarcas" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="correspondente::#correspondente#correspondente.xhtml"
+    NAME="output2" PATH="/correspondente/correspondente.xhtml"
+    TARGET="rules:#correspondente#correspondente.xhtml"
+    TITLE="correspondente" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="usuario::#usuario#usuario.xhtml"
+    NAME="output3" PATH="/usuario/usuario.xhtml"
+    TARGET="rules:#usuario#usuario.xhtml" TITLE="usuario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#solicitacao#solicitacao.xhtml"
+  PATH="/solicitacao/solicitacao.xhtml" SHAPE="528,56,50,57" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#solicitacao#solicitacao.xhtml:0" NAME="item"
+   PATH="/solicitacao/solicitacao.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="novasolicitacao::#solicitacao#novasolicitacao.xhtml"
+    NAME="output" PATH="/solicitacao/novasolicitacao.xhtml"
+    TARGET="rules:#solicitacao#novasolicitacao.xhtml"
+    TITLE="novasolicitacao" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="alterasolicitacao::#solicitacao#alterasolicitacao.xhtml"
+    NAME="output1" PATH="/solicitacao/alterasolicitacao.xhtml"
+    TARGET="rules:#solicitacao#alterasolicitacao.xhtml"
+    TITLE="alterasolicitacao" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#solicitacao#novasolicitacao.xhtml"
+  PATH="/solicitacao/novasolicitacao.xhtml" SHAPE="640,248,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#solicitacao#alterasolicitacao.xhtml"
+  PATH="/solicitacao/alterasolicitacao.xhtml" SHAPE="464,304,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#comarcas#comarcas.xhtml"
+  PATH="/comarcas/comarcas.xhtml" SHAPE="146,338,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#correspondente#correspondente.xhtml"
+  PATH="/correspondente/correspondente.xhtml" SHAPE="360,432,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#correspondente#cadcorrespondente.xhtml"
+  PATH="/correspondente/cadcorrespondente.xhtml" SHAPE="536,456,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#correspondente#cadcorrespondente.xhtml:0"
+   NAME="item" PATH="/correspondente/cadcorrespondente.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="correspondente::#correspondente#correspondente.xhtml"
+    NAME="output" PATH="/correspondente/correspondente.xhtml"
+    TARGET="rules:#correspondente#correspondente.xhtml"
+    TITLE="correspondente" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#usuario#usuario.xhtml"
+  PATH="/usuario/usuario.xhtml" SHAPE="42,328,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+</PROCESS>

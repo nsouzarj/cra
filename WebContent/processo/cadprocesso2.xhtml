@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Cadastro de Processo Novo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/humanity/skin.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<script src="#{request.contextPath}/javascript/jquery.js"></script>
+	<script src="#{request.contextPath}/javascript/jquery.ui.js"></script>
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.label {
+	font-size: 16px;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+</style>
+
+</h:head>
+
+<f:view encoding="ISO-8859-1" contentType="text/html;charset=ISO-8859-1">
+<b:form acceptcharset="ISO-8859-1">
+	<b:panel title="Cadastrado de Processo">
+		<b:panelGrid columns="2" styleClass="semBorda">
+			<b:label value="Número do Processo:" />
+			<b:inputText id="txt1" value="#{solicitacao.processo.numeroprocesso}"
+				size="30" required="true" required-message="Campo vazio do processo" />
+			<b:label value="Cliente:" />
+			<b:inputText value="#{solicitacao.processo.parte}" size="80"
+				onkeyup="this.value=this.value.toUpperCase();" required="true"
+				required-message="Campo da parte do processo vazio"  />
+			<b:label value="Adverso:" />
+			<b:inputText value="#{solicitacao.processo.adverso}" size="80"
+				onkeyup="this.value=this.value.toUpperCase();" required="true"
+				required-message="Campo do adverso vazio do processo" />
+			<b:label value="Cártorio:" />
+			<b:inputText value="#{solicitacao.processo.cartorio}" size="30"
+				onkeyup="this.value=this.value.toUpperCase();" required="true"
+				required-message="Campo do cartório do processo" />
+			<b:label value="Pasta:" />
+			<b:inputText value="#{solicitacao.processo.localizacao}" size="30"
+				required-message="Campo da pasta vazia o do processo"
+				onkeyup="this.value=this.value.toUpperCase();" required="true" />
+			<b:label value="Num. Integração:" />
+			<b:inputText value="#{solicitacao.processo.numerointegracao}"
+				size="30" onkeyup="this.value=this.value.toUpperCase();" />
+			<b:label value="Eletrônico:" />
+			<b:radiobutton value="#{solicitacao.processo.proceletronico}" >
+				<f:selectItem itemLabel="SIM" itemvalue="S" />
+				<f:selectItem itemLabel="NÃO" itemvalue="N" />
+
+			</b:radiobutton>
+
+			<b:label value="Assunto:" />
+			<b:inputTextarea title="Assunto como indenizatória etc do processo"
+				value="#{solicitacao.processo.assunto}" autoResize="true" />
+
+		</b:panelGrid>
+	</b:panel>
+
+
+	<b:commandButton look="primary" id="bt1" value="Confirmar"
+		ajax="false" immediate="false" process="@all"
+		tooltip="De um duplo clique aqui para confirma o salvamento do processo."
+		action="#{solicitacao.NovoProcessoSolictacao}" update="msg12"  >
+		<span class="glyphicon-floppy-save"></span>
+	</b:commandButton>
+
+	<h:outputText value="#{' '}" />
+	<b:commandButton value="Sair" look="warning"
+		tooltip="De um duplo click para sair do cadastro do processo"
+		ajax="true" process="@this" immediate="false" update="@this"
+		action="/processo/processocpj.jsf" />
+		
+	<b:messages id="msg12" escape="false" />
+  
+</b:form>
+
+</f:view>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Formulário de Audiência</title>
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+</style>
+
+	<script type="text/javascript">
+		
+	</script>
+</h:head>
+<f:view>
+	<h:form>
+		<p:growl id="msg10" life="4500" showDetail="false" sticky="false" />
+
+		<p:panelGrid columns="2">
+			<h:outputText value="O autor está assistido por advogado?" />
+			<p:selectOneRadio
+				value="#{solicitacao.formularioAudienciaNovo.assitidoadvogado}">
+				<f:selectItem itemValue="true" itemLabel="Sim" />
+				<f:selectItem itemValue="false" itemLabel="Não" />
+				<p:ajax update="painel1" process="@this" immediate="false" />
+			</p:selectOneRadio>
+		</p:panelGrid>
+
+		<p:panel id="painel1" header="Tela1"
+			rendered="#{solicitacao.formularioAudienciaNovo.assitidoadvogado=='true'}">
+			<p:panelGrid columns="2">
+
+				<h:outputText value="O Autor compareceu a audiência? " />
+				<p:selectOneRadio value="">
+					<f:selectItem itemValue="true" itemLabel="Sim" />
+					<f:selectItem itemValue="false" itemLabel="Não" />
+				</p:selectOneRadio>
+			</p:panelGrid>
+		</p:panel>
+
+		<p:panel header="Preenchimento do Relatório de Audiência">
+			<p:commandButton value="Salvar o Formulário"
+				title="Clique aqui para salvar o formulário."
+				action="#{solicitacao.SalvarFormulario}" ajax="true" update="msg10" />
+			<p:commandButton value="Voltar"
+				title="Clique aqui para sair do formulário."
+				action="/solicitacao/dadosolicitacao.jsf" ajax="true"
+				immediate="true" />
+		</p:panel>
+
+	</h:form>
+</f:view>
+</html>

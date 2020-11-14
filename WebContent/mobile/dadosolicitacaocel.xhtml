@@ -1,0 +1,345 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+<h:head>
+	<title>DADOS SOLIC.</title>
+	<meta http-equiv="Content-Type" content="text/html;enconding=UTF-8" />
+
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+</style>
+
+
+</h:head>
+<f:view encoding="ISO-8859-1" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE" style="color:blue">
+	<pm:page title="Teste" mini="true">
+
+		<pm:view>
+			<pm:header title="DADOS DA SOLIC." fixed="true" />
+			<pm:content>
+				<f:event listener="#{solicitacao.VerSessaoFinal}"
+					type="preRenderView" />
+
+
+				<h:form enctype="multipart/form-data">
+
+					<p:panelGrid columns="1" bgcolor="#87CEEB" border="0">
+
+						<h:outputText value="Dados da Solicitação"
+							style="font-size:16pt;font-family:arial;color:blue" />
+						<p />
+						<h:outputText value="Usuário Logado: #{usuarios.loginacesso}"
+							style="font-size:14pt;font-family:arial" />
+						<p />
+
+						<p:panelGrid columns="2" bgcolor="#87CEEB" border="0">
+							<h:outputText value="ID Solicitacão:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.idsolicitacao}" />
+							<h:outputText value="Data do Prazo da Solicitação:" />
+							<h:outputText value="#{solicitacao.unicasolicitacao.dataprazo}"
+								style="font-color:#FF0000;bgcolor:#FF0000">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+							<h:outputText value="Processo:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.processo.numeroprocesso}" />
+							<h:outputText value="Autor:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.processo.parte}" />
+							<h:outputText value="Réu:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.processo.adverso}" />
+							<h:outputText value="Assunto:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.processo.assunto}" />
+							<h:outputText value="Comarca:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.comarca.nome}" />
+							<h:outputText value="Cartório:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.processo.numorgao} - #{solicitacao.unicasolicitacao.processo.orgao.descricao}" />
+							<h:outputText value="Tipo de Solicitação:" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie} - #{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}" />
+							<h:outputText value="Envio de"
+								rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.enviosolicitacao.tipoenvio}"
+								rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}" />
+							<h:outputText value="Hora da Audiencia"
+								rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.horaudiencia}"
+								rendered="#{solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}" />
+							<h:outputText value="Status Atual da Solicitação" />
+							<h:outputText
+								value="#{solicitacao.unicasolicitacao.statusSolicitacao.status}" />
+							<p:commandButton value="Clique aqui para reativar"
+								action="#{solicitacao.ReativaSolictacao()}" id="bt2"
+								ajax="false"
+								rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==6 and solicitacao.usuario.tipo==3}">
+								<p:ajax immediate="false" update="@all" />
+							</p:commandButton>
+							<h:outputText value="Selecione o status da solicitação:"
+								rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==1}" />
+							<p:selectOneMenu id="selec" value="#{solicitacao.statusexterno}"
+								rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==1}"
+								immediate="true">
+								<f:selectItem id="item1"
+									itemLabel="Click aqui para aceita a solicitação" itemValue="0" />
+								<f:selectItem id="item2" itemLabel="CONFIRMAR"
+									itemValue="CONFIRMADO" />
+								<f:selectItem id="item3" itemLabel="REJEITAR"
+									itemValue="REJEITADO" />
+								<f:ajax execute="@this" render="@all" />
+							</p:selectOneMenu>
+							<h:outputText value="Motivo da rejeição" id="rej1"
+								rendered="#{solicitacao.statusexterno=='REJEITADO'}">
+							</h:outputText>
+							<p:inputTextarea value="#{solicitacao.textodarejeicao}" id="rej2"
+								rendered="#{solicitacao.statusexterno=='REJEITADO'}"
+								autoResize="true"
+								style="display:block;border-width: 1px;border-style: solid;border-color:#A6C9E2;padding:1px;margin-top:1px;width:360px;height:100px;overflow:scroll">
+								<f:ajax render="@this" />
+							</p:inputTextarea>
+							<p:commandButton id="tesed" action="#{solicitacao.MudaStatus}"
+								ajax="true" process="@this" update="@all" immediate="false"
+								value="Salvar"
+								rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==1}" />
+						</p:panelGrid>
+					</p:panelGrid>
+
+
+					<p:panel header="Instruções da solicitação e Observações" id="pn4"
+						collapsed="true" toggleable="true" closable="true"
+						toggleSpeed="500" closeSpeed="500" style="color:blue">
+
+						<p:inputTextarea
+							value="#{solicitacao.unicasolicitacao.instrucoes}"
+							title="Instruções da Solicitação" disabled="false"
+							readonly="true" autoResize="true"
+							style="display:block;border-width: 1px;border-style:solid;color:blue; border-color:#A6C9E2;padding:1px;margin-top:1px;width:250px;height:100px;overflow:scroll">
+						</p:inputTextarea>
+
+					</p:panel>
+					<p:panel header="Conclusão da Solicitação." id="pn5"
+						toggleable="true" closable="true" toggleSpeed="500"
+						closeSpeed="500" collapsed="true">
+						<p:inputTextarea widgetVar="tests" id="obs1"
+							value="#{solicitacao.observacaofinal}"
+							required="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4}"
+							requiredMessage="Favor colocar o texto de finalização antes de concluir"
+							immediate="false" autoResize="true"
+							style="display:block;border-width: 1px;border-style: solid;border-color:#A6C9E2;padding:1px;margin-top:1px;width:250px;height:100px;overflow:scroll"
+							title="Observações da Solicitação">
+							<p:ajax update="@this" global="false" />
+						</p:inputTextarea>
+					</p:panel>
+					<p:panel
+						header="Motivo da reprovação da solicitação pelo solicitante."
+						id="pn6"
+						rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==6}"
+						collapsed="true" toggleable="true" closable="false"
+						toggleSpeed="500" closeSpeed="500">
+						<p:inputTextarea
+							value="#{solicitacao.unicasolicitacao.complemento}"
+							rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==6}"
+							immediate="false" autoResize="true" readonly="true"
+							style="display:block;border-width: 1px;border-style: solid;border-color:#A6C9E2;padding:1px;margin-top:1px;width:250px;height:100px;overflow:scroll"
+							title="Motivo da reprovação da solicitação pelo solicitante.">
+						</p:inputTextarea>
+					</p:panel>
+
+
+
+					<p:panel header="Arquivos Anexados ao Correspondente"
+						collapsed="true">
+
+						<h:panelGroup
+							rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4 or solicitacao.unicasolicitacao.statusSolicitacao.idstatus==5 or solicitacao.unicasolicitacao.statusSolicitacao.idstatus==7 or solicitacao.unicasolicitacao.statusSolicitacao.idstatus==6}">
+
+							<h:panelGrid columns="2" style="border: 0px solid #FCFDFD">
+								<p:dataTable value="#{solicitacao.listasaida}" var="lista1"
+									id="lista1" emptyMessage="Nâo existe arquivos">
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome do Arquivo Recebido" />
+										</f:facet>
+										<p:commandLink immediate="true" ajax="false"
+											value="#{lista1.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+											action="#{solicitacao.BaixarArquivo(lista1.solicitacaoPossuiArquivo.solicitacaoAnexo.linkarquivo,'ENVIADO')}">
+											<f:setPropertyActionListener
+												value="#{lista1.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+												target="#{solicitacao.arquivoparabaixar}" />
+										</p:commandLink>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Data" />
+										</f:facet>
+										<h:outputText
+											value="#{lista1.solicitacaoPossuiArquivo.solicitacaoAnexo.datasolicitacao}">
+											<f:convertDateTime pattern="dd/MM/yyyyy" />
+										</h:outputText>
+									</p:column>
+								</p:dataTable>
+							</h:panelGrid>
+
+						</h:panelGroup>
+					</p:panel>
+
+					<p:panel header="Arquivos Anexados ao Solicitante."
+						collapsed="false" id="pn8">
+
+						<h:panelGroup
+							rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4 or solicitacao.unicasolicitacao.statusSolicitacao.idstatus==5 or solicitacao.unicasolicitacao.statusSolicitacao.idstatus==7 or solicitacao.unicasolicitacao.statusSolicitacao.idstatus==6}">
+							<h:panelGrid columns="2" style="border: 0px solid #FCFDFD">
+								<p:dataTable value="#{solicitacao.listaentrada}" var="lista2"
+									id="lista2" emptyMessage="Nâo existe arquivos">
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome do Arquivo Enviado" />
+										</f:facet>
+										<p:commandLink immediate="false" ajax="false" process="@this"
+											update="@this" global="false"
+											value="#{lista2.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+											action="#{solicitacao.BaixarArquivo(lista2.solicitacaoPossuiArquivo.solicitacaoAnexo.linkarquivo,'RECEBIDO')}">
+											<f:setPropertyActionListener
+												value="#{lista2.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+												target="#{solicitacao.arquivoparabaixar}" />
+										</p:commandLink>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Data" />
+										</f:facet>
+										<h:outputText
+											value="#{lista2.solicitacaoPossuiArquivo.solicitacaoAnexo.datasolicitacao}">
+											<f:convertDateTime pattern="dd/MM/yyyyy" />
+										</h:outputText>
+									</p:column>
+									<p:column
+										rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4 or solicitacao.unicasolicitacao.statusSolicitacao.idstatus==6  }">
+										<f:facet name="header">
+											<h:outputText value="Excluir" />
+										</f:facet>
+
+										<p:commandLink value="Excluir"
+											action="#{solicitacao.ExcluirArquivoAnexo}" ajax="false"
+											process="lista2 lista2">
+											<f:setPropertyActionListener
+												target="#{solicitacao.idarquivoanexo}"
+												value="#{lista2.solicitacaoPossuiArquivo.solicitacaoAnexo.idarquivoanexo}" />
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+							</h:panelGrid>
+							<p />
+							<h:outputText value="Anexar os Arquivos."
+								rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4 and solicitacao.usuario.tipo==3}" />
+							<p:fileUpload immediate="false" id="arq1" process="@this"
+								ajax="true" multiple="true" dragDropSupport="false"
+								fileUploadListener="#{solicitacao.AnexarArquivos}"
+								label="Procurar.." cancelLabel="Cancelar" style="font-size:10px"
+								mode="advanced"
+								rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4  and solicitacao.usuario.tipo==3}"
+								uploadLabel="Salvar Arquivo." update="arq1 pn8" disable="false" />
+						</h:panelGroup>
+						<p />
+						<h:panelGroup
+							rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4 and solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}">
+							<h:outputText value="Audiencia foi convolada?" />
+							<p:selectOneRadio id="teste4" value="#{solicitacao.foiconvolada}">
+								<f:selectItem itemLabel="Não" itemValue="#{false}" />
+								<f:selectItem itemLabel="Sim" itemValue="#{true}" />
+							</p:selectOneRadio>
+						</h:panelGroup>
+
+						<p:commandButton value="Form. Audiência"
+							action="#{solicitacao.TrazVazioFomularioCel}" target="_blank"
+							immediate="false" ajax="true" process="@this" id="concluio2"
+							rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4 and solicitacao.unicasolicitacao.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie=='AUDIENCIA'}" />
+						<h:outputText value="#{'  '}" />
+
+
+
+						<p:commandButton value="Concluir" id="concluir" ajax="true"
+							process="@this" onclick="cd.show();"
+							rendered="#{solicitacao.unicasolicitacao.statusSolicitacao.idstatus==4}">
+						</p:commandButton>
+
+						<p:confirmDialog
+							message="Se concluir não poderá inserir mais os arquivos."
+							appendToBody="concluir" modal="true" id="dlgh1" rendered="true"
+							header="Concluir a Solicitação?" severity="alert" widgetVar="cd"
+							style="font-color:red">
+							<p:panel>
+								<p:commandButton value="Sim" immediate="false"
+									action="#{solicitacao.MudaStatusGeral}" ajax="false"
+									onclick="cd.hide()">
+									<p:ajax update="@all" process="@this"
+										listener="#{solicitacao.MudaStatusGeral}" immediate="false" />
+								</p:commandButton>
+								<p:commandButton value="Não" onclick="cd.hide();" ajax="true"
+									type="submit" />
+							</p:panel>
+						</p:confirmDialog>
+						<p:commandButton value="Fechar" onclick="window.close();"
+							action="/mobile/soliusuariocel.jsf" immediate="false">
+							<f:setPropertyActionListener target="#{solicitacao.mostrajanela}"
+								value="false" />
+							<f:setPropertyActionListener
+								target="#{solicitacao.buscatodasoclitacoes}" value="true" />
+							<f:setPropertyActionListener target="#{solicitacao.bnumero}"
+								value="0" />
+							<p:ajax process="@this" update="@all" />
+						</p:commandButton>
+					</p:panel>
+
+
+				</h:form>
+
+
+				<p:ajaxStatus
+					style="width:64px;height:64px;position:fixed;right:640px;bottom:300px">
+					<f:facet name="start">
+						<p:graphicImage value="/imagens/loading.gif" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+
+				</p:ajaxStatus>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>
+</html>
+

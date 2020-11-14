@@ -1,0 +1,103 @@
+<!--
+							<p:dataTable value="#{solicitacao.processocpj}" var="cpj"
+								id="resultado" paginator="true" resizableColumns="true" rows="5"
+								emptyMessage="Registro(s) não encontrado" style="font-size:10px"
+								rendered="false">
+
+
+								<p:column sortBy="#{cpj.numficha}" rendered="false">
+									<f:facet name="header">
+										<h:outputText value="Número da Ficha" />
+									</f:facet>
+									<h:outputText value="#{cpj.numficha}" />
+								</p:column>
+
+								<p:column sortBy="#{cpj.numprocesso}">
+									<f:facet name="header">
+										<h:outputText value="Número do Processo" />
+									</f:facet>
+									<p:commandLink id="link1" ajax="false" type="button"
+										value="#{cpj.numprocesso}" onclick="dlg1.show();"
+										action="#{solicitacao.BuscaAdamento}" immediate="false">
+
+										<f:setPropertyActionListener target="#{solicitacao.ficha}"
+											value="#{cpj.numficha}" />
+										<f:setPropertyActionListener
+											target="#{solicitacao.numprocessocpj}"
+											value="#{cpj.numprocesso}" />
+										<f:setPropertyActionListener target="#{solicitacao.nomeautor}"
+											value="#{cpj.nomeautor}" />
+										<f:setPropertyActionListener target="#{solicitacao.nomereu}"
+											value="#{cpj.nomereu}" />
+									</p:commandLink>
+								</p:column>
+
+								<p:column sortBy="#{cpj.nomeautor}">
+									<f:facet name="header">
+										<h:outputText value="Parte Contrária" />
+									</f:facet>
+									<h:outputText value="#{cpj.nomeautor}" />
+								</p:column>
+
+								<p:column sortBy="#{cpj.nomereu}">
+									<f:facet name="header">
+										<h:outputText value="Cliente" />
+									</f:facet>
+									<h:outputText value="#{cpj.nomereu}" />
+								</p:column>
+								<p:column style="font-size:10px">
+									<f:facet name="header">
+										<h:outputText value="Localização" />
+									</f:facet>
+									<h:outputText value="#{cpj.siglaloc} - #{cpj.locnumero}" />
+								</p:column>
+								<p:column style="font-size:10px">
+									<f:facet name="header">
+										<h:outputText value="Integração" />
+									</f:facet>
+									<h:outputText
+										value="#{cpj.siglaintegracao} - #{cpj.numerointegracao}" />
+								</p:column>
+								<p:column style="font-size:10px">
+									<f:facet name="header">
+										<h:outputText value="Juizo/Vara" />
+									</f:facet>
+									<h:outputText
+										value="#{cpj.juizo} / #{cpj.ojnumero} / #{cpj.ojsigla}" />
+								</p:column>
+								<p:column style="font-size:10px">
+									<f:facet name="header">
+										<h:outputText value="Assunto" />
+									</f:facet>
+									<p:commandLink value="Assunto"
+										title="Assunto: #{cpj.assuntodoprocesso}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Selecionar" />
+									</f:facet>
+									<p:commandLink value="Selecionar" ajax="true" update="@all"
+										title="Click aqui para selecionar o processo."
+										action="#{solicitacao.AlteraSolinovasolicitacao}"
+										process="@all">
+										<f:setPropertyActionListener
+											target="#{solicitacao.numprocessocpj}"
+											value="#{cpj.numprocesso}" />
+									</p:commandLink>
+								</p:column>
+
+								<p:column style="font-size:10px">
+									<f:facet name="header">
+										<h:outputText value="Proc. Eletrônico" />
+									</f:facet>
+									<h:outputText value="SIM"
+										rendered="#{cpj.proceletronico eq 'E' }" />
+									<h:outputText value="NÃO"
+										rendered="#{cpj.proceletronico != 'E' }" />
+								</p:column>
+
+
+							</p:dataTable>
+							  -->
+						

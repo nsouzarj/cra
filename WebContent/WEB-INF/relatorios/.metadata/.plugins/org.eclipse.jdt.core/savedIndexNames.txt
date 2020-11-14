@@ -1,0 +1,1 @@
+INDEX VERSION 1.127+Z:\publico\repositoriocra\cra\WebContent\WEB-INF\relatorios\.metadata\.plugins\org.eclipse.jdt.core

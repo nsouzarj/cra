@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Listagem de Colaborador - CRA</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	overflow: auto;
+	font: arial;
+	height: 200px;
+	width: 100px;
+}
+
+#tabela2 {
+	font: arial;
+	font-size: 80%; # tabela1 { overflow : auto;
+	font: arial;
+	font-size: 80%;
+}
+
+#painel1 {
+	overflow: auto;
+	font: arial;
+	font-size: 70%;
+}
+
+#forma1 {
+	overflow: auto;
+	font: arial;
+	font-size: 80%;
+}
+
+#painel2 {
+	overflow: auto;
+	font: arial;
+	font-size: 80%;
+}
+</style>
+</h:head>
+<f:view>
+	<f:event listener="#{solicitacao.VerSessao}" type="preRenderView" />
+	<h:outputScript name="/locale/locale.js" />
+	<h:form>
+		
+				<b:panel id="painel1" title="Busca de Colaborador" toggleable="true" look="primary">
+
+					<p:panelGrid columns="2" id="forma1">
+						<h:outputText value="Nome" />
+						<p:inputText value="#{corresponde.nome}" size="60"
+							immediate="false" onkeyup="this.value=this.value.toUpperCase();">
+							<p:ajax update="@this" />
+						</p:inputText>
+
+						<h:outputText value="CPF/CNPJ" />
+						<p:inputText value="#{corresponde.cpfcnpj}">
+							<p:ajax update="@this" />
+						</p:inputText>
+						<h:outputText value="OAB" />
+						<p:inputText value="#{corresponde.oab}">
+							<p:ajax update="@this" />
+						</p:inputText>
+
+						<h:outputText value="Selecione o Estado da Comarca" />
+						<p:selectOneMenu value="#{corresponde.id_uf_busca}">
+							<f:selectItem itemValue="0" itemLabel="Selecione um Estado" />
+							<f:selectItems value="#{corresponde.ufgeral}" var="estcom"
+								itemLabel="#{estcom.nome}" itemValue="#{estcom.iduf}" />
+							<p:ajax update="selc @this" process="@this" />
+						</p:selectOneMenu>
+						<h:outputText value="Selecione uma comarca" />
+						<p:selectOneMenu value="#{corresponde.codcomarcabusca}" id="selc">
+							<f:selectItem itemValue="0" itemLabel="Selecione uma comarca" />
+							<f:selectItems value="#{corresponde.comarcaBusca}" var="com"
+								itemLabel="#{com.nome}" itemValue="#{com.idcomarca}" />
+							<p:ajax immediate="false" process="@this" />
+						</p:selectOneMenu>
+						<h:outputText value="Colaborador Ativo" />
+						<p:selectOneRadio id="pf1" value="#{corresponde.cobativo}"
+							immediate="false">
+							<p:ajax update="val5 val6" process="@this" />
+							<f:selectItem id="val5" itemLabel="SIM" itemValue="true" />
+							<f:selectItem id="val6" itemLabel="NÃO" itemValue="false" />
+						</p:selectOneRadio>
+					</p:panelGrid>
+
+					<p:commandButton value="Buscar Colaborador"
+						title="Click aqui para fazer a busca" immediate="false"
+						ajax="true" process="@all" update="@all painel2 "
+						action="#{corresponde.BuscaPorFiltro}" type="submit"
+						icon="ui-icon-search" />
+					<h:outputText value="#{' '}" />
+
+					<p:commandButton value="Novo Colaborador"
+						action="#{corresponde.NovoCorrespondente}" ajax="false"
+						disabled="#{usuarios.nivelusuario eq 3  or usuarios.nivelusuario eq 4}"
+						title="Click aqui para cadastrar um novo correspondente"
+						icon="ui-icon-plusthick" immediate="false" />
+					<h:outputText value="#{' '}" />
+
+					<p:commandButton value="Sair" action="#{corresponde.Sair}"
+						ajax="false" type="submit"
+						title="Click aqui para voltar ao menu principal" immediate="false"
+						icon="ui-icon-arrowreturnthick-1-w" />
+				</b:panel>
+
+				<b:panel rendered="true" title="Listagem da busca" toggleable="true"
+					look="primary" id="painel2">
+					<div>
+						<h:outputText value="Lista de pesquisados" />
+					</div>
+
+					<p:dataTable id="tabela2" draggableColumns="true" var="corr"
+						value="#{corresponde.comarcaPossuis}"
+						emptyMessage="Não existe registros" paginator="true" rows="20">
+						<p:column size="300px"
+							sortBy="#{corr.comarcaCorrespondente.correspondente.nome}">
+							<f:facet name="header">
+								<h:outputText value="Nome" />
+							</f:facet>
+							<h:outputText
+								value="#{corr.comarcaCorrespondente.correspondente.nome}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="CPF/CNPJ" />
+							</f:facet>
+							<h:outputText
+								value="#{corr.comarcaCorrespondente.correspondente.cpfcnpj}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="OAB" />
+							</f:facet>
+							<h:outputText
+								value="#{corr.comarcaCorrespondente.correspondente.oab}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Email" />
+							</f:facet>
+							<h:outputText
+								value="#{corr.comarcaCorrespondente.correspondente.emailprimario}" />
+						</p:column>
+
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Telefone" />
+							</f:facet>
+							<h:outputText
+								value="#{corr.comarcaCorrespondente.correspondente.telefoneprimario}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Celular" />
+							</f:facet>
+							<h:outputText
+								value="#{corr.comarcaCorrespondente.correspondente.telefonecelularprimario}" />
+						</p:column>
+						<p:column sortBy="#{corr.comarcaCorrespondente.comarca.nome}">
+							<f:facet name="header">
+								<h:outputText value="Comarcas de atuação" />
+							</f:facet>
+							<h:outputText value="#{corr.comarcaCorrespondente.comarca.nome}" />
+						</p:column>
+						<p:column
+							sortBy="#{corr.comarcaCorrespondente.correspondente.ativo}">
+							<f:facet name="header">
+								<h:outputText value="Ativo" />
+							</f:facet>
+							<h:outputText value="SIM"
+								rendered="#{corr.comarcaCorrespondente.correspondente.ativo==true}" />
+							<h:outputText value="NÃO"
+								rendered="#{corr.comarcaCorrespondente.correspondente.ativo==false}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Dados" />
+							</f:facet>
+
+							<p:commandLink value="Dados" action="#{corresponde.BuscaUnico}"
+								ajax="false">
+								<f:setPropertyActionListener target="#{corresponde.codcorres}"
+									value="#{corr.comarcaCorrespondente.correspondente.idcorrespondente}" />
+								<f:setPropertyActionListener
+									target="#{corresponde.tiposusuario}" value="" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+					<p:commandButton value="Exportar para o excel" ajax="false"
+						title="Click aqui para exportar para o formato Excel."
+						icon="ui-icon-document">
+						<p:dataExporter type="xls" target="tabela2" fileName="listaexcel"
+							excludeColumns="8" />
+					</p:commandButton>
+					<h:outputText value="#{' '}" />
+					<p:commandButton value="Exportar para o PDF" ajax="false"
+						title="Click aqui para exportar para o formato PDF."
+						icon="ui-icon-document">
+						<p:dataExporter type="pdf" target="tabela2" fileName="listapdf"
+							excludeColumns="8" />
+					</p:commandButton>
+				</b:panel>
+			
+
+			<p:ajaxStatus
+				style="width:64px;height:64px;position:fixed;right:640px;bottom:300px">
+				<f:facet name="start">
+					<p:graphicImage value="/imagens/loading.gif" />
+				</f:facet>
+
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+		
+	</h:form>
+
+</f:view>
+</html>

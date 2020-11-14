@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Listagem Colaborador</title>
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<script src="#{request.contextPath}/javascript/jquery.js"></script>
+	<script src="#{request.contextPath}/javascript/jquery.ui.js"></script>
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+}
+</style>
+
+
+</h:head>
+<f:view encoding="ISO-8859-1" contentType="text/html">
+	<h:form>
+		<p:growl id="msgdoida" life="4500" showDetail="false" sticky="false" />
+
+		<b:panel title="Imprimir Demostrativo Geral e Cancelados/Rejeitado" look="primary">
+			<p:panelGrid columns="2">
+
+				<p:panelGrid columns="4" styleClass="semBorda">
+					<p:panelGrid columns="4" styleClass="semBorda">
+						<h:outputText value="Data Inicial" />
+						<p:calendar size="11" value="#{pagamento.bdatainicial}"
+							navigator="true" pattern="dd/MM/yyyy" effect="explode"
+							title="Data inicial do prazo.">
+						</p:calendar>
+						<h:outputText value="Data final" />
+						<p:calendar size="11" value="#{pagamento.bdatafinal}"
+							navigator="true" pattern="dd/MM/yyyy" effect="explode"
+							title="Data final do prazo.">
+						</p:calendar>
+
+					</p:panelGrid>
+					<p:panelGrid columns="3" styleClass="semBorda">
+						<h:outputText value="Relatório Escolhido:" />
+						<p:selectOneRadio id="pf2" value="#{pagamento.qualrel}"
+							immediate="false" tabindex="0">
+							<p:ajax update="val5 val6" process="@this" />
+							<f:selectItem id="val5" itemLabel="Demostrativo Financeiro"
+								itemValue="0" />
+							<f:selectItem id="val6" itemLabel="Cancelado/Rejeitado"
+								itemValue="1" />
+						</p:selectOneRadio>
+
+
+						<h:outputText value="" />
+						<h:outputText value="Formato Escolhido:" />
+						<p:selectOneRadio id="pf3" value="#{pagamento.formatorel}"
+							immediate="false" tabindex="0">
+							<p:ajax update="val7 val8" process="@this" />
+							<f:selectItem id="val7" itemLabel="Formato PDF" itemValue="0" />
+							<f:selectItem id="val8" itemLabel="Formato XLS" itemValue="1" />
+						</p:selectOneRadio>
+
+					</p:panelGrid>
+
+
+				</p:panelGrid>
+				<h:outputText value=" " />
+
+				<p:panelGrid styleClass="semBorda" columns="2">
+					<p:commandButton value="Imprimir"
+						title="Click aqui para imprimir o demostrativo de todos os colaboradores ativo."
+						ajax="false" id="btdemogerel" process="@this" update="msgdoida"
+						action="#{pagamento.ImprimeResumoColab}" icon="ui-icon-print" />
+
+
+					<p:commandButton value="Sair da tela"
+						actionListener="#{solicitacao.VerSessao}" action="/menu.jsf"
+						id="btfechar" ajax="false" onclick="window.close();"
+						title="Clique aqui para sair da tela de busca."
+						icon="ui-icon-arrowreturnthick-1-w">
+
+						<p:ajax immediate="true" update="@all" process="@all" />
+					</p:commandButton>
+				</p:panelGrid>
+
+			</p:panelGrid>
+		</b:panel>
+
+
+	</h:form>
+
+
+
+
+
+</f:view>
+
+</html>

@@ -1,0 +1,351 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+<h:head>
+	<title>Solicitações Distribuídas</title>
+	<meta http-equiv="Content-Type" content="text/html;enconding=UTF-8" />
+
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+</style>
+
+
+</h:head>
+<f:view encoding="ISO-8859-1" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="Teste" mini="true">
+
+		<pm:view>
+			<pm:header title="SOLIC. CORRESPONDENTE" fixed="true" />
+			<pm:content>
+				<f:event listener="#{solicitacao.VerSessaoFinal}"
+					type="preRenderView" />
+				<h:form>
+
+					<p:panelGrid columns="2" bgcolor="#87CEEB" border="0">
+
+
+
+						<h:outputText value="Usuário:"
+							style="font-family:arial;font-size:10pt" />
+
+
+						<h:outputText value="#{usuarios.loginacesso}"
+							style="font-family:arial;font-size:10pt" />
+
+						<h:outputText value="CORRESPONDENTE:"
+							style="font-family:arial;font-size:10pt" />
+
+						<h:outputText value="#{usuarios.nome}"
+							style="font-family:arial;font-size:10pt" />
+
+						<h:outputText value="CNPJ/CPF:"
+							style="font-family:arial;font-size:10pt" />
+
+
+						<h:outputText value="#{usuarios.cnpjcpf}"
+							style="font-family:arial;font-size:10pt" />
+
+
+
+
+						<h:outputText value="ID SOLICTAÇÃO" />
+						<p:inputText value="#{solicitacao.bnumero}" size="10" />
+						<h:outputText value="PARTE CONTRÁRIA" />
+						<p:inputText value="#{solicitacao.nomeautor}" size="60"
+							onkeyup="this.value=this.value.toUpperCase();">
+							<f:ajax render="@this" />
+						</p:inputText>
+						<h:outputText value="CLIENTE" />
+						<p:inputText value="#{solicitacao.nomereu}" size="60"
+							onkeyup="this.value=this.value.toUpperCase();">
+							<f:ajax render="@this" />
+						</p:inputText>
+
+
+						<pm:field>
+
+							<h:outputText value="Selecione o Status" />
+							<p:selectOneMenu value="#{solicitacao.idstatusbuscasolicitacao}"
+								immediate="true">
+								<f:selectItem itemValue="0" itemLabel="Todos" />
+								<f:selectItem itemValue="1" itemLabel="Aguardando Confirmação" />
+								<f:selectItem itemValue="5" itemLabel="Concluído" />
+								<f:selectItem itemValue="8" itemLabel="Cancelada" />
+								<f:selectItem itemValue="4" itemLabel="Em Produção" />
+								<f:selectItem itemValue="7" itemLabel="Finalizado" />
+								<f:selectItem itemValue="2" itemLabel="Não Confirmado" />
+								<f:selectItem itemValue="6" itemLabel="Reprovado" />
+								<f:selectItem itemValue="3" itemLabel="Rejeitado" />
+								<f:ajax immediate="true" execute="@this" />
+							</p:selectOneMenu>
+						</pm:field>
+
+
+						<h:outputText value="Número do Processo" />
+						<p:inputText value="#{solicitacao.bprocesso}" size="30" />
+
+
+						<h:outputText value="Número de Integração" />
+						<p:inputText value="#{solicitacao.numerointegracao}" size="30" />
+
+
+						<pm:field>
+							<h:outputText value="Comarca" />
+							<p:selectOneMenu value="#{solicitacao.bcomarca}">
+								<f:selectItem itemValue="0" itemLabel="Selecione uma comarca" />
+								<f:selectItems value="#{solicitacao.listacomarca}" var="com"
+									itemLabel="#{com.nome}" itemValue="#{com.idcomarca}" />
+								<f:ajax immediate="true" execute="@this" />
+							</p:selectOneMenu>
+
+
+
+						</pm:field>
+						<h:outputText value="Selecione o tipo" />
+						<p:selectOneRadio value="#{solicitacao.tiposolicitacaobusca}">
+							<f:selectItem itemValue="A" itemLabel="Audiência" />
+							<f:selectItem itemValue="D" itemLabel="Diligência" />
+							<f:selectItem itemValue="T" itemLabel="Todas" escape="true" />
+							<f:ajax immediate="true" execute="@this" />
+						</p:selectOneRadio>
+
+						<p:panelGrid columns="6">
+
+
+							<p:selectOneRadio id="options"
+								value="#{solicitacao.tipo_periodo}">
+								<f:selectItem itemLabel="Data de Elaboração" itemValue="1"
+									escape="true" />
+								<f:selectItem itemLabel="Data de Prazo" itemValue="2" />
+								<p:ajax process="@this" update="@this" />
+							</p:selectOneRadio>
+							<h:outputText value="#{' '}" />
+						</p:panelGrid>
+						<p:panelGrid columns="4">
+							<h:outputText value="Data Inicial" />
+							<p:calendar value="#{solicitacao.bdatainicial}" size="11"
+								navigator="true" pattern="dd/MM/yyyy" effect="explode"
+								title="Data inicial do prazo.">
+
+							</p:calendar>
+
+
+							<h:outputText value="Data final" />
+							<p:calendar value="#{solicitacao.bdatafinal}" size="11"
+								navigator="true" pattern="dd/MM/yyyy" effect="explode"
+								title="Data final do prazo.">
+
+							</p:calendar>
+						</p:panelGrid>
+
+					</p:panelGrid>
+					<p:commandButton value="Buscar Solicitações" id="bt1"
+						action="#{solicitacao.BuscaSolicitacaoCorrespondente}" ajax="true"
+						update="tabela3">
+						<f:setPropertyActionListener value="#{usuarios.idcorrespondente}"
+							target="#{solicitacao.bcorrespondente}" />
+						<f:setPropertyActionListener
+							value="#{solicitacao.idstatusbuscasolicitacao}"
+							target="#{solicitacao.bstatus}" />
+						<f:setPropertyActionListener value="true"
+							target="#{solicitacao.buscatodasoclitacoes}" />
+						<f:setPropertyActionListener
+							target="#{solicitacao.solicitacaoDao.novabusca}" value="true" />
+						<f:setPropertyActionListener target="#{solicitacao.idusuario}"
+							value="0" />
+
+					</p:commandButton>
+					<h:outputText value="#{'  '}" />
+					<p:commandButton value="Limpar" id="bt2" ajax="false" type="reset"
+						action="#{solicitacao.LimparCamposSolicitacoes}">
+						<f:setPropertyActionListener target="#{solicitacao.bnumero}"
+							value="0" />
+					</p:commandButton>
+
+					<h:outputText value="#{'  '}" />
+
+					<p:commandButton value="Sair" action="#{usuarios.SairSistemaCel}"
+						id="bt4">
+						<f:setPropertyActionListener value="false"
+							target="#{solicitacao.buscatodasoclitacoes}" />
+					</p:commandButton>
+
+					<p />
+					<h:outputText value="Lista de Solicitações" style="font-size:12pt"
+						title="Click aqui para sair do sistema." />
+					<p />
+
+					<p:dataTable resizableColumns="true"
+						value="#{solicitacao.solicitacoes}" liveScroll="true" var="soli"
+						id="tabela3" paginator="true" emptyMessage="Lista vazia" rows="8">
+
+
+
+						<p:column sortBy="#{soli.idsolicitacao}" width="100">
+							<f:facet name="header">
+								<h:outputText value="Id Solicitação" />
+							</f:facet>
+
+							<h:commandLink target="_blank" ajax="true"
+								action="#{solicitacao.BuscaUnicamobile}" immediate="false"
+								value="#{soli.idsolicitacao}"
+								title="Click aqui para ver o dados da solicitação">
+								<f:setPropertyActionListener value="#{soli.idsolicitacao}"
+									target="${solicitacao.bnumero}" />
+								<f:setPropertyActionListener value="#{soli.idsolicitacao}"
+									target="${solicitacao.idsolicitacaobusca}" />
+
+							</h:commandLink>
+						</p:column>
+
+						<p:column
+							sortBy="${soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}"
+							width="250">
+							<f:facet name="header">
+								<h:outputText value="Tipo" />
+							</f:facet>
+							<h:outputText
+								value="${soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}" />
+						</p:column>
+						<p:column sortBy="${soli.statusSolicitacao.status}" width="200">
+							<f:facet name="header">
+								<h:outputText value="Status" />
+							</f:facet>
+							<h:outputText id="aviso" value="#{soli.statusSolicitacao.status}"
+								title="#{soli.complemento}" />
+						</p:column>
+						<p:column sortBy="${soli.dataprazo}" width="80">
+							<f:facet name="header">
+								<h:outputText value="Data do Prazo" />
+							</f:facet>
+							<h:outputText value="${soli.dataprazo}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="${soli.horaudiencia}" width="30">
+							<f:facet name="header">
+								<h:outputText value="Hora" />
+							</f:facet>
+							<h:outputText value="${soli.horaudiencia}" />
+						</p:column>
+						<p:column sortBy="#{soli.comarca.nome}" width="350">
+							<f:facet name="header">
+								<h:outputText value="Comarca" />
+							</f:facet>
+							<h:outputText value="#{soli.comarca.nome}" />
+						</p:column>
+
+						<p:column sortBy="#{soli.processo.parte}" width="300">
+							<f:facet name="header">
+								<h:outputText value="Autor" />
+							</f:facet>
+							<h:outputText value="#{soli.processo.parte}" />
+						</p:column>
+						<p:column sortBy="#{soli.processo.adverso}" width="400">
+							<f:facet name="header">
+								<h:outputText value="Réu" />
+							</f:facet>
+							<h:outputText value="#{soli.processo.adverso}" />
+						</p:column>
+						<p:column sortBy="#{soli.processo.numeroprocesso}" width="200">
+							<f:facet name="header">
+								<h:outputText value="Num Processo" />
+							</f:facet>
+							<h:outputText value="${soli.processo.numeroprocesso}" />
+						</p:column>
+
+						<p:column
+							sortBy="${soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}"
+							width="300">
+							<f:facet name="header">
+								<h:outputText value="Solicitação" />
+							</f:facet>
+							<h:outputText
+								value="${soli.renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}" />
+						</p:column>
+
+						<p:column sortBy="${soli.datasolictacao}">
+							<f:facet name="header">
+								<h:outputText value="Data Solic." />
+							</f:facet>
+							<h:outputText value="${soli.datasolictacao}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column sortBy="#{soli.processo.orgao.descricao}" width="200">
+							<f:facet name="header">
+								<h:outputText value="Cartório" />
+							</f:facet>
+							<h:outputText value="${soli.processo.orgao.descricao}" />
+						</p:column>
+						<p:column sortBy="#{soli.processo.orgao.idorgao}" width="70">
+							<f:facet name="header">
+								<h:outputText value="Núm. Orgão" />
+							</f:facet>
+							<h:outputText value="#{soli.processo.numorgao}" />
+						</p:column>
+
+						<p:column width="700">
+							<f:facet name="header">
+								<h:outputText value="Instrução da Diligência" />
+							</f:facet>
+							<h:outputText value="#{soli.instrucoes}" />
+						</p:column>
+						<p:column width="150" sortBy="#{soli.renumeracao.valor}"
+							rendered="false">
+							<f:facet name="header">
+								<h:outputText value="Valor da Solicitação" />
+							</f:facet>
+							<h:outputText value="#{soli.renumeracao.valor}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</p:column>
+
+						<f:facet name="footer">
+
+						</f:facet>
+					</p:dataTable>
+
+				</h:form>
+
+				<p:ajaxStatus
+					style="width:64px;height:64px;position:fixed;right:640px;bottom:300px">
+					<f:facet name="start">
+						<p:graphicImage value="/imagens/loading.gif" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>
+</html>

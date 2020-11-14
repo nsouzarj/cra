@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Arquivos da Solicitação</title>
+	<meta http-equiv="Content-Type;CACHE-CONTROL"
+		content="text/html;NO-CACHE;enconding=UTF-8;5;Refresh;URL=arquivosigecol.jsf" />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.colorido {
+	background-color: #FFA500;
+	background: #FF0000;
+	color: #FFFFFF;
+}
+
+.tabela {
+	background-color: #DCDCDC;
+}
+
+.title {
+	font-style: normal;
+	color: black;
+	background-color: black;
+	background-attachment: black;
+	width: 500px;
+	height: auto;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	text-transform: uppercase;
+	width: 100px;
+}
+</style>
+	<script type="text/javascript">
+		function showStatus() {
+			statusDialog.show();
+		}
+		function hideStatus() {
+			statusDialog.hide();
+		}
+
+		function fechar() {
+
+			window.opener = window
+
+			window.close("#")
+
+		}
+		
+		
+		function preventDoubleSubmit(element) {
+			var cssClass = element.attr('class');
+			var text = element.text();
+			 
+			var replacement = $("<b></b>).attr('href','#')
+			.attr('class',cssClass)
+			.text(text);
+			 
+			element.replaceWith(replacement);
+			return true;
+			}
+		
+     });
+
+	</script>
+</h:head>
+<h:body contentType="text/html">
+	<h:form id="forma2" style="font-size: 13px;" onsubmit="true">
+		<p:outputLabel value="ARQUIVOS DA SOLICITAÇÃO" style="font-size:18px;" />
+		<p:panelGrid columns="1">
+			<h:outputText
+				value="ID da Solicitação: #{solicitacao.alterarsolicitacao.idsolicitacao}"
+				style="font-size:16px;" />
+			<h:outputText
+				value="PROCESSO: #{solicitacao.alterarsolicitacao.processo.numeroprocesso}"
+				style="font-size:16px;" />
+		</p:panelGrid>
+		<b:commandButton ajax="false" value="Voltar a Solicitação" look="info" 
+			 action="#{solicitacao.VoltarAlterarSolicitao}"
+			title="Click aqui para voltar solicitação"
+			onclick="preventDoubleSubmit($(this));">
+
+			<f:setPropertyActionListener
+				target="#{solicitacao.buscatodasoclitacoes}" value="true" />
+			<p:ajax process="@this"  immediate="false" />
+		</b:commandButton>
+		<b:panel title="Arquivos enviado e recebido da solicitação" id="pnla"
+			toggleable="true" look="primary">
+
+			<p:panelGrid columns="2">
+
+				<p:tab title="Arquivos enviado para o correspondente"
+					styleClass="tabela">
+
+					<h:outputText value="Arquivos enviados para o correspondente" />
+
+					<p:dataTable value="#{solicitacao.listasaida}" var="doc1"
+						emptyMessage="Não existe arquivos na solicitação" id="solienv">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Arquivo" />
+							</f:facet>
+
+							<b:commandButton id="baixar" ajax="false" process="@this"
+								global="false" title="Click aqui para baixa o arquivo"
+								style="
+							color: red; border: none;" immediate="false"
+								value="#{doc1.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+								action="#{solicitacao.BaixarArquivo(doc1.solicitacaoPossuiArquivo.solicitacaoAnexo.linkarquivo,'ENVIADO')}">
+								<f:setPropertyActionListener
+									value="#{doc1.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}"
+									target="#{solicitacao.arquivoparabaixar}" />
+							</b:commandButton>
+
+
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+							<h:outputText
+								value="#{doc1.solicitacaoPossuiArquivo.solicitacaoAnexo.datasolicitacao}">
+								<f:convertDateTime timeStyle="long" pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Excluir" />
+							</f:facet>
+
+							<p:commandLink value="Excluir" id="apagar" process="@this"
+								update="@all"
+								title="Click aqui para excluir o arquivo da solicitação."
+								action="#{solicitacao.ExcluirArquivoAnexo(doc1.solicitacaoPossuiArquivo.solicitacaoAnexo.idarquivoanexo)}"
+								ajax="false"
+								rendered="#{doc1.solicitacaoPossuiArquivo.solicitacaoAnexo.operacao=='ENVIADO'  and solicitacao.alterarsolicitacao.statusSolicitacao.idstatus!=7}">
+								<f:setPropertyActionListener
+									target="#{solicitacao.idarquivoanexo}"
+									value="#{doc1.solicitacaoPossuiArquivo.solicitacaoAnexo.idarquivoanexo}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+
+					<h:outputText value=" " />
+
+					<b:commandButton ajax="false" look="primary"
+						title="Clique aqui para ver todas as solicitações do CPPRO dessa passta"
+						value="Arquivos no Ged do CPPRO" id="bttoodoscpro"
+						onclick="$('.modalPseudoClass1').modal();return false;">
+					</b:commandButton>
+					<h:outputText value=" " />
+					
+					<h:outputText
+						style="font-family:arial-bold; font-size:20px; font-color:blue "
+						value="Arquivos Atualizados do CPPRO" rendered="true" />
+					<h:outputText value="  " />
+
+					<p:dataTable value="#{solicitacao.arquivoAnexoCPROSalvos}"
+						sortBy="true" rendered="true" rows="20" var="doccppro1"
+						styleClass="tabela"
+						emptyMessage="Não existe arquivos na solicitação"
+						rowStyleClass="#{doccppro1.rejeitado==true ? 'colorido' :null}"
+						id="solienvcprpro">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Nome do Arquivo" />
+							</f:facet>
+							<b:commandButton id="baixar" ajax="false" global="false"
+								style="color:blue; border:none" immediate="false"
+								value="#{doccppro1.nomeDocumento}" process="@this"
+								update="baixar"
+								action="#{solicitacao.BaixarArquivoCPRO(doccppro1.caminhoGed ,'ENVIADO')}">
+
+								<f:setPropertyActionListener value="#{doccppro1.caminhoGed}"
+									target="#{solicitacao.arquivoparaenviar}" for="baixar" />
+								<f:setPropertyActionListener value="true"
+									target="#{solicitacao.daoArquivoCPRO.jacarregou}" />
+
+							</b:commandButton>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Descrição" />
+							</f:facet>
+							<h:outputText value="#{doccppro1.descricao}">
+
+							</h:outputText>
+						</p:column>
+
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Anexado Por" />
+							</f:facet>
+							<h:outputText value="#{doccppro1.anexadoPor}">
+
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+							<h:outputText value="#{doccppro1.anexadoEm}">
+								<f:convertDateTime locale="pt,BR" timeZone="GMT-03:00"
+									timeStyle="long" pattern="dd/MM/yyyy HH:mm:ss" />
+
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Liberar" />
+							</f:facet>
+							<b:commandButton id="btvai" title="#{doccppro1.motivodarejeicao}"
+								look="info"
+								action="#{solicitacao.LiberarArquivoBaixarArquivoCPRO(doccppro1.caminhoGed ,doccppro1.nomeDocumento, 'ENVIADO',doccppro1.idarqcpprosalvo,doccppro1.idarqcpprosalvo)}"
+								value="." process="@this solienvcprpro" global="false"
+								ajax="false" update="@all" immediate="false"
+								icon="ui-icon-check"
+								disabled="#{doccppro1.rejeitado or  solicitacao.alterarsolicitacao.statusSolicitacao.idstatus==7}">
+							</b:commandButton>
+
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Rejeitar" />
+							</f:facet>
+							<p:commandButton id="btdvolve" icon="ui-icon-alert"
+								disabled="#{doccppro1.rejeitado or solicitacao.alterarsolicitacao.statusSolicitacao.idstatus==7}"
+								title="Click aqui para rejeitar o arquivo da solicitação"
+								action="#" immediate="true" process="@this"
+								onclick="rejeitarviaemail.show();">
+								<f:setPropertyActionListener
+									value="#{doccppro1.idarqcpprosalvo}"
+									target="#{solicitacao.idarquivocppro}" />
+								<f:setPropertyActionListener value="#{doccppro1.nomeDocumento}"
+									target="#{solicitacao.nomearqcppro}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+					<p:commandButton rendered="true"
+						value="Inserir todos os arquivos no Sisgecol"
+						disabled="#{solicitacao.arquivoAnexoCPROSalvos.size() ==0}"
+						update="@all" ajax="false" immediate="false"
+						action="#{solicitacao.LiberaTodosArqCproSalvo(solicitacao.alterarsolicitacao.processo.localizacao, solicitacao.alterarsolicitacao.idsolicitacao)}">
+
+					</p:commandButton>
+
+				</p:tab>
+
+				<p:tab title=" Arquivos recebidos do correspondente">
+
+					<h:outputText value="Arquivos recebido do correspondente" />
+					<p:dataTable value="#{solicitacao.listaentrada}" var="doc2"
+						emptyMessage="Não existe arquivos na solicitação" id="soliarq">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Arquivo" />
+							</f:facet>
+							<b:commandButton id="baxoa2" immediate="true" ajax="false"
+								style="color:blue; border:none;"
+								title="Click aqui para baixar o arquivo"
+								action="#{solicitacao.BaixarArquivo(doc2.solicitacaoPossuiArquivo.solicitacaoAnexo.linkarquivo, 'RECEBIDO')}"
+								value="#{doc2.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}">
+								<f:setPropertyActionListener
+									target="#{solicitacao.arquivoparabaixar}"
+									value="#{doc2.solicitacaoPossuiArquivo.solicitacaoAnexo.nomearquivo}" />
+							</b:commandButton>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data e Hora" />
+							</f:facet>
+							<h:outputText
+								value="#{doc2.solicitacaoPossuiArquivo.solicitacaoAnexo.datasolicitacao}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:tab>
+			</p:panelGrid>
+
+
+			<h:outputText value=" " />
+			<h:outputText value="Arquivos da Solicitação"
+				rendered="#{solicitacao.alterarsolicitacao.statusSolicitacao.idstatus!=5 or solicitacao.alterarsolicitacao.statusSolicitacao.idstatus != 7}" />
+			<p:fileUpload id="arq1" immediate="false" disabled="false"
+				rendered="#{solicitacao.alterarsolicitacao.statusSolicitacao.idstatus != 5 or  solicitacao.alterarsolicitacao.statusSolicitacao.idstatus != 7}"
+				fileUploadListener="#{solicitacao.EnviarArquivosNovos}"
+				label="Selecionar" cancelLabel="Cancelar" multiple="true"
+				dragDropSupport="true" uploadLabel="Salvar Arquivo."
+				update="pnla,msg11" process="@this">
+			</p:fileUpload>
+
+			<h:outputText value="" />
+			<p:notificationBar id="notifica1" position="bottom" effect="slide"
+				widgetVar="bar2" styleClass="bottom">
+				<h:outputText value="AGUARDE..." style="color:red;font-size:18px;" />
+			</p:notificationBar>
+
+		</b:panel>
+
+		<b:modal id="amodal1" title="Todos os Arquivos do CP-PRO"
+			styleClass="modalPseudoClass1" size="modal-lg">
+
+			<b:panel>
+			<h:outputLabel value=" " />
+				<b:commandButton icon="ui-icon-arrowrefresh-1-w" look="info"
+					ajax="false"
+					title="Clique aqui para atualizar a listagame vinda do GED do CPPRO"
+					value="Atualiza a Listagem" update="solienvcprprotodos1"
+					action="#{solicitacao.listacproarqtodos(solicitacao.alterarsolicitacao.processo.localizacao)}">
+
+				</b:commandButton>
+				<h:outputLabel value=" " />
+				<b:commandButton rendered="false" ajax="false" look="primary"  
+					icon="ui-icon-circle-arrow-s"
+					value="Libera todos os arquivos do GED "
+					update="solienvcprprotodos1"
+					title="Libera os arquivo para serem usado na solicitação não precisando mais usar essa listagem para o resto da operação."
+					action="#{solicitacao.AtualizaSisgecol(solicitacao.alterarsolicitacao.processo.localizacao,solicitacao.alterarsolicitacao.idsolicitacao)}"
+					disabled="#{solicitacao.alterarsolicitacao.statusSolicitacao.idstatus==7}">
+ 
+				</b:commandButton>
+				<h:outputLabel value=" " rendered="false" />
+				<b:commandButton rendered="true" type="submit" ajax="false"
+					icon="ui-icon-circle-arrow-s" look="success"
+					value="Insere direto do GED do CP-PRO para o GED - Sisgecol "
+					action="#{solicitacao.LiberaDireto(solicitacao.alterarsolicitacao.processo.localizacao)}"
+					title="Insere diretamente do do ged do CP-PRO para a base dos colaboradores externo."
+					
+					disabled="#{solicitacao.alterarsolicitacao.statusSolicitacao.idstatus==7}">
+                   
+				</b:commandButton>
+
+
+
+				
+				<b:panelGrid columns="1">
+					<p:dataTable
+						value="#{solicitacao.listacproarqtodos(solicitacao.alterarsolicitacao.processo.localizacao)}"
+						var="doccppro3"
+						emptyMessage="Não existe arquivos marcados no GED do CPPRO favor entra em contato com a banca -  #{solicitacao.alterarsolicitacao.bancaProcesso.banca}"
+						id="solienvcprprotodos1" rendered="true">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Id-Doc" />
+							</f:facet>
+							<h:outputText value="#{doccppro3.idArquivo}">
+
+							</h:outputText>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Pasta" />
+							</f:facet>
+							<h:outputText value="#{doccppro3.pastaDoProcesso}">
+
+							</h:outputText>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Arquivo" />
+							</f:facet>
+
+							<h:outputText value="#{doccppro3.nomeDocumento}" />
+
+
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Descrição" />
+							</f:facet>
+							<h:outputText value="#{doccppro3.descricao}">
+
+							</h:outputText>
+						</p:column>
+
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Anexado Por" />
+							</f:facet>
+							<h:outputText value="#{doccppro3.anexadoPor}">
+
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+							<h:outputText value="#{doccppro3.anexadoEm}">
+								<f:convertDateTime locale="pt,BR" timeZone="GMT-03:00"
+									timeStyle="long" pattern="dd/MM/yyyy HH:mm:ss" />
+
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Liberar Unico Arquivo" />
+							</f:facet>
+							<p:commandButton id="btvai2"
+								title="Click aqui para liberar um unico arquivo para o colaborador da solicitaçao"
+								actionListener="#{solicitacao.AtualizaSisgecolUnico(doccppro2.idArquivo,doccppro2.pastaDoProcesso,solicitacao.alterarsolicitacao.idsolicitacao)}"
+								value="." process="@this" global="true" ajax="false"
+								disabled="#{solicitacao.alterarsolicitacao.statusSolicitacao.idstatus==7}"
+								update="@all" immediate="false" icon="ui-icon-check">
+
+							</p:commandButton>
+
+
+						</p:column>
+
+
+					</p:dataTable>
+
+				</b:panelGrid>
+
+				<f:facet name="footer">
+
+					<b:button value="Sair" look="primary" dismiss="modal" />
+				</f:facet>
+			</b:panel>
+		</b:modal>
+		<p:ajaxStatus
+			style="width:64px;height:64px;position:fixed;right:680px;bottom:300px">
+			<f:facet name="start">
+				<p:graphicImage value="/imagens/loading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
+
+		<p:growl id="msg11" life="200" showDetail="false" sticky="false" />
+
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2018-04-25T14:27:49 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="faturamento" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="351147e4-f740-41c0-9144-4c5b796624fe">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="940"/>
+	<property name="ireport.y" value="232"/>
+	<parameter name="DATA_INICIAL" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATA_FINAL" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ID_COLABORADOR" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  DISTINCT
+ correspondente.nome, sum(solicitacao.valor) as valor
+FROM
+  solicitacao,
+  correspondente,
+  renumeracao
+WHERE
+  renumeracao.idcorrespondente = correspondente.idcorrespondente AND
+  solicitacao.idrenumeracao = renumeracao.idrenumeracao  AND
+  solicitacao.dataprazo >=to_date($P{DATA_INICIAL},'DD/mm/YYYY') AND
+  solicitacao.dataprazo <=to_date($P{DATA_FINAL},'DD/mm/YYYY') AND
+  solicitacao.idstatus=7
+group by correspondente.nome
+order by nome]]>
+	</queryString>
+	<field name="nome" class="java.lang.String"/>
+	<field name="valor" class="java.lang.Float"/>
+	<variable name="valor_1" class="java.lang.Float" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<variable name="valor_2" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement x="311" y="11" width="183" height="25" uuid="0fe5c89d-c45f-47b2-9ebe-09c60cbb93c9"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Sistema de Solicitação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="619" y="53" width="43" height="20" uuid="69e558cb-c2be-4dad-85a2-9e11e7063aa7"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="721" y="53" width="10" height="20" uuid="6321a6bd-132f-4322-a71c-608934379b0e"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[á]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="662" y="53" width="54" height="20" uuid="2087ff74-d312-44f8-93ef-e96028947a0b"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_INICIAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="735" y="53" width="64" height="20" uuid="0000a6a4-802c-400c-9b43-26817ee11dee"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_FINAL}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="4" y="5" width="170" height="73" uuid="cf754e20-6c7b-4e06-8e19-602e7743af3f"/>
+				<imageExpression><![CDATA["C:\\relaweb\\imagem1.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="3" width="263" height="15" uuid="111a8e0b-99cc-423f-824f-0f2f511b3096"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Faturamento Mensal - Resumo Geral Mensal]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="802" height="1" uuid="730346ef-0412-402f-9de1-91bf13cf3d16"/>
+			</line>
+			<line>
+				<reportElement x="0" y="19" width="802" height="1" uuid="9cdb3f3c-0336-4054-9ce9-96d7fb74b44e"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement x="772" y="0" width="25" height="15" uuid="5eec4071-1195-4677-84c3-00e70d365751"/>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="15" width="802" height="1" uuid="f74d03e6-23bc-4141-b0ef-d228a171aea5"/>
+			</line>
+			<staticText>
+				<reportElement x="14" y="2" width="90" height="14" uuid="52b4200a-8310-43a9-aebe-5da1dc043dbe"/>
+				<text><![CDATA[Correspondente]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="14" y="3" width="448" height="17" uuid="ecc2cc20-481b-496e-880d-e3f64ef6495b"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="697" y="6" width="100" height="14" uuid="785bd96c-80a1-424d-8f12-0bb25ab5f73b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="9" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="2" width="802" height="1" uuid="38cc76d0-ff46-44c8-81b5-c01b592eba7d"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="26" splitType="Stretch">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="722" y="3" width="75" height="18" uuid="10392ffe-b3c8-462d-9806-9b23e967b866"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{valor_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="658" y="3" width="64" height="18" uuid="d2cd82e2-f3e9-43e1-98dc-56dd670cefbc"/>
+				<textElement>
+					<font fontName="Arial" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Geral:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="1" width="802" height="1" uuid="e414b3fb-6c2a-49d1-9917-9306dc87ca42"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
+
+	<h:head>
+		<title>CRA-Login</title>
+		<meta content='text/html' http-equiv='Content-Type'
+			charset="ISO-8859-1" />
+
+		<link rel="icon" type="image/x-icon"
+			href="#{request.contextPath}/imagens/favicon.ico" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<style type="text/css">
+.ui-widget {
+	font-size: 80% !important;
+}
+
+.themeMenu {
+	font: bold !important;
+	height: 200px !important;
+	width: 100px !important;
+}
+
+.panel-body {
+	width: 350px;
+	height: 250px;
+}
+
+.list-group {
+	margin-bottom: 0 !important;
+}
+
+.esquerda {
+	text-align: left;
+}
+</style>
+
+
+		<script>
+
+
+</script>
+
+	</h:head>
+	<h:outputText
+		value="Copyright(2013): INFLYOUT - Nelson Seixas de Souza CPF:435693902-68"
+		style="color:white" />
+
+	<f:view encoding="ISO-8859-1">
+
+		<div align="center">
+
+			<h:graphicImage value="/imagens/novaimg1.jpg" width="800" style="padding:80px"
+				ismap="true" usemap="www.cavalcanteramos.adv.br" />
+		</div>
+		<h:outputText value="&#13;" />
+		<h:form title="testtee" id="teste4" style="aling:center">
+			<div align="center">
+
+				<b:container fluid="true" style="aling:center">
+
+					<b:panel look="primary" styleClass="panel-body"
+						title="ENTRE COM LOGIN E SENHA" ajax="true"
+						showCollapseLink="true" collapsible="false"
+						tooltip="Entre com os dados de acesso ao sistema."
+						style="aling:center">
+
+						<b:row styleClass="esquerda">
+							<b:column>
+								<b:label value="USUÁRIO:" style="font-size:13px;" />
+							</b:column>
+							<b:column medium-screen="8">
+								<b:inputText value="#{usuarios.loginacesso}" id="usu"
+									autocomplete="false" />
+							</b:column>
+						</b:row>
+						<b:row styleClass="esquerda">
+							<b:column>
+								<b:label value="SENHA:" style="font-size:13px;" />
+							</b:column>
+							<b:column medium-screen="8">
+								<b:inputSecret value="#{usuarios.senha}" autocomplete="false"
+									styleClass="esquerda" />
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:buttonGroup>
+								<b:commandButton type="sumbit" styleClass="esquerda"
+									title="Click aqui para entrar no sistema" value="Entrar"
+									action="#{usuarios.PegaUsuario}" immediate="false">
+									<f:setPropertyActionListener
+										target="#{corresponde.nivelusuario}"
+										value="#{usuarios.usuario.tipo}" />
+								</b:commandButton>
+
+								<b:commandButton type="button" disabled="true"
+									styleClass="esquerda"
+									title="O sistema de recuperação de senha esta temporariamente desabilitado."
+									value="Recuperar Senha" />
+							</b:buttonGroup>
+
+
+						</b:row>
+
+					</b:panel>
+				</b:container>
+
+
+			</div>
+		</h:form>
+
+		<h:outputText value="&#13;" />
+		<div class="panel" align="center">
+
+			<h:outputText value="" />
+			<b:alert closable="true" severity="warning">
+				<strong>Atenção! </strong>    É ACONSELHÁVEL O USO DO NAVEGADOR GOOGLE CHROME OU MOZZILA FIREFOX. </b:alert>
+
+			<h:outputText value="" />
+
+		</div>
+
+		<h:outputText value="" />
+
+
+		<b:messages id="msg1" autoUpdate="false" closable="true"
+			style="text-align: center;" showDetail="true" />
+
+	</f:view>
+
+</ui:composition>
+

@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Busca processos no CP-PRO</title>
+
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<script src="#{request.contextPath}/javascript/jquery.js" />
+	<script src="#{request.contextPath}/javascript/jquery.ui.js" />
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+</style>
+
+	<script type="text/javascript">
+		$(function() {
+			$(document).tooltip({
+				track : true
+			});
+		});
+
+		function alerta1() {
+			alert("Aguarde o processamento");
+
+		}
+	</script>
+
+</h:head>
+<f:view>
+	<f:event listener="#{solicitacao.robotbotao}" type="preRenderView" />
+	<h:form id="form5">
+
+	
+		<p:messages id="messages" showDetail="true" closable="true"></p:messages>
+         <p:growl id="msg11" life="4500" showDetail="false" sticky="false" />
+
+		<b:panel title="Processos do CP-PRO" toggleable="true" look="primary"
+			toggleSpeed="1000" toggleTitle="Busca de Processos">
+				
+
+			<p:panelGrid columns="2" id="forma3">
+
+
+				<h:outputText value="Processo" />
+				<p:inputText value="#{solicitacao.processobusca}" id="bb"
+					onkeyup="if((event.keyCode==13)||(window.event.keyCode==13)){document.getElementById('btn1').click();}">
+					<p:ajax process="@this" />
+				</p:inputText>
+
+
+				<h:outputText value="Número de Integração" />
+				<p:inputText value="#{solicitacao.numerointegracaobusca}"
+					onkeyup="if((event.keyCode==13)||(window.event.keyCode==13)){document.getElementById('btn1').click();}">
+					<p:ajax process="@this" />
+				</p:inputText>
+
+				<h:outputText value="Parte Contrária" />
+				<p:inputText value="#{solicitacao.autorbusca}" size="60" id="teste"
+					onkeyup="this.value=this.value.toUpperCase(); if((event.keyCode==13)||(window.event.keyCode==13)){document.getElementById('btn1').click();}">
+					<p:ajax process="@this" />
+				</p:inputText>
+				<h:outputText value="Cliente" />
+				<p:inputText value="#{solicitacao.reubusca}" size="60"
+					onkeyup="this.value=this.value.toUpperCase(); if((event.keyCode==13)||(window.event.keyCode==13)){document.getElementById('btn1').click();}">
+					<p:ajax process="@this" />
+				</p:inputText>
+
+
+
+			</p:panelGrid>
+			<p:selectOneRadio id="s1" value="#{solicitacao.buscacppro}">
+
+				<f:selectItem id="v1" itemLabel="Buscar no CP-PRO" itemValue="true" />
+				<f:selectItem id="v2" itemLabel="Buscar no Legal One"
+					itemValue="false" itemDisabled="true" />
+
+				<p:ajax immediate="false" update="v1 v2" event="change"
+					process="@this" />
+			</p:selectOneRadio>
+			<h:outputText value="#{' '}" />
+
+
+			<b:commandButton id="btn1"
+				actionListener="#{solicitacao.Buscadadoscpj()}" look="primary" 
+				value="Buscar Processo" ajax="true" icon="ui-icon-search">
+				<p:message for="btn1" showDetail="true"></p:message>
+				<p:ajax update="painelcpj resultado2 resultado2:notifica1"></p:ajax>
+			</b:commandButton>
+
+			<h:outputText value="#{' '}" />
+			<b:commandButton value="Novo Processo" id="btn4" rendered="true" look="info" onclick="bar2.show();" 
+				action="#{solicitacao.NovoProcesso}" ajax="true" update="@this"
+				icon="ui-icon-plusthick" />
+			<h:outputText value="#{' '}" />
+			<b:commandButton value="Limpar a Busca" id="btn2" look="success" onclick="bar2.show();" 
+				actionListener="#{solicitacao.LimparBuscaProcesso}"
+				title="Click aqui para limpar os campos de busca."
+				icon="ui-icon-refresh">
+				
+			</b:commandButton>
+			<h:outputText value="#{' '}" />
+
+
+			<b:commandButton id="btn3"  value="Sair da Busca"  onclick="window.close();" look="succes"
+				title="Click aqui para sair da busca"
+				action="#{solicitacao.SairParaSoliciatcao}"
+				icon="ui-icon-arrowreturnthick-1-w">
+			
+			</b:commandButton>
+			<p:tooltip for="btn1" value="Clique aqui para fazer a busca."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btn2" value="Clique aqui para limapr os campos."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btn3" value="Clique aqui para sair da busca."
+				showEffect="slide" hideEffect="slide" />
+			<p:tooltip for="btn4"
+				value="Clique aqui para cadastrar um novo processo."
+				showEffect="slide" hideEffect="slide" />
+				
+			<p:notificationBar id="notifica" position="bottom" effect="slide"   
+				widgetVar="bar1" styleClass="bottom">
+				<h:outputText value="AGUARDE..."
+					style="color:red;font-size:18px;" />
+	         </p:notificationBar>	
+	     
+			
+		</b:panel>
+		
+		
+
+
+
+		<b:panel id="painelcpj" look="primary" >
+
+           
+
+
+			<p:dataTable value="#{solicitacao.processoCpproConsultas}"
+				var="cpprosql" id="resultado2" paginator="true" 
+				resizableColumns="true" rows="20"  
+				emptyMessage="Registro(s) não encontrado" style="font-size:10px">
+
+				<p:column sortBy="#{cpprosql.numerinical}" width="200">
+					<f:facet name="header">
+						<h:outputText value="Num. Processo" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.numerinical}" />
+				</p:column>
+				<p:column sortBy="#{cpprosql.clienteprincipal}">
+					<f:facet name="header">
+						<h:outputText value="Cliente" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.clienteprincipal}" />
+				</p:column>
+				<p:column sortBy="#{cpprosql.contrarioprincipal}">
+					<f:facet name="header">
+						<h:outputText value="Parte Contrária" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.contrarioprincipal}" />
+				</p:column>
+				<p:column sortBy="#{cpprosql.orgaoinicial}">
+					<f:facet name="header">
+						<h:outputText value="Juizo/Orgão/Vara" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.orgaoinicial}" />
+				</p:column>
+				<p:column sortBy="#{cpprosql.tipoacaorito}">
+					<f:facet name="header">
+						<h:outputText value="Ação" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.tipoacaorito}" />
+				</p:column>
+				<p:column sortBy="#{cpprosql.codigopasta}">
+					<f:facet name="header">
+						<h:outputText value="Código Pasta" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.codigopasta}" />
+				</p:column>
+				<p:column sortBy="#{cpprosql.pastacliente}">
+					<f:facet name="header">
+						<h:outputText value="Localizador" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.pastacliente}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Selecionar" />
+					</f:facet>
+					<b:commandButton value="Selecionar" ajax="true" update="@this" look="primary"
+						title="Click aqui para selecionar o processo." 
+						action="#{solicitacao.BuscaProcessoUnicoCPPROSQL}" process="@this">
+						<f:setPropertyActionListener
+							target="#{solicitacao.buscapastaprocesso}"
+							value="#{cpprosql.codigopasta}" />
+
+					</b:commandButton>
+				</p:column>
+
+				<p:column sortBy="#{cpprosql.processoeletronico}">
+					<f:facet name="header">
+						<h:outputText value="Eletrônico" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.processoeletronico}" />
+				</p:column>
+				<p:column sortBy="#{cpprosql.responsavel}">
+					<f:facet name="header">
+						<h:outputText value="Responsável" />
+					</f:facet>
+					<h:outputText value="#{cpprosql.responsavel}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Atualizar" />
+					</f:facet>
+					<b:commandButton value="Atualizar" ajax="false" look="primary"
+						title="Click aqui para atulizar o processo."
+						action="#{solicitacao.AlteraProcessoCppro}">
+						<f:setPropertyActionListener
+							target="#{solicitacao.buscapastaprocesso}"
+							value="#{cpprosql.codigopasta}" />
+					    <p:ajax process="@this" update=":form5:msg11" />
+					</b:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:notificationBar id="notifica1" position="bottom" effect="slide"   
+				widgetVar="bar2" styleClass="bottom">
+				<h:outputText value="AGUARDE..."
+					style="color:red;font-size:18px;" />
+	         </p:notificationBar>	
+	     
+		</b:panel>
+
+		<p:dialog id="dialogo" widgetVar="dlg1"
+			header="Listagem de Andamentos" closable="no"
+			visible="#{solicitacao.mostrajanela}" resizable="true"
+			dynamic="false" modal="true">
+
+			<h:form>
+				<p:panel
+					header="Número do Processo: #{solicitacao.numprocessocpj}  Autor: #{solicitacao.nomeautor}  Réu: #{solicitacao.nomereu} ">
+					<p:dataTable value="#{solicitacao.listaandamento}" var="anda"
+						rows="8" scrollable="true" paginator="true"
+						resizableColumns="true">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Ficha" />
+							</f:facet>
+							<h:outputText value="#{anda.ficha}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+							<h:outputText value="#{anda.datahora}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Andamento" />
+							</f:facet>
+							<h:outputText value="#{anda.andamento}" />
+						</p:column>
+					</p:dataTable>
+					<p:commandButton id="teste2" immediate="true" ajax="true"
+						action="#{solicitacao.LimpaListaAdamento}"
+						title="Click aqui para sair da consulta de andamentos."
+						value="Sair" onclick="dlg1.hide();" />
+				</p:panel>
+			</h:form>
+
+		</p:dialog>
+
+
+	</h:form>
+	<p:ajaxStatus
+		style="width:64px;height:64px;position:fixed;right:680px;bottom:300px"
+		id="mostra">
+		<f:facet name="start">
+			<p:graphicImage value="/imagens/loading.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+</f:view>
+
+</html>
+

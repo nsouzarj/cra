@@ -1,0 +1,730 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0   Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+<h:head>
+	<title>Cadastro de Correspondente</title>
+	<meta content='text/html;charset=ISO-8859-1' http-equiv='Content-Type' />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	overflow: auto;
+	font: arial;
+	height: 200px;
+	width: 100px;
+}
+
+#painel1 {
+	overflow: auto;
+	font: arial;
+	font-size: 90%;
+}
+
+#teste {
+	overflow: auto;
+	font: arial;
+	font-size: 70%;
+}
+</style>
+
+
+
+	<script type="text/javascript">
+		function verificampo(elemento) {
+			if (document.getElementById(elemento) == "") {
+				window.alert("O campo " + campo + " está vazio");
+				return false;
+			} else {
+				return true;
+			}
+		}
+	</script>
+
+
+
+</h:head>
+<f:view encoding="ISO-8859-1">
+	<f:event listener="#{solicitacao.VerSessaoFinal}" type="preRenderView" />
+	<p:panel header="Cadastro de Colaborador" id="painel1">
+
+		<h:form id="teste">
+
+			<p:tabView activeIndex="0" id="Teste1" dynamic="false">
+				<p:growl id="msg11" life="5500" showDetail="false" sticky="false" />
+				<p:tab title="Dados do Colaborador" id="tab1">
+
+					<h:panelGrid columns="2">
+						<h:outputText value="Colaborador Ativo" />
+						<p:selectOneRadio id="pf1" onchange="verificampo('t1');"
+							value="#{corresponde.correspondente.ativo}" immediate="false">
+							<p:ajax update="val5 val6" process="@this" />
+							<f:selectItem id="val5" itemLabel="SIM" itemValue="true" />
+							<f:selectItem id="val6" itemLabel="NÃO" itemValue="false" />
+						</p:selectOneRadio>
+						<h:outputText value="Nome do Colaborador" />
+						<p:inputText value="#{corresponde.correspondente.nome}" id="t1"
+							required="true" requiredMessage="Informe o nome" size="60"
+							onkeyup="this.value=this.value.toUpperCase();" />
+						<h:outputText value="tipo de Pessoa" />
+						<p:selectOneRadio id="pf" value="#{corresponde.formato}"
+							immediate="false">
+							<p:ajax update="val1 val2 m" process="@this" />
+							<f:selectItem id="val1" itemLabel="Pessoa Física"
+								itemValue="999.999.999-99" />
+							<f:selectItem id="val2" itemLabel="Pessoa Jurídica"
+								itemValue="99.999.999/9999-99" />
+						</p:selectOneRadio>
+						<h:outputText value="CPF/CNPJ" />
+						<p:inputMask id="m" mask="#{corresponde.formato}"
+							value="#{corresponde.correspondente.cpfcnpj}" size="20" />
+						<h:outputText value="OAB" />
+						<p:inputText value="#{corresponde.correspondente.oab}" size="15" />
+						<h:outputText value="Email Principal" />
+						<p:inputText value="#{corresponde.correspondente.emailprimario}"
+							size="60" onkeyup="this.value=this.value.toLowerCase();" />
+						<h:outputText value="Email Secundário" />
+						<p:inputText value="#{corresponde.correspondente.emailsecundario}"
+							size="60" onkeyup="this.value=this.value.toLowerCase();" />
+						<h:outputText value="Celular Principal" />
+						<p:inputMask mask="(999)99999-9999"
+							value="#{corresponde.correspondente.telefonecelularprimario}"
+							size="15" />
+						<h:outputText value="Celular Secundário" />
+						<p:inputMask mask="(999)99999-9999"
+							value="#{corresponde.correspondente.telefonecelularsecundario}"
+							size="15" />
+						<h:outputText value="Telefone Principal" />
+						<p:inputMask mask="(999)9999-9999"
+							value="#{corresponde.correspondente.telefoneprimario}" size="15" />
+						<h:outputText value="Telefone Secundário" />
+						<p:inputMask mask="(999)9999-9999"
+							value="#{corresponde.correspondente.telefonesecundario}"
+							size="15" />
+						<h:outputText value="Rua" />
+						<p:inputText value="#{corresponde.endereco.logradouro}" size="60"
+							onkeyup="this.value=this.value.toUpperCase();" />
+						<h:outputText value="CEP" />
+						<p:inputMask mask="99999-999" value="#{corresponde.endereco.cep}"
+							size="9" />
+						<h:outputText value="Bairro" />
+						<p:inputText value="#{corresponde.endereco.bairro}" size="60"
+							onkeyup="this.value=this.value.toUpperCase();" />
+						<h:outputText value="Cidade" />
+						<p:inputText value="#{corresponde.endereco.cidade}" size="60"
+							onkeyup="this.value=this.value.toUpperCase();" />
+						<h:outputText value="Estado" />
+						<p:selectOneMenu value="#{corresponde.coduf}">
+							<f:selectItem itemValue="0" itemLabel="Selecione um Estado" />
+							<f:selectItems value="#{corresponde.ufs}" var="uf"
+								itemLabel="${uf.nome}" itemValue="${uf.iduf}" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Observação do Colaborador" />
+						<p:inputTextarea value="#{corresponde.correspondente.observacao}"
+							autoResize="true" maxlength="255" cols="60" title="Observação" />
+
+						<h:outputText value="Email:" />
+						<p:inputText value="#{corresponde.emailenvio}" required="false"
+							id="email" size="60"
+							onkeyup="this.value=this.value.toLowerCase();"
+							requiredMessage="Coloque email">
+							<p:ajax update="@this" />
+						</p:inputText>
+
+						<p:commandButton value="Salvar Email"
+							disabled="#{usuarios.nivelusuario eq 3 or usuarios.nivelusuario eq 4}"
+							title="Click aqui para salvar o email." icon="ui-icon-disk"
+							action="${corresponde.AdcionaEmail}" immediate="false"
+							update="bcer1" process="@this bcer1" ajax="true" />
+						<p:dataTable value="#{corresponde.emailCorrespondentes}"
+							id="bcer1" var="em1" emptyMessage="Não existe registros">
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Id Email" />
+								</f:facet>
+								<h:outputText value="#{em1.idemail}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Email" />
+								</f:facet>
+								<h:outputText value="#{em1.email}" />
+							</p:column>
+
+						</p:dataTable>
+						<h:outputText value="" />
+
+						<h:outputText value="" />
+						<h:outputText value="Banco:" />
+						<p:inputText value="#{corresponde.nomebanco}" required="false"
+							id="banco"
+							requiredMessage="Coloque o nome do banco antes de salvar">
+							<p:ajax update="@this" />
+						</p:inputText>
+						<h:outputText value="Número do Banco:" />
+						<p:inputText value="#{corresponde.codbanco}">
+							<p:ajax update="@this" />
+						</p:inputText>
+						<h:outputText value="Agencia:" />
+						<p:inputText value="#{corresponde.agenciabanco}">
+							<p:ajax update="@this" />
+						</p:inputText>
+						<h:outputText value="Conta Corrente:" />
+						<p:inputText value="#{corresponde.contacorrente}">
+							<p:ajax update="@this" />
+						</p:inputText>
+
+
+
+						<p:commandButton value="Salvar Banco" icon="ui-icon-disk"
+							title="Click aqui para salvar o banco."
+							disabled="#{usuarios.nivelusuario eq 3 or usuarios.nivelusuario eq 4}"
+							action="#{corresponde.AdcionaBanco}" immediate="false"
+							update="bcer" process="@this" ajax="true" />
+
+						<p:dataTable value="#{corresponde.bancoscorrespondente}" id="bcer"
+							var="bc1">
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Id" />
+								</f:facet>
+								<h:outputText value="#{bc1.idbanco}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Número do Banco" />
+								</f:facet>
+								<h:outputText value="#{bc1.codbanco}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Nome do Banco" />
+								</f:facet>
+								<h:outputText value="#{bc1.banco}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Agência" />
+								</f:facet>
+								<h:outputText value="#{bc1.agencia}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Conta Corrente" />
+								</f:facet>
+								<h:outputText value="#{bc1.contacorrente}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Excluir" />
+								</f:facet>
+								<p:commandLink value="Excluir"
+									title="Click aqui para excluir o banco"
+									action="#{corresponde.ExcluiBanco}" ajax="true"
+									immediate="false" update="bcer" process="@this">
+									<f:setPropertyActionListener target="#{corresponde.idbanco}"
+										value="#{bc1.idbanco}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</h:panelGrid>
+					<p:commandButton value="Salvar" icon="ui-icon-disk"
+						title="Clik aqui para salvar os dados"
+						action="#{corresponde.SalvaCorrespondente}" immediate="false"
+						type="submit" />
+					<h:outputText value="#{' '}" />
+
+					<p:commandButton value="Novo" icon="ui-icon-check"
+						action="#{corresponde.NovoCorrespondente}" ajax="false"
+						title="Click aqui para cadastrar um novo correspondente"
+						immediate="false"
+						disabled="#{usuarios.nivelusuario eq 3 or usuarios.nivelusuario eq 4}" />
+					<h:outputText value="#{' '}" />
+
+					<p:commandButton value="Sair" ajax="true" process="@this"
+						immediate="false" icon="ui-icon-arrowreturnthick-1-w"
+						type="submit"
+						title="Clik aqui para sair dos dados do cadastro do colaborador"
+						action="/correspondente/correspondente.jsf">
+					</p:commandButton>
+
+					<h:messages />
+				</p:tab>
+
+				<p:tab title="Dados da Comarca" id="tab2">
+					<h:outputText
+						value="Nome do Colaborador - #{corresponde.correspondente.nome}" />
+					<h:form prependId="false">
+						<h:panelGrid columns="2">
+							<h:outputText value="Selecione o Estado da Comarca" />
+							<p:selectOneMenu value="#{corresponde.solit.bestadocomarca}">
+								<f:selectItem itemValue="0" itemLabel="Selecione um Estado" />
+								<f:selectItems value="#{corresponde.solit.listuf}" var="estcom"
+									itemLabel="#{estcom.nome}" itemValue="#{estcom.iduf}" />
+								<p:ajax update="selc @this" process="@this" event="change" />
+							</p:selectOneMenu>
+							<h:outputText value="Selecione uma comarca" />
+							<p:selectOneMenu value="#{corresponde.codcomarca}" id="selc">
+								<f:selectItem itemValue="0" itemLabel="Selecione uma comarca" />
+								<f:selectItems value="#{corresponde.solit.listaporestado}"
+									var="com" itemLabel="#{com.nome}" itemValue="#{com.idcomarca}" />
+								<p:ajax immediate="false" process="@this" />
+							</p:selectOneMenu>
+							<p:commandButton value="Adicionar" ajax="true" update="cmc selc"
+								action="#{corresponde.AdcionaComarca}" type="submit"
+								title="Click aqui para adicionar uma comarca." immediate="false"
+								icon="ui-icon-plusthick">
+							</p:commandButton>
+
+						</h:panelGrid>
+						<p:dataTable value="#{corresponde.listacomarcascolaborador}"
+							var="co1" emptyMessage="Não existe registros" id="cmc">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Comarca" />
+								</f:facet>
+								<h:outputText value="#{co1.comarcaCorrespondente.comarca.nome}" />
+
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="UF" />
+								</f:facet>
+								<h:outputText
+									value="#{co1.comarcaCorrespondente.comarca.uf.nome}" />
+
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Inativar/Ativar" />
+
+								</f:facet>
+								<p:commandLink update="cmc" value="Inativar Comarca"
+									rendered="#{co1.inativado=='false'}"
+									action="#{corresponde.InativaComarca}" style="color:blue"
+									title="Click aqui para inativar a comarca">
+									<f:setPropertyActionListener target="#{corresponde.idcomarca}"
+										value="#{co1.comarcaCorrespondente.comarca.idcomarca}" />
+									<f:setPropertyActionListener
+										target="#{corresponde.idcorrespondente}"
+										value="#{co1.comarcaCorrespondente.correspondente.idcorrespondente}" />
+								</p:commandLink>
+								<p:commandLink update="cmc" value="Ativar Comarca"
+									rendered="#{co1.inativado=='true'}"
+									action="#{corresponde.AtivaComarca}" style="color:red"
+									title="Click aqui para ativar a comarca">
+									<f:setPropertyActionListener target="#{corresponde.idcomarca}"
+										value="#{co1.comarcaCorrespondente.comarca.idcomarca}" />
+									<f:setPropertyActionListener
+										target="#{corresponde.idcorrespondente}"
+										value="#{co1.comarcaCorrespondente.correspondente.idcorrespondente}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+				<p:tab title="Valores de Solicitação" id="tab3"
+					titletip="Valores da solicitação">
+					<h:outputText
+						value="Nome do Colaborador - #{corresponde.correspondente.nome}" />
+
+					<h:panelGrid columns="2">
+						<h:outputText value="Selecione o Tipo de Solicitacao" />
+						<p:selectOneMenu value="#{corresponde.tiposolicitacao}">
+							<f:selectItem itemValue="0" itemLabel="Selecione um tipo" />
+							<f:selectItems value="#{corresponde.tiposolicitacoes}" var="ts"
+								itemLabel="${ts.tipo} - ${ts.especie}"
+								itemValue="${ts.idtiposolicitacao}" />
+							<p:ajax immediate="false" process="@this" />
+						</p:selectOneMenu>
+						<h:outputText value="Selecione o envio" />
+						<p:selectOneMenu value="#{corresponde.enviode}" id="ev">
+							<f:selectItem itemValue="0" itemLabel="Selecione o envio" />
+							<f:selectItems value="#{corresponde.envios}" var="env"
+								itemLabel="${env.descricao}" itemValue="${env.idenvio}" />
+							<p:ajax immediate="false" process="@this" />
+						</p:selectOneMenu>
+						<h:outputText value="Valor do tipo" />
+						<h:inputText value="${corresponde.renumeracao.valor}">
+							<f:convertNumber currencySymbol="R$" minFractionDigits="2"
+								currencyCode="R$" maxFractionDigits="2" />
+						</h:inputText>
+
+						<p:commandButton value="Adicionar um Valor" ajax="false"
+							update="@all" type="submit" immediate="false"
+							title="Click aqui para adcionar um valor."
+							disabled="#{usuarios.nivelusuario eq 3 or usuarios.nivelusuario eq 4}"
+							action="#{corresponde.AdcionaValor}" icon="ui-icon-plusthick">
+
+							<p:ajax update="@all" process="@this" />
+						</p:commandButton>
+
+						<p:commandButton value="Salvar o valor alterado" ajax="false"
+							type="submit" immediate="false" process="@this" update="@this"
+							title="Click aqui para adcionar um valor."
+							disabled="#{usuarios.nivelusuario eq 3  or usuarios.nivelusuario eq 4}"
+							action="#{corresponde.AlteraValor}" icon="ui-icon-disk">
+						</p:commandButton>
+
+					</h:panelGrid>
+
+					<p:dataTable value="#{corresponde.renumeracoes}" var="ren"
+						id="ren1" emptyMessage="Não existe registros">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="ID" />
+							</f:facet>
+							<h:outputText value="#{ren.idrenumeracao}" />
+						</p:column>
+
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Tipo Solicitacao" />
+							</f:facet>
+							<h:outputText
+								value="Tipo:  #{ren.tipoSolicitacaoCorrespondente.tipoSolicitacao.especie} - #{ren.tipoSolicitacaoCorrespondente.tipoSolicitacao.tipo}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Envio de" />
+							</f:facet>
+							<h:outputText
+								value="#{ren.tipoSolicitacaoCorrespondente.envio.descricao}" />
+						</p:column>
+
+						<p:column resizable="true"
+							rendered="#{usuarios.nivelusuario eq 1}">
+							<f:facet name="header">
+								<h:outputText value="Valor do Tipo Solicitacao" />
+							</f:facet>
+							<h:outputText value="#{ren.valor}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+									currencySymbol="R$" />
+							</h:outputText>
+						</p:column>
+						<p:column rendered="#{usuarios.nivelusuario eq 1}">
+							<f:facet name="header">
+								<h:outputText value="Alterar Valor" />
+							</f:facet>
+							<p:commandLink action="#{corresponde.unicovalor}"
+								value="Alterar valor" ajax="false" immediate="false"
+								title="Click aqui para alterar o valor.">
+								<p:ajax process="ren1" update="@all"
+									listener="#{corresponde.unicovalor}" />
+								<f:setPropertyActionListener
+									target="#{corresponde.idrenumeracao}"
+									value="#{ren.idrenumeracao}" />
+							</p:commandLink>
+						</p:column>
+
+						<p:column rendered="#{usuarios.nivelusuario eq 1}">
+							<f:facet name="header">
+								<h:outputText value="Excluir Valor" />
+							</f:facet>
+							<p:commandLink action="#{corresponde.ExcluiValor}"
+								value="Excluir" ajax="false" immediate="false"
+								title="Click aqui para excluir um valor.">
+								<p:ajax process="ren1" update="@all"
+									listener="#{corresponde.ExcluiValor}" />
+								<f:setPropertyActionListener
+									target="#{corresponde.idrenumeracao}"
+									value="#{ren.idrenumeracao}" />
+							</p:commandLink>
+						</p:column>
+						<p:column rendered="#{usuarios.nivelusuario eq 1}">
+							<f:facet name="header">
+								<h:outputText value="Ativa/Inativar" />
+							</f:facet>
+							<p:commandLink action="#{corresponde.AtivarInativar}"
+								value="Inativo" ajax="false" immediate="false"
+								title="Click aqui para ativar o valor novamente."
+								style="color:red;" rendered="#{ren.ativo=='false'}">
+								<p:ajax process="ren1" update="@all"
+									listener="#{corresponde.ExcluiValor}" />
+								<f:setPropertyActionListener
+									target="#{corresponde.idrenumeracao}"
+									value="#{ren.idrenumeracao}" />
+							</p:commandLink>
+							<p:commandLink action="#{corresponde.AtivarInativar}"
+								rendered="#{ren.ativo=='true'}" value="Ativo" ajax="false"
+								immediate="false" title="Click aqui para inativar o valor."
+								style="color:blue;">
+								<p:ajax process="ren1" update="@all"
+									listener="#{corresponde.ExcluiValor}" />
+								<f:setPropertyActionListener
+									target="#{corresponde.idrenumeracao}"
+									value="#{ren.idrenumeracao}" />
+							</p:commandLink>
+						</p:column>
+
+
+					</p:dataTable>
+				</p:tab>
+				<p:tab title="Enviar SMS" id="tab4">
+					<p:panelGrid columns="2">
+						<h:outputText
+							value="Nome do Colaborador - #{corresponde.correspondente.nome}" />
+						<h:outputText value="Enviar Menssagem SMS" />
+						<h:outputText
+							value="Telefone: #{corresponde.correspondente.telefonecelularprimario}" />
+						<p:inputTextarea value="#{corresponde.enviasms}" autoResize="true"
+							maxlength="255" cols="60" />
+						<h:outputText value="" />
+						<p:commandButton value="Encviar SMS" id="btEmsg"
+							action="#{corresponde.EnviaMsgTel}" process="@this msg1geral"
+							update=":msg1geral" ajax="false" />
+					</p:panelGrid>
+				</p:tab>
+
+				<p:tab title="GED - Colaborador" id="tab5">
+					<p:panelGrid columns="2">
+						<h:outputText
+							value="Nome do Colaborador - #{corresponde.correspondente.nome}" />
+						<br />
+						<br />
+						<h:outputText value="Arquivos do GED docolaborador" />
+						<br />
+
+						<p:dataTable value="#{corresponde.aequivoged}" var="arqged"
+							id="ren6" emptyMessage="Não existe registros">
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="ID" />
+								</f:facet>
+								<h:outputText value="#{arqged.idgedarquivo}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+								<p:commandLink id="baixar" ajax="false" global="false"
+									immediate="false" value="#{arqged.nome}"
+									action="#{corresponde.BaixarArquivo(arqged.link)}">
+								</p:commandLink>
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Descrição" />
+								</f:facet>
+								<h:outputText value="#{arqged.descricao}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Data Inclusão" />
+								</f:facet>
+								<h:outputText value="#{arqged.datainclusao}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+								</h:outputText>
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Observação" />
+								</f:facet>
+								<h:outputText value="#{arqged.obsged}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Mes/Ano Competencia" />
+								</f:facet>
+								<h:outputText value="#{arqged.mesanocompetencia}" />
+							</p:column>
+							<p:column resizable="true">
+								<f:facet name="header">
+									<h:outputText value="Excluir Arquivo" />
+								</f:facet>
+								<p:commandLink id="excluir" ajax="false" global="false"
+									update="ren6" immediate="false" value="Excluir"
+									title="Clique aqui para excluir o arquivo"
+									action="#{corresponde.ExcluirArquivo(arqged.idgedarquivo)}">
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+						<br />
+						<h:outputText value="Observação do Arquivo" id="ty" />
+						<br />
+						<p:inputText id="ty2" style="width:100%"
+							value="#{corresponde.obsged}" />
+						<br />
+						<h:outputText value="Nomeclatura do Arquivo" />
+						<br />
+						<p:selectOneMenu id="console" style="width:100%"
+							value="#{corresponde.descricaoarquivo}">
+							<f:selectItem itemLabel="Pagamento" itemValue="Pagamento" />
+							<f:selectItem itemLabel="Documentos de Contrato"
+								itemValue="Documentos de Contrato" />
+							<f:selectItem itemLabel="Ficha Cadastral"
+								itemValue="Ficha Cadastral" />
+							<p:ajax update="@this e1 e2 console ty2"
+								process="@this e1 e2 ty ty2" />
+						</p:selectOneMenu>
+						<br />
+						<h:outputText id="e1" value="Mes/Ano Competencia"
+							rendered="#{corresponde.descricaoarquivo== 'Pagamento'}" />
+						<br />
+						<p:inputText id="e2" value="#{corresponde.mescompetencia}"
+							rendered="#{corresponde.descricaoarquivo== 'Pagamento'}" />
+						<br />
+						<h:outputText value="Arquivos do GED" />
+						<br />
+						<p:fileUpload id="arq1"  
+							fileUploadListener="#{corresponde.EnviarArquivosNovos}"
+							label="Selecionar" cancelLabel="Cancelar" multiple="true"
+							dragDropSupport="true" uploadLabel="Salvar Arquivo."
+							update="ren6,msg11" process="@this">
+						</p:fileUpload>
+					</p:panelGrid>
+				</p:tab>
+				<p:tab title="Ged - Financeiro" id="tab6">
+					<h:outputLabel value="Lançamento de Valores e Arquivo"
+						style="font-size: 14px;" />
+					<br />
+					<br />
+					<p:panelGrid id="gf" columns="2">
+						<h:outputText value="Nome do Colaborador:" />
+						<h:outputText value="#{corresponde.correspondente.nome}" />
+						<h:outputText value="Valor Bruto" />
+						<p:inputText value="#{corresponde.valorbruto}">
+							<p:ajax process="@this" />
+						</p:inputText>
+						<h:outputText value="Valor" />
+						<p:inputText value="#{corresponde.valor}">
+							<p:ajax process="@this" />
+						</p:inputText>
+						<h:outputText value="Percentual da Volumetria" />
+						<p:inputText value="#{corresponde.percvolumetria}">
+							<p:ajax process="@this" />
+						</p:inputText>
+						<h:outputText value="Desconto" />
+						<p:inputText value="#{corresponde.desconto}">
+							<p:ajax process="@this" />
+						</p:inputText>
+						<h:outputText value="Volumetria" />
+						<p:inputText value="#{corresponde.volumetria}">
+							<p:ajax process="@this" />
+						</p:inputText>
+						<h:outputText value="Estado" />
+						<p:inputText value="#{corresponde.uf1}">
+							<p:ajax process="@this" />
+						</p:inputText>
+						<h:outputText value="Data" />
+						<p:calendar id="c8" value="#{corresponde.datadoc}" size="11"
+							navigator="true" pattern="dd/MM/yyyy" effect="explode"
+							title="Data.">	
+						</p:calendar>
+					</p:panelGrid>
+					<p:dataTable value="#{corresponde.gedFinanceiros}" var="arqgedfin"
+						id="ren7" emptyMessage="Não existe registros">
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Id" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.idgedfin}" />
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Valor Bruto" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.valorbruto}" >
+							<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Valor" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.valor}" >
+							<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.data}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Desconto" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.desconto}" >
+							<f:convertNumber type="currency" currencySymbol="R$" />
+							</h:outputText>
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Perc % Desconto" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.percdesconto}" />
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Perc % Vol" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.percvolumetria}" />
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Estado" />
+							</f:facet>
+							<h:outputText value="#{arqgedfin.uf}" />
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Arquivo" />
+							</f:facet>
+							<p:commandLink id="baixar2" ajax="false" global="false"
+								immediate="false" value="#{arqgedfin.nomearquivo}"
+								action="#{corresponde.BaixarArquivo(arqgedfin.link)}">
+							</p:commandLink>
+						</p:column>
+						<p:column resizable="true">
+							<f:facet name="header">
+								<h:outputText value="Excluir Arquivo" />
+							</f:facet>
+							<p:commandLink id="excluirae" ajax="false" global="false"
+								update="ren6" immediate="false" value="Excluir"
+								title="Clique aqui para excluir o arquivo"
+								action="#{corresponde.ExcluirArquivoFin(arqgedfin.idgedfin)}">
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+					<p:fileUpload id="arq2" immediate="false" disabled="false"
+						fileUploadListener="#{corresponde.EnviarArquivosGedFin}"
+						label="Selecionar" cancelLabel="Cancelar" multiple="true"
+						dragDropSupport="true" uploadLabel="Salvar Arquivo."
+						update="ren7 msg11" process="@this">
+					</p:fileUpload>
+				</p:tab>
+			</p:tabView>
+			<p:growl showDetail="true" id="msg1geral" />
+		</h:form>
+		<p:ajaxStatus
+			style="width:64px;height:64px;position:fixed;right:640px;bottom:300px">
+			<f:facet name="start">
+				<p:graphicImage value="/imagens/loading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	</p:panel>
+
+</f:view>
+</html>
+

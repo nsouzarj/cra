@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type"
+		content="text/html;enconding=UTF-8 width=device-width" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css"></link>
+	<script type="text/javascript" charset="utf8"
+		src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	overflow: auto;
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+</style>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#tabela1').DataTable();
+		});
+		$(document).ready(function() {
+			$('#tabela1').dataTable({
+				"pagingType" : "scrolling"
+			});
+		});
+	</script>
+</h:head>
+<h:body>
+	<b:panel title="Usuario" look="primary" id="tel">
+		<h:form id="forma1" acceptcharset="utf-8">
+			<p:panelGrid columns="2">
+				<h:outputText value="Tipo:" />
+				<b:selectOneMenu value="#{usuarios.usuario.tipo}" immediate="false"
+					required="true" requiredMessage="Selecionar o tipo de usuário.">
+					<f:selectItem itemValue="0"
+						itemLabel="Selecione um tipo de usuario" />
+					<f:selectItem itemValue="1" itemLabel="Administrador" />
+					<f:selectItem itemValue="2" itemLabel="Advogado Interno" />
+					<f:selectItem itemValue="3" itemLabel="Correspondente Externo" />
+					<f:selectItem itemValue="4" itemLabel="Estagiário" />
+					<f:selectItem itemValue="5" itemLabel="Assis. Admistrativo" />
+					<f:ajax render="@form forma1" listener="#{corresponde.TrazTodos()}" />
+				</b:selectOneMenu>
+				<h:outputText id="l1" value="Selecione um Correspondente"
+					rendered="#{usuarios.usuario.tipo=='3'}" />
+				<b:selectOneMenu id="l2" value="#{usuarios.idcorrespondente}"
+					rendered="#{usuarios.usuario.tipo=='3'}">
+					<f:selectItems value="#{corresponde.correspondentes}" var="cor"
+						itemValue="#{cor.idcorrespondente}" itemLabel="#{cor.nome}" />
+					<f:ajax render="@form forma1" />
+				</b:selectOneMenu>
+
+				<h:outputText value="Nome:" />
+				<b:inputText value="${usuarios.usuario.nomecompleto}" size="60"
+					onkeyup="this.value=this.value.toUpperCase();" required="true"
+					requiredMessage="
+					Colocar o nome complero">
+
+				</b:inputText>
+
+				<h:outputText value="Login:" />
+				<b:inputText value="${usuarios.usuario.login}" size="20"
+					required="true" requiredMessage="Obrigatório o login"
+					onkeyup="this.value=this.value.toLowerCase();">
+
+				</b:inputText>
+
+				<h:outputText value="Senha:" />
+				<b:inputSecret value="${usuarios.usuario.senha}" size="20"
+					onkeyup="this.value=this.value.toLowerCase();" immediate="false"
+					goodLabel="Boa senha" required="true"
+					requiredMessage="Favor colocar a senha">
+					<p:ajax process="@this" event="change" />
+				</b:inputSecret>
+				<h:outputText value="Confirma Senha:" />
+
+				<b:inputSecret value="${usuarios.senha}" size="20" immediate="false"
+					required="true" requiredMessage="Favor repetir a senha"
+					onkeyup="this.value=this.value.toLowerCase();"
+					goodLabel="Boa senha">
+					<p:ajax process="@this" event="change" />
+				</b:inputSecret>
+
+
+				<h:outputText value="Email 1:"
+					rendered="#{usuarios.usuario.tipo==1 or usuarios.usuario.tipo==2 or usuarios.usuario.tipo==4}" />
+				<b:inputText value="${usuarios.usuario.emailprincipal}" id="a1"
+					size="60" required="true" requiredMessage="E obrigatório o e-mail."
+					onkeyup="this.value=this.value.toLowerCase();"
+					rendered="#{usuarios.usuario.tipo==1 or usuarios.usuario.tipo==2 or usuarios.usuario.tipo==4}">
+					<f:ajax render="@this" />
+					<f:validateRegex
+						pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"
+						for="a1" />
+				</b:inputText>
+				<h:outputText value="Email 2:"
+					rendered="#{usuarios.usuario.tipo==1 or usuarios.usuario.tipo==2 or usuarios.usuario.tipo==4}" />
+				<b:inputText value="${usuarios.usuario.emailsecundario}" size="60"
+					onkeyup="this.value=this.value.toLowerCase();"
+					rendered="#{usuarios.usuario.tipo==1 or usuarios.usuario.tipo==2 or usuarios.usuario.tipo==4}">
+
+				</b:inputText>
+				<h:outputText value="Email do Advogado Responsável"
+					rendered="#{usuarios.usuario.tipo==1 or usuarios.usuario.tipo==2 or usuarios.usuario.tipo==4}" />
+				<b:inputText value="${usuarios.usuario.emailresponsavel}" size="60"
+					onkeyup="this.value=this.value.toLowerCase();"
+					rendered="#{usuarios.usuario.tipo==1 or usuarios.usuario.tipo==2 or usuarios.usuario.tipo==4}">
+				</b:inputText>
+
+			</p:panelGrid>
+			<b:commandButton value="Salvar" ajax="false" look="primary"
+				action="#{usuarios.SalvarUSuario}"
+				title="Click aqui para salvar o usuário." icon="ui-icon-disk">
+				<p:ajax update="forma1 mgusuaruio" process="@this forma1" />
+			</b:commandButton>
+			<h:outputText value="#{' '}" />
+			<b:commandButton value="Limpar" type="reset" ajax="true" look="info"
+				icon="ui-icon-refresh" title="Click aqui para limpar os campos.">
+				<p:ajax update=":forma1"></p:ajax>
+			</b:commandButton>
+
+			<h:outputText value="#{' '}" />
+			<b:commandButton value="Sair" ajax="true" look="primary"
+				onclick="bar1.show();" action="#{usuarios.sair}" immediate="true"
+				title="Click aqui para sair da tela de usuário."
+				icon="ui-icon-arrowreturnthick-1-w">
+
+			</b:commandButton>
+			<p:messages id="mgusuaruio" />
+			<p:notificationBar id="notifica" position="bottom" effect="slide"
+				widgetVar="bar1" styleClass="bottom">
+				<h:outputText value="AGUARDE..." style="color:red;font-size:18px;" />
+			</p:notificationBar>
+		
+		</h:form>
+
+	</b:panel>
+
+	<b:panel id="pnl1" title="Lista de usuários cadastrados" look="primary">
+		<h:form>
+
+
+
+			<b:dataTable value="#{usuarios.usuarios}" var="listausu1"
+				id="tabela1"
+				customLangUrl="//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
+				excel="true" csv="true" pdf="true" columnVisibility="true"
+				ajax="true" paginated="false" pageLengthMenu="10,20,30" copy="true"
+				print="true" pageLength="10" scroll-size="400px">
+				<b:dataTableColumn label="ID" value="#{listausu1.idusuario}" />
+				<b:dataTableColumn label="Nome do Usuario"
+					value="#{listausu1.nomecompleto}" />
+				<b:dataTableColumn Label="Login do Usuario"
+					value="#{listausu1.login}" />
+				<b:dataTableColumn Label="E-Mail Principal"
+					value="#{listausu1.emailprincipal}" />
+
+				<b:dataTableColumn label="Alterar">
+					<f:facet name="header">
+						<h:outputText value="Alterar" />
+					</f:facet>
+					<b:commandButton value="Alterar" ajax="true" look="primary"
+						update=":tel" immediate="false"
+						action="#{usuarios.AlterarUsuario(listausu1.idusuario)}">
+					</b:commandButton>
+				</b:dataTableColumn>
+
+				<b:dataTableColumn>
+					<f:facet name="header">
+						<h:outputText value="Inativar/Ativar" />
+					</f:facet>
+					<b:commandButton value="Inativar Usuário" ajax="false" look="danger" rendered="#{listausu1.ativo=='true'}"
+						action="#{usuarios.InativaUsuario(listausu1.idusuario,'Inativar')}">
+						<p:ajax process="@this tabela1" update=":forma1 pnl1 tabela1 " />
+					</b:commandButton>
+					<b:commandButton value="Ativar Usuário" ajax="false" look="warning" rendered="#{listausu1.ativo=='false'}"
+						action="#{usuarios.InativaUsuario(listausu1.idusuario,'Ativar')}">
+						<p:ajax process="@this tabela1" update=":forma1 pnl1 tabela1 " />
+					</b:commandButton>
+					
+					
+				</b:dataTableColumn>
+
+
+			</b:dataTable>
+
+
+
+
+
+		</h:form>
+
+
+
+	</b:panel>
+
+	<p:dialog id="dg1" widgetVar="diag1" header="Inativa Usuário">
+		<p:panel id="pnl2"
+			header="Realmente deseja inativar o usuário #{usuarios.nomeusuario}">
+			<h:form>
+
+				<p:commandButton value="Sim" update="pnl1" ajax="false"
+					oncomplete="diag1.hide()"
+					action="#{usuarios.InativaUsuario(listausu1.idusuario)}">
+
+
+					<p:ajax process="@this" update=":forma1" />
+				</p:commandButton>
+
+				<p:commandButton value="Não" onclick="diag1.hide();">
+
+				</p:commandButton>
+			</h:form>
+		</p:panel>
+	</p:dialog>
+
+</h:body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Bancas Cadastradas</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+	<link rel="icon" type="image/x-icon"
+		href="#{request.contextPath}/imagens/favicon.ico" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/themes/redmond/skin.css"  />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<script src="#{request.contextPath}/javascript/jquery.js"></script>
+	<script src="#{request.contextPath}/javascript/jquery.ui.js"></script>
+	<style type="text/css">
+.ui-widget {
+	font-size: 80%;
+}
+
+.themeMenu {
+	font: bold;
+	height: 200px;
+	width: 100px;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #2E6E9E;
+	border-radius: 10px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	box-shadow: 0 0 7px #87B6D9;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+</style>
+	<script type="text/javascript">
+$(function() {        
+	$(document).tooltip(
+	{            
+	  track: true       
+	   });   
+	});
+	
+function botao(){
+	var valor =  document.getElementTagName("pegaid").value;
+
+	document.write(valor);
+	}
+
+</script>
+
+
+</h:head>
+<body>
+
+	<b:panel title="Dados" id="pn1" look="primary">
+		<h:form id="fmb">
+			<p:growl id="msg1" showSummary="true" />
+			<h:panelGrid columns="2">
+				<h:outputText value="ID Banca" />
+				<h:outputText value="#{bancas.idbancabusca}" id="pegaid" />
+				<h:outputText value="Nome da Banca" />
+				<p:inputText value="#{bancas.nomebanca}" id="txt1" required="true"
+					onkeyup="this.value=this.value.toUpperCase();"
+					requiredMessage="Entre com o nome da banca." maxlength="200"
+					size="60" />
+
+				<h:outputText value="Email da Banca" />
+				<p:inputText value="#{bancas.emaildabanca}" id="txt2"
+					required="true" onkeyup="this.value=this.value.toLowerCase();"
+					requiredMessage="Entre com o e-mail da banca." maxlength="200"
+					size="60" />
+
+				<h:outputText value="Email do Gestor da Banca" />
+				<p:inputText value="#{bancas.emaildogestor}" id="txt3"
+					required="true" onkeyup="this.value=this.value.toLowerCase();"
+					requiredMessage="Entre com o e-mail da banca." maxlength="200"
+					size="60" />
+
+				<!--  
+				<h:outputText value="Descrição da Banca" />
+				<p:inputText value="#{bancas.descricaobanca}"
+					onkeyup="this.value=this.value.toUpperCase();" />
+				-->
+				<p:commandButton value="Nova Banca" ajax="false"
+					action="#{bancas.NovaBanca}"
+					title="Clik aqui para setar niva banca" icon="ui-icon-person">
+					<p:ajax update=":pn1" process="@this" />
+				</p:commandButton>
+
+				<p:commandButton value="Salvar" ajax="false" icon="ui-icon-disk"
+					action="#{bancas.SalvarBanca}"
+					title="Clik aqui para adciobar a banca">
+
+					<p:ajax update=":pn2" process="@this" />
+				</p:commandButton>
+				<p:commandButton value="Salvar Alteração" ajax="false" id="btaltera" disabled="#{bancas.btaltera}"
+					icon="ui-icon-disk" action="#{bancas.SalvaBancaAlterada}"
+					update="@this" process="@all" title="Clik aqui para alterar a banca">
+
+				</p:commandButton>
+
+				<b:commandButton value="Sair" immediate="true" action="/menu.jsf" look="primary"
+					icon="ui-icon-power" ajax="false" title="Clique aqui para sair">
+					
+				</b:commandButton>
+				<h:outputText value="" />
+			</h:panelGrid>
+		</h:form>
+	</b:panel>
+
+	<b:panel title="Banca Cadastradas" id="pn2" look="primary">
+		<h:form>
+			<p:dataTable id="banca1" var="bc" value="#{bancas.listabancas}"
+				paginator="true" paginatorPosition="top" liveScroll="true" rows="15">
+
+				<p:column width="30">
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<p:commandLink value="#{bc.idbanca}" ajax="false" update="@all" 
+						title="Click aqui para selecionar a banca."
+						action="#{bancas.AlterarBanca}" process="@all">
+						<f:setPropertyActionListener value="true"
+							target="#{bancas.altera}" />
+								<f:setPropertyActionListener value="false"
+							target="#{bancas.btaltera}" />
+							
+						<f:setPropertyActionListener value="#{bc.idbanca}"
+							target="#{bancas.idbancabusca}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column width="300">
+					<f:facet name="header">
+						<h:outputText value="Banca" />
+					</f:facet>
+					<h:outputText value="#{bc.banca}" />
+				</p:column>
+				<!--  
+			<p:column width="300">
+				<f:facet name="header">
+					<h:outputText value="Descrição" />
+				</f:facet>
+				<h:outputText value="#{bc.descricao}" />
+			</p:column>
+		-->
+
+
+				<p:column width="300">
+					<f:facet name="header">
+						<h:outputText value="E-Mail da Banca" />
+					</f:facet>
+					<h:outputText value="#{bc.email}" />
+				</p:column>
+
+				<p:column width="300">
+					<f:facet name="header">
+						<h:outputText value="E-Mail do Gestor" />
+					</f:facet>
+					<h:outputText value="#{bc.emailgestordabanca}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</b:panel>
+
+</body>
+</html>
