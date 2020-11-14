@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SISGECOL
 
 - Sistema de Gerenciamento de Colaboradores
@@ -8,6 +7,8 @@
 - Descrição da feature
 
 - Java, Hibernate, PostgresSQL, Tom Cat, JSF 
+
+
 
 
 
