@@ -17,6 +17,13 @@ import com.sun.jersey.api.client.WebResource;
 import br.adv.cra.utilitarios.TesteJson;
 import jdk.nashorn.internal.parser.JSONParser;
 
+/**
+ * Esta classe me fez aprender mexer com JSON de uma forma que aprendi muito
+ * espero trabalhar muitos anos com java delphi me fez lenbrar meum bom e velho
+ * clipper summer 87
+ * @author nelson
+ *
+ */
 public class JsonTeste {
 
 	private String jsondados = "http://localhost:85/api/LawsuitCase?$select=identifierNumber,courtId,actionTypeId,folder,participants&$expand=participants,customFields&$filter=customFieldProcessoEletronico%20eq%20%27Sim%27";
