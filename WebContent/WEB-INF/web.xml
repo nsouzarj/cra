@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="LATIN1"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>cra</display-name>
+  <security-constraint>
+  <web-resource-collection>
+    <web-resource-name>cra</web-resource-name>
+    <url-pattern>/*</url-pattern>
+  </web-resource-collection>
+  <user-data-constraint>
+    <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+  </user-data-constraint>
+</security-constraint>
+  
   <context-param>
     <param-name>BootsFaces_USE_VIEWPORT</param-name>
     <param-value>width=device-width, initial-scale=1.0, user-scalable=yes</param-value>
