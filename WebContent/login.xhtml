@@ -74,8 +74,8 @@
 								<b:label value="USUÁRIO:" style="font-size:13px;" />
 							</b:column>
 							<b:column medium-screen="8">
-								<b:inputText value="#{usuarios.loginacesso}" id="usu"
-									autocomplete="false" />
+								<b:inputText value="#{usuarios.loginacesso}" id="usu"  update="bt1" process="@this" ajax="true"
+												required="true"					autocomplete="false" />
 							</b:column>
 						</b:row>
 						<b:row styleClass="esquerda">
@@ -83,14 +83,14 @@
 								<b:label value="SENHA:" style="font-size:13px;" />
 							</b:column>
 							<b:column medium-screen="8">
-								<b:inputSecret value="#{usuarios.senha}" autocomplete="false"
+								<b:inputSecret value="#{usuarios.senha}" autocomplete="false"  required="true"
 									styleClass="esquerda" />
 							</b:column>
 						</b:row>
 						<b:row>
 							<b:buttonGroup>
-								<b:commandButton type="sumbit" styleClass="esquerda"
-									title="Click aqui para entrar no sistema" value="Entrar"
+								<b:commandButton type="sumbit" styleClass="esquerda"  id="bt1"
+									title="Click aqui para entrar no sistema" value="Entrar"  
 									action="#{usuarios.PegaUsuario}" immediate="false">
 									<f:setPropertyActionListener
 										target="#{corresponde.nivelusuario}"
