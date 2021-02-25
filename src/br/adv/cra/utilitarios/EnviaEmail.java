@@ -41,7 +41,7 @@ public class EnviaEmail {
 			public PasswordAuthentication getPasswordAuthentication() {
 				
 				//return new PasswordAuthentication("solicitacao.cra@gmail.com", "nso196840");
-				return new PasswordAuthentication("admin", "Coroa.rainha@951");
+				return new PasswordAuthentication("admin", "Coroa.rainha@952");
 			}
 		};
 
@@ -98,7 +98,7 @@ public class EnviaEmail {
 
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("admin", "Coroa.rainha@951");
+				return new PasswordAuthentication("admin", "Coroa.rainha@952");
 			}
 		};
 
@@ -153,7 +153,7 @@ public class EnviaEmail {
 
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("admin", "Coroa.rainha@951");
+				return new PasswordAuthentication("admin", "Coroa.rainha@952");
 			}
 		};
 
@@ -216,7 +216,7 @@ public class EnviaEmail {
 
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("admin", "Coroa.rainha@951");
+				return new PasswordAuthentication("admin", "Coroa.rainha@952");
 			}
 		};
 
@@ -258,7 +258,7 @@ public class EnviaEmail {
 
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("admin", "Coroa.rainha@951");
+				return new PasswordAuthentication("admin", "Coroa.rainha@952");
 			}
 		};
 
