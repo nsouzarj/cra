@@ -9,7 +9,7 @@
 		<!-- <property name="hibernate.connection.url">jdbc:postgresql://10.0.0.102:5432/dbsolic</property> -->
 		<!-- <property name="hibernate.connection.url">jdbc:postgresql://192.168.0.78:5432/dbsolic</property> -->
 		<property name="hibernate.connection.username">postgres</property>
-		<property name="hibernate.connection.password"></property>
+		<property name="hibernate.connection.password">nso1810</property>
 		<property name="hibernate.connection.pool_size">400</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		
