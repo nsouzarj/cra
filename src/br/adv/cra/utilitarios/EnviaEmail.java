@@ -274,7 +274,6 @@ public class EnviaEmail {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(origem, ""));
 		}
 	
-	
 
 		message.setSubject(assunto);
 		MimeBodyPart mbp1 = new MimeBodyPart();
