@@ -6,9 +6,12 @@
     <web-resource-name>cra</web-resource-name>
     <url-pattern>/*</url-pattern>
   </web-resource-collection>
+  <!-- Documentei aqui para tirar a obrigacao de passar por https -->
+  
   <user-data-constraint>
     <transport-guarantee>CONFIDENTIAL</transport-guarantee>
   </user-data-constraint>
+
 </security-constraint>
   
   <context-param>

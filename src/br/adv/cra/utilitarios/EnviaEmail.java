@@ -35,7 +35,8 @@ public class EnviaEmail {
 			public PasswordAuthentication getPasswordAuthentication() {
 
 				// return new PasswordAuthentication("solicitacao.cra@gmail.com", "nso196840");
-				return new PasswordAuthentication("sisgecol@cra.adv.br", "Cra@2021");
+				return new PasswordAuthentication("contato.sisgecol@cra.adv.br", "$6sGVQ0>D90");
+				//return new PasswordAuthentication("admin@cra.adv.br", "Coroa.rainha@951");
 			}
 		};
 
@@ -44,7 +45,7 @@ public class EnviaEmail {
 
 		MimeMessage message = new MimeMessage(session);
 		message.setSentDate(new Date());
-		message.setFrom(new InternetAddress("sisgecol@cra.adv.br", "CRA - Cavalcante Ramos Advogados"));
+		message.setFrom(new InternetAddress("contato.sisgecol@cra.adv.br", "CRA - Cavalcante Ramos Advogados"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(destino, nomedestino));
 		/**
 		 * Aqui verifica os emails alternativos para serem enviados
@@ -53,6 +54,7 @@ public class EnviaEmail {
 		
 		if (origem.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(origem, ""));
+			
 		}
 		if (advresp.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(advresp, ""));
@@ -96,14 +98,14 @@ public class EnviaEmail {
 
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("admin@cra.adv.br", "Coroa.rainha@951");
+				return new PasswordAuthentication("contato.sisgecol@cra.adv.br", "$6sGVQ0>D90");
 			}
 		};
 
 		Session session = Session.getInstance(props, auth);
 		MimeMessage message = new MimeMessage(session);
 		message.setSentDate(new Date());
-		message.setFrom(new InternetAddress("sisgecol@cra.adv.br", "CRA - Cavalcante Ramos Advogados"));
+		message.setFrom(new InternetAddress("contato.sisgecol@cra.adv.br", "CRA - Cavalcante Ramos Advogados"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(destino, nomedestino));
 
 		/**
@@ -112,6 +114,7 @@ public class EnviaEmail {
 		
 		if (origem.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(origem, ""));
+		
 		}
 
 		if (advresp.length() > 3) {
@@ -120,7 +123,7 @@ public class EnviaEmail {
 		if (copia.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(copia, ""));
 		}
-
+	
 		//message.addRecipient(Message.RecipientType.CC, new InternetAddress(origem, "CRA - Cavalcante Ramos Advogados"));
 		message.setSubject(assunto);
 		MimeBodyPart mbp1 = new MimeBodyPart();
@@ -149,14 +152,14 @@ public class EnviaEmail {
 
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("sisgecol@cra.adv.br", "Cra@2021");
+				return new PasswordAuthentication("contato.sisgecol@cra.adv.br", "$6sGVQ0>D90");
 			}
 		};
 
 		Session session = Session.getInstance(props, auth);
 		MimeMessage message = new MimeMessage(session);
 		message.setSentDate(new Date());
-		message.setFrom(new InternetAddress(origem, "CRA - Cavalcante Ramos Advogados"));
+		message.setFrom(new InternetAddress("contato.sisgecol@cra.adv.br", "CRA - Cavalcante Ramos Advogados"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(destino, nomedestino));
 
 		/**
@@ -164,6 +167,7 @@ public class EnviaEmail {
 		 */
 		if (origem.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(origem, ""));
+			
 		}
 		if (advresp.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(advresp, ""));
@@ -209,14 +213,14 @@ public class EnviaEmail {
 
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("sisgecol@cra.adv.br", "Cra@2021");
+				return new PasswordAuthentication("contato.sisgecol@cra.adv.br", "$6sGVQ0>D90");
 			}
 		};
 
 		Session session = Session.getInstance(props, auth);
 		MimeMessage message = new MimeMessage(session);
 		message.setSentDate(new Date());
-		message.setFrom(new InternetAddress("sisgecol@cra.adv.br", "CRA - Cavalcante Ramos Advogados"));
+		message.setFrom(new InternetAddress("contato.sisgecol@cra.adv.br", "CRA - Cavalcante Ramos Advogados"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(destino, nomedestino));
 		message.setSubject(assunto);
 		MimeBodyPart mbp1 = new MimeBodyPart();
@@ -253,7 +257,7 @@ public class EnviaEmail {
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
 
-				return new PasswordAuthentication("sisgecol@cra.adv.br", "Cra@2021");
+				return new PasswordAuthentication("contato.sisgecol@cra.adv.br", "$6sGVQ0>D90");
 			}
 		};
 
@@ -262,15 +266,15 @@ public class EnviaEmail {
 		message.setSentDate(new Date());
 		// Verifica se tem o email do gestor se for maior que tres carateres adcina na
 		// copia
-		
+		message.setFrom(new InternetAddress("contato.sisgecol@cra.adv.br", "CRA - Sisgecol"));
 		if (emailgestor.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(emailgestor, ""));
 		}
 		if (origem.length() > 3) {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(origem, ""));
 		}
-		message.setFrom(new InternetAddress("sisgecol@cra.adv.br", "CRA - Sisgecol"));
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(destino, nomedestino));
+	
+	
 
 		message.setSubject(assunto);
 		MimeBodyPart mbp1 = new MimeBodyPart();
@@ -290,23 +294,11 @@ public class EnviaEmail {
 		EnviaEmail ev = new EnviaEmail();
 		Solicitacao solicitacao = new Solicitacao();
 		try {
-			ev.Enviar(null, "sisgecol@cra.adv.br", "nsouzarj@outlook.com","nsouzarj@bol.com.br", "", "Isso so e um teste", "",
+			ev.EnviarNovamente(null, "nsouzarj@outlook.com", "bruno.toledo@eficienti.com.br", "","", "Isso so e um teste", "",
 					"Isso e um teste..", "** AVISO DE SOLICITAÇÃO **");
 			System.out.println("Email enviado com sucesso!!");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-
-		//	 try {
-		//	 ev.EnviarNovamente(solicitacao, "",
-		//	 "nsouzarj@bol.com.br", "",
-		//	 "", "Testee", "",
-		//	 "Isso e um teste..","** AVISO DE SOLICITAÇÃO **");
-		//	 System.out.println("Email enviado com sucesso!!");
-		//	 } catch (Exception e1) {
-	//		
-		//	 System.out.print("Erro ao enviar o e-mail descrição do erro:"
-		//	 + e.getMessage());
-	//		 }
+			
 
 			System.out.print("Erro ao enviar o e-mail descrição do erro:" + e.getMessage());
 		}
