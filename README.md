@@ -1,16 +1,17 @@
 # SISGECOL
 
- **Primeira versão   Date: 01/06/2012  Author: Nelson Seixas**
+ **Primeira versÃ£o   Date: 01/06/2012  Author: Nelson Seixas & Rodrigo pena**
+ **Mantido por: Nelson Seixas **
 
 - **Sistema de Gerenciamento de Colaboradores**
 
-- Sistema feito pra gestão de solcitações de audiências e diligências
+- Sistema feito pra gestÃ£o de solcitaÃ§Ãµes de audiÃªncias e diligÃªncias
 
-- Descrição da feature
+- DescriÃ§Ã£o da feature
 
 - Java, Hibernate, PostgresSQL, Tom Cat, JSF 
 
-- Última alteração 13/01/2021 12:00 PM
+- Ãšltima alteraÃ§Ã£o 13/01/2021 12:00 PM
 
 
 
