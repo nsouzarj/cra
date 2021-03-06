@@ -1,7 +1,8 @@
 # SISGECOL
 
  **Primeira versão   Date: 01/06/2012  Author: Nelson Seixas & Rodrigo pena**
- **Mantido por: Nelson Seixas **
+ 
+- **Mantido por: Nelson Seixas **
 
 - **Sistema de Gerenciamento de Colaboradores**
 
