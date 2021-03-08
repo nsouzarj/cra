@@ -1,6 +1,6 @@
 # SISGECOL
 
- **Primeira versão   Date: 01/06/2012  Author: Nelson Seixas & Rodrigo pena**
+ **Primeira versão   Date: 01/06/2012  Author: Nelson Seixas & Rodrigo Domingos**
  
 - **Mantido por: Nelson Seixas **
 
