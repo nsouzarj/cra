@@ -37,7 +37,7 @@
   </context-param>
   <context-param>
     <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
-    <param-value>true</param-value>
+    <param-value>false</param-value>
   </context-param>
   <context-param>
     <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
@@ -109,5 +109,9 @@
   <context-param>
     <param-name>net.bootsfaces.get_fontawesome_from_cdn</param-name>
     <param-value>false</param-value>
+  </context-param>
+  <context-param> 
+  <param-name>com.sun.faces.writeStateAtFormEnd</param-name> 
+   <param-value>false</param-value> 
   </context-param>
 </web-app>
