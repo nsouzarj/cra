@@ -80,6 +80,7 @@ public class DaoArqColaborador implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: Excessao maluca
 		}
 	}

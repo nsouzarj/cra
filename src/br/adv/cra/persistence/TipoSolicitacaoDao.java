@@ -71,6 +71,7 @@ public class TipoSolicitacaoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}
@@ -91,6 +92,7 @@ public class TipoSolicitacaoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return buscav;
 	}
@@ -113,6 +115,7 @@ public class TipoSolicitacaoDao implements Serializable {
 			tiposolicitacao = (TipoSolicitacao) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return tiposolicitacao;

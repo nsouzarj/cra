@@ -271,6 +271,7 @@ public class SolicitacaoDao implements Serializable {
 			solicitacao = (Solicitacao) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return solicitacao;
@@ -397,7 +398,8 @@ public class SolicitacaoDao implements Serializable {
 
 			return busca3;
 
-		} catch (Exception e) {
+		} catch (Exception e) { 
+	   	    System.out.println("Erro: " + e.getMessage());
 			idusuario = 0;
 			busca3 = null;
 			return busca3;
@@ -428,32 +430,40 @@ public class SolicitacaoDao implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public List<Solicitacao> alertaDoisDiasNovaSoli(String localizacao) {
+       
+		try {
+			
+			Date dataaviso = new Date();
+			Date compara1 = new Date();
+			Calendar cdaviso = GregorianCalendar.getInstance();
 
-		Date dataaviso = new Date();
-		Date compara1 = new Date();
-		Calendar cdaviso = GregorianCalendar.getInstance();
+			cdaviso.add(5, -2); // menos 48 horas
 
-		cdaviso.add(5, -2); // menos 48 horas
+			dataaviso = cdaviso.getTime();
+			if (compara1 != dataaviso) {
 
-		dataaviso = cdaviso.getTime();
-		if (compara1 != dataaviso) {
+			}
 
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+
+			query = session.createQuery(
+					"from Solicitacao where processo.localizacao=:localizacao and datasolictacao>:datasoli  and  "
+							+ "(renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao=13 or renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao=14) ");
+			query.setDate("datasoli", dataaviso);
+			query.setString("localizacao", localizacao);
+			// query.setCacheable(true);
+			buscadoisdias = query.list();
+			transaction.commit();
+			session.close();
+			return buscadoisdias;
+
+		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+			// TODO: handle exception
 		}
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		transaction = session.beginTransaction();
-
-		query = session.createQuery(
-				"from Solicitacao where processo.localizacao=:localizacao and datasolictacao>:datasoli  and  "
-						+ "(renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao=13 or renumeracao.tipoSolicitacaoCorrespondente.tipoSolicitacao.idtiposolicitacao=14) ");
-		query.setDate("datasoli", dataaviso);
-		query.setString("localizacao", localizacao);
-		// query.setCacheable(true);
-		buscadoisdias = query.list();
-		transaction.commit();
-		session.close();
 		return buscadoisdias;
-
+	
 	}
 
 	public void setResumopgato(List<Solicitacao> resumopgato) {

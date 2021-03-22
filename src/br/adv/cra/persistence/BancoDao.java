@@ -92,6 +92,8 @@ public class BancoDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
+			
 		}
 		return busca;
 	}
@@ -114,6 +116,7 @@ public class BancoDao implements Serializable {
 			banco = (Banco) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return banco;
@@ -131,7 +134,7 @@ public class BancoDao implements Serializable {
 			banco = (Banco) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
-
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return banco;
 	}
@@ -150,6 +153,7 @@ public class BancoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}

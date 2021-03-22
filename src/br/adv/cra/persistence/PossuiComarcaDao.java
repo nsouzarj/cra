@@ -111,6 +111,7 @@ public class PossuiComarcaDao implements Serializable {
 			comarcaPossui = this.query.list();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			
 		}
 		return comarcaPossui;
@@ -130,6 +131,7 @@ public class PossuiComarcaDao implements Serializable {
 			comarcaPossui1 = this.query.list();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return comarcaPossui1;
 	}
@@ -153,6 +155,7 @@ public class PossuiComarcaDao implements Serializable {
 			comarcaPossui2 = this.query.list();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		if (idcomarca == 0) {
 			comarcaPossui2 = null;
@@ -180,6 +183,7 @@ public class PossuiComarcaDao implements Serializable {
 			comarcaPossui2 = this.query.list();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		if (idcomarca == 0) {
 			comarcaPossui2 = null;
@@ -198,6 +202,7 @@ public class PossuiComarcaDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 
@@ -217,6 +222,7 @@ public class PossuiComarcaDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return "";
@@ -235,6 +241,7 @@ public class PossuiComarcaDao implements Serializable {
 				this.transaction.commit();
 				this.session.close();
 			} catch (HibernateException e) {
+				System.out.println("Erro: " + e.getMessage());
 				// TODO: handle exception
 			}
 			return "";

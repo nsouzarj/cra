@@ -38,6 +38,7 @@ public class FormularioAudienciaNovoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HeadlessException e) {
+			System.out.println("Erro: " + e.getMessage());
 			
 		}
 		return formularioAudienciaNovo;
@@ -56,6 +57,7 @@ public class FormularioAudienciaNovoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HeadlessException e) {
+			System.out.println("Erro: " + e.getMessage());
 			
 		}	
 	}
@@ -78,6 +80,7 @@ public class FormularioAudienciaNovoDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			
 		}
 		return busca;

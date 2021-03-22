@@ -114,7 +114,7 @@ public class DaoRela extends Dao {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Erro: " + e.getMessage());
 		}
 		/**
 		 * Atualiza a tabela
@@ -126,7 +126,7 @@ public class DaoRela extends Dao {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Erro: " + e.getMessage());;
 		}
 		
 		try {
@@ -136,7 +136,7 @@ public class DaoRela extends Dao {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Erro: " + e.getMessage());
 		}
 		
 		try {
@@ -158,7 +158,7 @@ public class DaoRela extends Dao {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Erro: " + e.getMessage());
 		}
 	}
     public static void main(String[] args) {

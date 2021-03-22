@@ -145,6 +145,7 @@ public class SoliArqCproDaoSalvo {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return teste;
 	

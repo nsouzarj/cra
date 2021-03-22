@@ -74,6 +74,7 @@ public class EnviodesolicitacaoDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return enviosolicitacaos;
 	}
@@ -96,6 +97,7 @@ public class EnviodesolicitacaoDao implements Serializable {
 			enviosolicitacao = (Enviosolicitacao) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return enviosolicitacao;

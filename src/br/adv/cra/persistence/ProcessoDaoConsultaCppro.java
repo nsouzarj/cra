@@ -92,7 +92,7 @@ public class ProcessoDaoConsultaCppro extends DaoSqlServer {
 			close();
 		} catch (Exception e) {
 			// e.printStackTrace();
-			System.out.print("Erro de formato de campo.");
+			System.out.println("Erro CPPRO SQL " + e.getMessage());
 		}
 		return busca;
 	}
@@ -118,8 +118,7 @@ public class ProcessoDaoConsultaCppro extends DaoSqlServer {
 			}
 			close();
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			System.out.println("Erro: " + e.getMessage());
 
 		return processoCpproConsulta;
 	}

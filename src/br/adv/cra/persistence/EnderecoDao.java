@@ -72,6 +72,7 @@ public class EnderecoDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}
@@ -94,6 +95,7 @@ public class EnderecoDao implements Serializable {
 			endereco = (Endereco) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return endereco;

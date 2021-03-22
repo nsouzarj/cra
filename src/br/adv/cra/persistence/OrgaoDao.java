@@ -33,6 +33,7 @@ public class OrgaoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 
@@ -53,6 +54,7 @@ public class OrgaoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 
@@ -73,6 +75,7 @@ public class OrgaoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 
@@ -97,6 +100,7 @@ public class OrgaoDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}
@@ -119,6 +123,7 @@ public class OrgaoDao implements Serializable {
 			orgao = (Orgao) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return orgao;

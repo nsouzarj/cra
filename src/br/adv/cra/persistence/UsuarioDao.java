@@ -79,6 +79,7 @@ public class UsuarioDao implements Serializable {
 			this.session.close();
 
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return usuario;
@@ -100,6 +101,7 @@ public class UsuarioDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 
 		return busca;
@@ -118,6 +120,7 @@ public class UsuarioDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 
 		return busca;
@@ -138,6 +141,7 @@ public class UsuarioDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca1;
 	}
@@ -159,6 +163,7 @@ public class UsuarioDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return usuario;
@@ -180,6 +185,7 @@ public class UsuarioDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return usuario;
@@ -201,6 +207,7 @@ public class UsuarioDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return usuario;
@@ -245,6 +252,7 @@ public class UsuarioDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: Excessao maluca
 		}
 	}
@@ -266,7 +274,7 @@ public class UsuarioDao implements Serializable {
 			}
 
 		} catch (Exception e) {
-			System.out.println("* * Erro ao desconectar na sessão* *");
+			System.out.println("* * Erro ao desconectar na sessão* *"+e.getMessage());
 			// TODO: handle exception
 		}
 	}

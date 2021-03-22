@@ -148,7 +148,7 @@ public class SoliArquivoDao implements Serializable {
 			teste.buscararquivo(6, "RECEBIDO");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Erro: " + e.getMessage());
 		}
 	}
 

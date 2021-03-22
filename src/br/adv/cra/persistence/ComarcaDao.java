@@ -103,7 +103,7 @@ public class ComarcaDao implements Serializable {
 			//this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
-
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}
@@ -132,7 +132,7 @@ public class ComarcaDao implements Serializable {
 			//this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
-
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca1;
 	}
@@ -156,6 +156,7 @@ public class ComarcaDao implements Serializable {
 			comarca = (Comarca) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return comarca;
 	}
@@ -187,6 +188,7 @@ public class ComarcaDao implements Serializable {
 			this.session.clear();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 

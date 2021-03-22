@@ -138,7 +138,8 @@ public class DaoArquivoCPRO extends DaoSqlServer {
 			close();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			System.out.println("Erro: " + e.getMessage());
 			// System.out.print("Erro de formato de
 			// campo."+e.printStackTrace());
 		}

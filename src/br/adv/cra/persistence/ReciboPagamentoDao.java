@@ -93,6 +93,7 @@ public class ReciboPagamentoDao implements Serializable {
 			reciboPagamento = (ReciboPagamento) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return reciboPagamento;
 	}

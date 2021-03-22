@@ -100,6 +100,7 @@ public class RenumeracaoDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}
@@ -133,6 +134,7 @@ public class RenumeracaoDao implements Serializable {
 			renumeracao = (Renumeracao) query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return renumeracao;
@@ -155,6 +157,7 @@ public class RenumeracaoDao implements Serializable {
 			renumeracao = (Renumeracao) query.uniqueResult();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return renumeracao;

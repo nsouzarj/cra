@@ -27,6 +27,7 @@ public class DaoBuscaProcesso extends Dao {
 		 
 			close();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		

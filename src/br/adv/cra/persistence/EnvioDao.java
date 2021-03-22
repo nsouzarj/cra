@@ -33,6 +33,7 @@ public class EnvioDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}
@@ -54,6 +55,7 @@ public class EnvioDao implements Serializable {
 			envio = (Envio) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return envio;

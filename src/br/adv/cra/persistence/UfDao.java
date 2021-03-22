@@ -32,6 +32,7 @@ public class UfDao implements Serializable {
 			this.session.close();
 
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return busca;
@@ -54,6 +55,7 @@ public class UfDao implements Serializable {
 			uf = (Uf) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return uf;
 	}

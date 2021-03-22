@@ -77,6 +77,7 @@ public class EmailCorrespondenteDao implements Serializable {
 					.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return emailCorrespondente;
@@ -102,6 +103,7 @@ public class EmailCorrespondenteDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}

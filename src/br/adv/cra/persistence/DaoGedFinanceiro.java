@@ -77,6 +77,7 @@ public class DaoGedFinanceiro {
 			this.transaction.commit();
 			this.session.close();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: Excessao maluca
 		}
 	}

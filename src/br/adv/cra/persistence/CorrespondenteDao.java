@@ -101,7 +101,7 @@ public class CorrespondenteDao implements Serializable {
 			correspondente = (Correspondente) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
-
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return correspondente;
 	}
@@ -143,6 +143,7 @@ public class CorrespondenteDao implements Serializable {
 			this.session.close();
 
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}

@@ -101,6 +101,7 @@ public class FormularioAudienciaDao {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return formularioAudiencia;

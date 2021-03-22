@@ -70,6 +70,7 @@ public class StatusSolictacaoDao implements Serializable {
 			this.transaction.commit();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return busca;
 	}
@@ -92,6 +93,7 @@ public class StatusSolictacaoDao implements Serializable {
 			statusSolicitacao = (StatusSolicitacao) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return statusSolicitacao;

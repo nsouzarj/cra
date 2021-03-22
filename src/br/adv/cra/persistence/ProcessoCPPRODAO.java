@@ -102,7 +102,7 @@ public class ProcessoCPPRODAO {
 			processoCPPRO = (ProcessoCPPRO) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
-
+			System.out.println("Erro: " + e.getMessage());
 		}
 		return processoCPPRO;
 	}
@@ -121,6 +121,7 @@ public class ProcessoCPPRODAO {
 			query = this.session.createQuery("from ProcessoCPPRO order by cliente");
 			processoCPPROs = this.query.list();
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return processoCPPROs;
@@ -176,6 +177,7 @@ public class ProcessoCPPRODAO {
 			}
 
 		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
 			// TODO: handle exception
 		}
 		return processoCPPROs;
@@ -203,6 +205,7 @@ public class ProcessoCPPRODAO {
 			processoCPPRO = (ProcessoCPPRO) this.query.uniqueResult();
 			this.session.close();
 		} catch (HibernateException e) {
+			System.out.println("Erro: " + e.getMessage());
 
 		}
 		return processoCPPRO;
