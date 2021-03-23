@@ -119,7 +119,7 @@ public class ProcessoDaoConsultaCppro extends DaoSqlServer {
 			close();
 		} catch (Exception e) {
 			System.out.println("Erro: " + e.getMessage());
-
+		}
 		return processoCpproConsulta;
 	}
 
