@@ -637,7 +637,30 @@ body {
 						</f:facet>
 						<h:outputText value="#{soli.processo.numeroprocesso}" />
 					</p:column>
+					
+					<p:column sortBy="#{soli.processo.localizacao}" width="180"
+						headerText="Localização">
+						<f:facet name="header">
+							<h:outputText value="Localização" />
+						</f:facet>
+						<h:outputText value="#{soli.processo.localizacao}" />
+					</p:column>
+					
+					<p:column sortBy="#{soli.processo.numerointegracao}" width="180"
+						headerText="Num Integração">
+						<f:facet name="header">
+							<h:outputText value="Num Integração" />
+						</f:facet>
+						<h:outputText value="#{soli.processo.numerointegracao}" />
+					</p:column>
+					
 					<p:column sortBy="#{soli.processo.parte}" width="400">
+						<f:facet name="header">
+							<h:outputText value="Autor" />
+						</f:facet>
+						<h:outputText value="#{soli.processo.parte}" />
+					</p:column>
+						<p:column sortBy="#{soli.processo.parte}" width="400">
 						<f:facet name="header">
 							<h:outputText value="Autor" />
 						</f:facet>
