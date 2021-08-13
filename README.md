@@ -4,7 +4,7 @@
 
 - **Sistema de Gerenciamento de Colaboradores**
 
-- Sistema feito pra gestão de solcitações de audiências e diligências
+- Sistema feito pra gestão de solicitações de audiências e diligências
 
 - Descrição da feature
 
