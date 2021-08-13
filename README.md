@@ -12,7 +12,7 @@
 
 - Última alteração 13/01/2021 12:00 PM
 
-- Foi importado para o GITLAB
+- Foi importado para o GITLAB criado
 
 
 
