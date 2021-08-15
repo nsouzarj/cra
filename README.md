@@ -4,6 +4,12 @@
 
 - **Sistema de Gerenciamento de Colaboradores**
 
+ * Sistema de controle de digilências e audiências
+ * Autor:Nelson Seixas de Souza -Java Web Deveoper Data de Inicio:
+ * CopyRight: Nelson Seixas de Souza (Java Web Developer)
+ * Date: 01/06/2012
+
+
 - Sistema feito pra gestão de solicitações de audiências e diligências
 
 - Descrição da feature
