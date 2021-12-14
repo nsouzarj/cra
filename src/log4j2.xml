@@ -19,7 +19,7 @@
 
         
 		<!-- Log all SQL DML statements as they are executed -->
-		<Logger name="org.hibernate.SQL" level="ERROR" />
+		<Logger name="org.hibernate.SQL" level="off" />
 		<!-- Log all JDBC parameters -->
 		<Logger name="org.hibernate.type" level="off" />
 		<!-- Log all SQL DDL statements as they are executed -->
@@ -32,13 +32,13 @@
 		<!-- Log transaction related activity -->
 		<Logger name="org.hibernate.transaction" level="off" />
 		<!-- Log all JDBC resource acquisition -->
-		<Logger name="org.hibernate.jdbc" level="error" />
+		<Logger name="org.hibernate.jdbc" level="off" />
 		<!-- Log HQL and SQL ASTs during query parsing -->
 		<Logger name="org.hibernate.hql.ast.AST" level="off" />
 		<!-- Log all JAAS authorization requests -->
 		<Logger name="org.hibernate.secure" level="off" />
 		<!-- Log everything (a lot of information, but very useful for troubleshooting) -->
-		<Logger name="org.hibernate" level="info" />
+		<Logger name="org.hibernate" level="off" />
 
 
 		<Root level="info">
