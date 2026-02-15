@@ -1,0 +1,228 @@
+# Entity Class Diagram
+
+This diagram represents the relationships between the main entities in the `br.adv.cra.entity` package, including all their attributes.
+
+```mermaid
+classDiagram
+    class Solicitacao {
+        +Integer idsolicitacao
+        +Integer referenciasolicitacao
+        +Date datasolictacao
+        +Date dataconclusao
+        +Date dataprazo
+        +String observacao
+        +String instrucoes
+        +String complemento
+        +String justificativa
+        +String tratposaudiencia
+        +String numcontrole
+        +boolean tempreposto
+        +boolean convolada
+        +String horaudiencia
+        +String statusexterno
+        +Processo processo
+        +Renumeracao renumeracao
+        +StatusSolicitacao statusSolicitacao
+        +Comarca comarca
+        +FormularioAudiencia formularioAudiencia
+        +BancaProcesso bancaProcesso
+        +Enviosolicitacao enviosolicitacao
+        +ReciboPagamento reciboPagamento
+        +Usuario usuario
+        +AuditoriaInterna auditoriaInterna
+        +float valor
+        +float valordaalcada
+        +String emailenvio
+        +String pago
+        +Integer grupo
+        +boolean propostaacordo
+        +boolean audinterna
+        +String lide
+        +Integer avaliacaonota
+        +String textoavaliacao
+    }
+
+    class Processo {
+        +Integer idprocesso
+        +String numeroprocesso
+        +String numeroprocessopesq
+        +String parte
+        +String adverso
+        +String posicao
+        +String status
+        +String cartorio
+        +String assunto
+        +String localizacao
+        +String numerointegracao
+        +Comarca comarca
+        +Orgao orgao
+        +Integer numorgao
+        +String proceletronico
+        +Integer quantsoli
+        +Integer totalfeita
+    }
+
+    class Usuario {
+        +Integer idusuario
+        +String login
+        +String senha
+        +String nomecompleto
+        +String emailprincipal
+        +String emailsecundario
+        +String emailresponsavel
+        +Correspondente correspondente
+        +Integer tipo
+        +Date dataentrada
+        +boolean ativo
+    }
+
+    class Correspondente {
+        +Integer idcorrespondente
+        +String nome
+        +String responsavel
+        +String cpfcnpj
+        +String oab
+        +String tipocorrepondente
+        +String telefoneprimario
+        +String telefonesecundario
+        +String telefonecelularprimario
+        +String telefonecelularsecundario
+        +String emailprimario
+        +String emailsecundario
+        +Date datacadastro
+        +boolean ativo
+        +String observacao
+        +Endereco enderecos
+        +boolean aplicaregra1
+        +boolean aplicaregra2
+    }
+
+    class Historico {
+        +Integer idhistorico
+        +Date datahistorico
+        +Solicitacao solicitacao
+        +StatusSolicitacao statusSolicitacao
+        +Usuario usuario
+        +Renumeracao renumeracao
+        +String textohistorico
+    }
+
+    class Comarca {
+        +Integer idcomarca
+        +String nome
+        +Uf uf
+    }
+
+    class Orgao {
+        +Integer idorgao
+        +String descricao
+    }
+
+    class BancaProcesso {
+        +Integer idbanca
+        +String banca
+        +String descricao
+        +boolean ativa
+        +String email
+        +String emailgestordabanca
+    }
+
+    class StatusSolicitacao {
+        +Integer idstatus
+        +String status
+    }
+
+    class Renumeracao {
+        +Integer idrenumeracao
+        +TipoSolicitacaoCorrespondente tipoSolicitacaoCorrespondente
+        +float valor
+        +boolean ativo
+    }
+
+    class FormularioAudiencia {
+        +Integer idformulario
+        +String nomeadvogado
+        +String numoab
+        +String telefoneadvogado
+        +String emailadvogado
+        +String advogadoadverso
+        +String numoabadverso
+        +String telefoneadvadervoso
+        +String telefonecel1
+        +String telefonecel2
+        +String emailadvadverso
+        +boolean defesagenerica
+        +boolean contraproposta
+        +boolean aijdesiginada
+        +Date dataaij
+        +double valorproposta
+        +double valorcontraproposta
+        +String obrigacaoafazer
+        +String informecontraproposta
+        +String objetodalide
+        +String estrategiadefesa
+        +String informeacontecimento
+        +Integer nivel
+        +Date dataformulario
+        +boolean acordorealizado
+        +double valoracordo
+    }
+
+    class Enviosolicitacao {
+        +Integer idenviosolicitacao
+        +String tipoenvio
+    }
+
+    class ReciboPagamento {
+        +Integer idrecibo
+        +Date datafechamento
+        +String anotacao
+        +Usuario usuario
+    }
+
+    class AuditoriaInterna {
+        +Integer idauditoria
+        +String nomeresponsavel
+        +Date dataauditoria
+        +String status
+        +String observacao
+    }
+    
+    class Endereco {
+        +Integer idendereco
+        +String logradouro
+        +String bairro
+        +String cidade
+        +Uf uf
+        +String cep
+        +String observacao
+    }
+
+    %% Relationships for Solicitacao
+    Solicitacao --> Processo : has
+    Solicitacao --> Renumeracao : has
+    Solicitacao --> StatusSolicitacao : has
+    Solicitacao --> Comarca : has
+    Solicitacao --> FormularioAudiencia : has
+    Solicitacao --> BancaProcesso : has
+    Solicitacao --> Enviosolicitacao : has
+    Solicitacao --> ReciboPagamento : has
+    Solicitacao --> Usuario : created by
+    Solicitacao --> AuditoriaInterna : has
+
+    %% Relationships for Processo
+    Processo --> Comarca : has
+    Processo --> Orgao : has
+
+    %% Relationships for Usuario
+    Usuario --> Correspondente : associated with (Optionally)
+
+    %% Relationships for Correspondente
+    Correspondente --> Endereco : has
+
+    %% Relationships for Historico
+    Historico --> Solicitacao : belongs to
+    Historico --> StatusSolicitacao : records status
+    Historico --> Usuario : recorded by
+    Historico --> Renumeracao : records remuneration
+```
