@@ -274,18 +274,23 @@ public class UsuarioDao implements Serializable {
 			}
 
 		} catch (Exception e) {
-			System.out.println("* * Erro ao desconectar na sessão* *"+e.getMessage());
+			System.out.println("* * Erro ao desconectar na sessï¿½o* *"+e.getMessage());
 			// TODO: handle exception
 		}
 	}
 	
 
-	public static void main(String[] args) {
-		Usuario usu = new Usuario();
-		UsuarioDao u = new UsuarioDao();
-		usu=u.trazusuarioCorrespondente(78);
-		System.out.print(usu.getLogin());
-		
-	}
+//	public static void main(String[] args) {
+//		Usuario usu = new Usuario();
+//		usu.setAtivo(true);
+//		usu.setLogin("admin");
+//		usu.setSenha("nso1810");
+//		usu.setEmailresponsavel("nelson");
+//		usu.setTipo(1);
+//		UsuarioDao u = new UsuarioDao();
+//		usu=u.Salvar(usu);
+//		System.out.print(usu.getLogin());
+//
+//	}
 
 }

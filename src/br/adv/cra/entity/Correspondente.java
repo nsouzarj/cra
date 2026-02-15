@@ -10,7 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.validator.constraints.Email;
+//import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "correspondente")
@@ -29,9 +29,9 @@ public class Correspondente implements Serializable {
 	private String telefonesecundario;
 	private String telefonecelularprimario;
 	private String telefonecelularsecundario;
-	@Email
+	//@Email
 	private String emailprimario;
-	@Email
+	//@Email
 	private String emailsecundario;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date datacadastro;

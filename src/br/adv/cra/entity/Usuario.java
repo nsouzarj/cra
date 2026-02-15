@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.validator.constraints.Email;
+//import org.hibernate.validator.constraints.Email;
 @Entity
 @Table(name = "usuario")
 @SequenceGenerator(allocationSize = 1, initialValue = 1, name = "sequsu", sequenceName = "idusuario")
@@ -23,11 +23,11 @@ public class Usuario implements Serializable {
 	private String login;
 	private String senha;
 	private String nomecompleto;
-	@Email
+	//@Email
 	private String emailprincipal;
-	@Email
+	//@Email
 	private String emailsecundario;
-	@Email
+	//@Email
 	private String emailresponsavel;
     @OneToOne
     private Correspondente correspondente;

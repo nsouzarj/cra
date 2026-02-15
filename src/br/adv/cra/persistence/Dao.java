@@ -29,7 +29,8 @@ public class Dao {
 			String url = "";
 			Class.forName("org.postgresql.Driver");
 			// url = "jdbc:postgresql://192.168.0.141:5432/dbcja";
-			url = "jdbc:postgresql://172.16.48.11:5432/dbsolic";
+
+			url = "jdbc:postgresql://192.168.1.104:5432/dbsolic";
 			//url = "jdbc:postgresql://192.168.0.32:5432/dbsolic";
 			Properties props = new Properties();
 			props.setProperty("user", "postgres");
@@ -62,7 +63,7 @@ public class Dao {
 	}
 
 	/**
-	 * Testa a conexão do banco de dados
+	 * Testa a conexï¿½o do banco de dados
 	 * 
 	 * @param args
 	 */
@@ -72,7 +73,7 @@ public class Dao {
 			d.open();
 			System.out.println("Conectou");
 		} catch (Exception e) {
-			System.out.println("Não Conectou"+e.getMessage());
+			System.out.println("Nï¿½o Conectou"+e.getMessage());
 		}
 
 	}

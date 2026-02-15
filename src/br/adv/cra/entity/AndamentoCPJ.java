@@ -3,6 +3,7 @@ package br.adv.cra.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+
 @Entity
 public class AndamentoCPJ {
 	private String ficha;

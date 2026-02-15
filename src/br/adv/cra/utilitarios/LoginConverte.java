@@ -26,10 +26,10 @@ public class LoginConverte implements Serializable {
 				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
 			}
 			System.out.println("Login : " + usuario + " Senha  " + sessaoid
-					+ " md5 versão é " + hexString.toString());
+					+ " md5 versï¿½o ï¿½ " + hexString.toString());
 			sessaoid = hexString.toString();
 		} catch (NoSuchAlgorithmException nsae) {
-			System.out.println(">>>>>>> MD5 digest nao está disponivel nesta maquina, verifique a JVM se esta instalada");
+			System.out.println(">>>>>>> MD5 digest nao estï¿½ disponivel nesta maquina, verifique a JVM se esta instalada");
 			nsae.printStackTrace();
 			// TODO: handle exception
 		}
@@ -37,7 +37,7 @@ public class LoginConverte implements Serializable {
 	}
 
 	public static void main(String[] args) {
-		converteSenhaParaMD5("nelson", "teste");
+		converteSenhaParaMD5("admin", "teste123");
 	}
 
 }
