@@ -16,6 +16,18 @@
 
 - Java, Hibernate, PostgresSQL, Tom Cat, JSF 
 
+## Frameworks Utilizados
+
+O projeto utiliza as seguintes tecnologias e versões:
+
+- **JSF (JavaServer Faces) 2.0**: Framework MVC para construção de interfaces web.
+- **PrimeFaces 3.4.2**: Biblioteca de componentes UI para JSF.
+- **BootsFaces 1.2.0**: Biblioteca baseada em Bootstrap para layouts responsivos.
+- **Hibernate 4.3.11.Final**: Framework de ORM para mapeamento objeto-relacional.
+- **JasperReports 6.6.0**: Engine para geração de relatórios.
+- **PostgreSQL**: Banco de dados relacional.
+- **Apache Tomcat**: Servidor de aplicação.
+
 ## Arquitetura
 
 O sistema segue uma arquitetura baseada no padrão **MVC (Model-View-Controller)** adaptada para o framework JSF:
@@ -83,6 +95,17 @@ As interfaces são desenvolvidas em JSF e organizadas em módulos dentro do dire
     - `financeiro.xhtml`: Controle de pagamentos e repasses aos correspondentes.
 - **Administração (`/usuario`)**:
     - `usuario.xhtml`: Gestão de usuários e perfis de acesso.
+
+### Relatórios
+
+O sistema utiliza o **JasperReports 6.6.0** para a geração de documentos e relatórios técnicos/financeiros.
+
+- **Localização dos Templates:** Os arquivos de definição de relatório (`.jrxml` e `.jasper`) estão localizados em `WebContent/WEB-INF/relatorios`.
+- **Principais Relatórios:**
+    - `pagamento.jrxml`: Relatório de pagamentos processados.
+    - `faturamento.jrxml`: Demonstrativo de faturamento.
+    - `RelFormulario.jrxml`: Relatório detalhado de formulários de audiência.
+    - `acordorealizados.jrxml`: Estatísticas de acordos efetuados.
 
 - Última alteração 13/01/2021 12:00 PM
 
