@@ -16,6 +16,74 @@
 
 - Java, Hibernate, PostgresSQL, Tom Cat, JSF 
 
+## Arquitetura
+
+O sistema segue uma arquitetura baseada no padrão **MVC (Model-View-Controller)** adaptada para o framework JSF:
+
+```mermaid
+graph TD
+    subgraph "Camada de Visão (View)"
+        V[Páginas .xhtml / PrimeFaces / BootsFaces]
+    end
+
+    subgraph "Camada de Controle (Controller)"
+        C[Managed Beans / br.adv.cra.manager]
+    end
+
+    subgraph "Camada de Persistência (Persistence)"
+        D[DAO / br.adv.cra.persistence]
+    end
+
+    subgraph "Camada de Modelo (Model)"
+        M[Entidades JPA / br.adv.cra.entity]
+    end
+
+    subgraph "Banco de Dados"
+        DB[(PostgreSQL)]
+    end
+
+    V <--> C
+    C <--> D
+    D <--> M
+    D <--> DB
+```
+
+### Descrição das Camadas:
+
+- **Visão (View):** Interface do usuário construída com JSF, PrimeFaces e BootsFaces para componentes responsivos.
+- **Controle (Controller):** Managed Beans que gerenciam a lógica de interação entre a interface e as regras de negócio.
+- **Persistência (Persistence):** Implementa o padrão DAO utilizando Hibernate para gerenciar o acesso aos dados.
+- **Modelo (Model):** Representa as entidades do domínio, mapeadas para o banco de dados via JPA.
+
+### Camada de Persistência (DAO)
+
+A camada de persistência utiliza o padrão DAO (Data Access Object) para abstrair o acesso ao banco de dados PostgreSQL através do Hibernate. As principais classes são:
+
+- `SolicitacaoDao`: Gerencia todas as operações de CRUD e consultas complexas relacionadas às solicitações de audiências e diligências.
+- `UsuarioDao`: Responsável pela gestão de usuários do sistema, incluindo autenticação e controle de permissões.
+- `CorrespondenteDao`: Gerencia o cadastro e vínculo de correspondentes (colaboradores externos).
+- `ProcessoDao`: Lida com as informações dos processos judiciais vinculados às solicitações.
+- `HibernateUtil`: Classe utilitária que gerencia a `SessionFactory` do Hibernate, garantindo o fornecimento de sessões para os DAOs.
+
+### Páginas do Sistema (View)
+
+As interfaces são desenvolvidas em JSF e organizadas em módulos dentro do diretório `WebContent`:
+
+- **Solicitações (`/solicitacao`)**:
+    - `solicitacao.xhtml`: Painel principal com a listagem e filtros de solicitações.
+    - `novasolicitacao.xhtml`: Formulário para abertura de novas demandas.
+    - `alterasolicitacao.xhtml`: Edição e acompanhamento de solicitações existentes.
+- **Correspondentes (`/correspondente`)**:
+    - `correspondente.xhtml`: Gerenciamento da rede de colaboradores.
+    - `cadcorrespondente.xhtml`: Cadastro detalhado de novos correspondentes.
+- **Processos (`/processo`)**:
+    - `bancaprocesso.xhtml`: Gestão das bancas examinadoras/vinculadas.
+    - `importadorcppro.xhtml`: Ferramenta de integração/importação de dados.
+- **Financeiro (`/financeiro`)**:
+    - `financeiro.xhtml`: Controle de pagamentos e repasses aos correspondentes.
+- **Administração (`/usuario`)**:
+    - `usuario.xhtml`: Gestão de usuários e perfis de acesso.
+
 - Última alteração 13/01/2021 12:00 PM
 
 - Foi importado para o GITLAB criado
