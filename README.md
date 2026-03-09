@@ -34,11 +34,13 @@ O sistema segue uma arquitetura baseada no padrão **MVC (Model-View-Controller)
 
 ```mermaid
 flowchart TD
-    V["<b>Camada de Visão</b><br/>'View'<br/>Páginas .xhtml<br/>PrimeFaces / BootsFaces"]
-    C["<b>Camada de Controle</b><br/>'Controller'<br/>Managed Beans<br/>br.adv.cra.manager"]
-    D["<b>Camada de Persistência</b><br/>'Persistence'<br/>DAO<br/>br.adv.cra.persistence"]
-    M["<b>Camada de Modelo</b><br/>'Model'<br/>Entidades JPA<br/>br.adv.cra.entity"]
-    DB[("<b>Banco de Dados</b><br/>PostgreSQL")]
+    classDef lightBlue fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+
+    V["<b>Camada de Visão</b><br/>'View'<br/>Páginas .xhtml<br/>PrimeFaces / BootsFaces"]:::lightBlue
+    C["<b>Camada de Controle</b><br/>'Controller'<br/>Managed Beans<br/>br.adv.cra.manager"]:::lightBlue
+    D["<b>Camada de Persistência</b><br/>'Persistence'<br/>DAO<br/>br.adv.cra.persistence"]:::lightBlue
+    M["<b>Camada de Modelo</b><br/>'Model'<br/>Entidades JPA<br/>br.adv.cra.entity"]:::lightBlue
+    DB[("<b>Banco de Dados</b><br/>PostgreSQL")]:::lightBlue
 
     V <--> C
     C <--> D
