@@ -33,26 +33,12 @@ O projeto utiliza as seguintes tecnologias e versões:
 O sistema segue uma arquitetura baseada no padrão **MVC (Model-View-Controller)** adaptada para o framework JSF:
 
 ```mermaid
-graph TD
-    subgraph "Camada de Visão (View)"
-        V[Páginas .xhtml / PrimeFaces / BootsFaces]
-    end
-
-    subgraph "Camada de Controle (Controller)"
-        C[Managed Beans / br.adv.cra.manager]
-    end
-
-    subgraph "Camada de Persistência (Persistence)"
-        D[DAO / br.adv.cra.persistence]
-    end
-
-    subgraph "Camada de Modelo (Model)"
-        M[Entidades JPA / br.adv.cra.entity]
-    end
-
-    subgraph "Banco de Dados"
-        DB[(PostgreSQL)]
-    end
+flowchart TD
+    V["<b>Camada de Visão</b><br/>'View'<br/>Páginas .xhtml<br/>PrimeFaces / BootsFaces"]
+    C["<b>Camada de Controle</b><br/>'Controller'<br/>Managed Beans<br/>br.adv.cra.manager"]
+    D["<b>Camada de Persistência</b><br/>'Persistence'<br/>DAO<br/>br.adv.cra.persistence"]
+    M["<b>Camada de Modelo</b><br/>'Model'<br/>Entidades JPA<br/>br.adv.cra.entity"]
+    DB[("<b>Banco de Dados</b><br/>PostgreSQL")]
 
     V <--> C
     C <--> D
